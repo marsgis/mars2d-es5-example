@@ -1,0 +1,100 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars2d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="http://mars2d.cn/favicon.ico" />
+
+    <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,三维,地球,地图,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 三维 地球 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 三维地图 全景漫游 地理信息系统 云GIS 三维GIS GIS平台 WebGIS"
+    />
+
+    <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
+
+    <script
+      type="text/javascript"
+      src="../lib/include-lib.js"
+      libpath="../lib/"
+      include="jquery,font-awesome,bootstrap,layer,localforage,haoutil,mars2d,mars2d-widget"
+    ></script>
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="mars2dContainer" class="mars2d-container"></div>
+
+    <div id="tipView" class="info-tips">
+      (1) 按国家测绘主管部门的通知，目前国家相关部门对未经审核批准的谷歌等地图做了封锁及下架，目前谷歌地图服务暂不可用。
+    </div>
+
+    <script type="text/javascript">
+      $(document).ready(function () {
+        initMap();
+      });
+
+      //地图加载
+      function initMap() {
+        var map = new mars2d.Map("mars2dContainer", {
+          zoom: 7,
+          center: [31.834912, 117.220102],
+          controls: {
+            scale: true,
+            locationBar: {
+              template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>层级:{level}</div>",
+            },
+            zoom: { position: "bottomright" },
+            toolBar: { position: "bottomright" },
+          },
+        });
+
+        //地图底图 及图层控制控件
+        var baseLayers = {
+          谷歌地图: mars2d.LayerUtil.create({ type: "google", layer: "vec" }).addTo(map),
+          谷歌影像: mars2d.LayerUtil.create({ type: "google", layer: "img" }),
+          谷歌地形: mars2d.LayerUtil.create({ type: "google", layer: "ter" }),
+        };
+        var overlays = {};
+        L.control.layers(baseLayers, overlays, { position: "topright" }).addTo(map);
+
+        //测试坐标信息
+        activatePOIQuery(map);
+      }
+
+      //附加：激活POI查询widget，用于在底图上叠加显示数据，【框架已自动纠偏处理】
+      function activatePOIQuery(map) {
+        mars2d.widget.activate({
+          map: map,
+          name: "POI查询",
+          uri: "widgets/queryGaodePOI/widget.js",
+          success: function (item) {
+            item.strartQueryPOI("天安门");
+          },
+        });
+      }
+
+      function openTipView(content, title) {
+        window.layer.open({
+          type: 1,
+          title: title || "功能 和 已知问题 提示",
+          offset: "rt",
+          area: "450px",
+          shade: false,
+          skin: "animation-scale-up",
+          content: content,
+        });
+      }
+
+      if ($("#tipView").length > 0) {
+        openTipView($("#tipView"));
+      }
+    </script>
+  </body>
+</html>

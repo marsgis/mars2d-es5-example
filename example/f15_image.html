@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars2d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="http://mars2d.cn/favicon.ico" />
+
+    <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,三维,地球,地图,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 三维 地球 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 三维地图 全景漫游 地理信息系统 云GIS 三维GIS GIS平台 WebGIS"
+    />
+
+    <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
+
+    <script
+      type="text/javascript"
+      src="../lib/include-lib.js"
+      libpath="../lib/"
+      include="jquery,jquery.range,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars2d"
+    ></script>
+
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="mars2dContainer" class="mars2d-container"></div>
+
+    <!-- 面板 -->
+    <div class="infoview">
+      <div>
+        数据维护：
+        <input id="btnStartDraw" type="button" class="btn btn-primary" value="图上标绘" title="在图上绘制新增一个矢量数据" />
+
+        <div style="width: 120px;float: right;">
+          透明度 &nbsp; <label id="lblOpacity">100%</label>
+          <input id="imgOpacity" type="range" />
+        </div>
+
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="chkHasEdit" class="styled" type="checkbox" />
+          <label for="chkHasEdit"> 是否编辑 </label>
+        </div>
+      </div>
+      <div>
+        数据管理：
+        <input id="btnClear" type="button" class="btn btn-danger" value="清除" />
+        <input id="btnExpFile" type="button" class="btn btn-primary" value="保存GeoJSON" title="保存为GeoJSON文件" />
+        <input id="btnImpFile" type="button" class="btn btn-primary" value="打开GeoJSON" title="打开之前保存的GeoJSON文件" />
+
+        <input id="input_draw_file" type="file" accept=".json,.geojson" style="display: none" />
+      </div>
+    </div>
+
+    <!-- 图层管理相关处理js -->
+    <script type="text/javascript" src="./js/graphicManager.js"></script>
+
+    <script src="./js/common.js"></script>
+    <script type="text/javascript">
+      "use script"; //开发环境建议开启严格模式
+
+      var map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        let mapOptions = mars2d.Util.merge(options, {});
+
+        //创建地图
+        map = new mars2d.Map("mars2dContainer", mapOptions);
+
+        //创建矢量数据图层
+        let graphicLayer = new mars2d.layer.GraphicLayer();
+        map.addLayer(graphicLayer);
+
+        //图层管理的相关处理，代码在\js\graphicManager.js
+        initLayerManager(graphicLayer);
+
+        $("#btnStartDraw").click(function () {
+          //开始绘制
+          graphicLayer.startDraw({
+            type: "image",
+            style: {
+              url: "img/simple/gugong.jpg",
+              opacity: 1,
+            },
+            success: function (graphic) {
+              console.log("标绘完成", graphic);
+            },
+          });
+        });
+
+        $("#imgOpacity").range({
+          min: 0,
+          max: 100,
+          step: 1,
+          value: 100,
+          onChange: function (value, bfb) {
+            $("#lblOpacity").html(bfb + "%");
+
+            var opacity = value / 100;
+            graphicLayer.eachGraphic(function (graphic) {
+              if (graphic.type != "image") {
+                return;
+              }
+              graphic.setOpacity(opacity);
+            });
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

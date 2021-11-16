@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars2d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="http://mars2d.cn/favicon.ico" />
+
+    <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,三维,地球,地图,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 三维 地球 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 三维地图 全景漫游 地理信息系统 云GIS 三维GIS GIS平台 WebGIS"
+    />
+
+    <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
+
+    <script
+      type="text/javascript"
+      src="../lib/include-lib.js"
+      libpath="../lib/"
+      include="jquery,font-awesome,bootstrap,layer,haoutil,mars2d"
+    ></script>
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="mars2dContainer" class="mars2d-container"></div>
+
+    <script src="./js/common.js"></script>
+    <script type="text/javascript">
+      "use script"; //开发环境建议开启严格模式
+
+      var map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        let mapOptions = mars2d.Util.merge(options, {
+          zoom: 13,
+          center: { x: 117.193771, y: 31.83547 },
+        });
+
+        //创建地图
+        map = new mars2d.Map("mars2dContainer", mapOptions);
+
+        //创建矢量数据图层
+        let graphicLayer = new mars2d.layer.GraphicLayer();
+        map.addLayer(graphicLayer);
+
+        //加一些演示数据
+        addGraphic_01(graphicLayer);
+        addGraphic_02(graphicLayer);
+        addGraphic_03(graphicLayer);
+      }
+
+      //沿红线自动运动
+      function addGraphic_01(graphicLayer) {
+        let latlngs = [
+          [31.85044, 117.102757],
+          [31.851607, 117.143269],
+          [31.852919, 117.185154],
+          [31.857002, 117.216396],
+          [31.851607, 117.233219],
+          [31.854085, 117.253132],
+          [31.872893, 117.252102],
+          [31.872164, 117.236652],
+          [31.873184, 117.22086],
+          [31.875663, 117.21365],
+        ];
+        var movingMarker = new mars2d.graphic.MovingMarker({
+          latlngs: latlngs,
+          durations: [3000, 9000, 9000, 4000, 4000, 4000, 4000, 4000, 4000, 4000],
+          style: {
+            image: "img/marker/bike.png",
+            iconSize: [25, 39],
+            autostart: true,
+          },
+        });
+        graphicLayer.addGraphic(movingMarker);
+
+        //放个线参考
+        var graphic = new mars2d.graphic.Polyline({
+          latlngs: latlngs,
+          style: {
+            color: "#0000ff",
+            width: 2,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+
+        movingMarker.on("end", function () {
+          movingMarker.bindPopup("<b>运动完成了!</b>", { closeOnClick: false }).openPopup();
+        });
+      }
+
+      //每个点停顿一会
+      function addGraphic_02(graphicLayer) {
+        var graphic = new mars2d.graphic.MovingMarker({
+          latlngs: [
+            [31.829441, 117.113914],
+            [31.830607, 117.133656],
+            [31.820689, 117.132969],
+            [31.822148, 117.15992],
+            [31.820835, 117.176914],
+            [31.814563, 117.192364],
+            [31.803768, 117.184124],
+            [31.802747, 117.170906],
+            [31.804351, 117.158546],
+            [31.802601, 117.131252],
+          ],
+          durations: 10000,
+          style: {
+            image: "img/marker/bike.png",
+            iconSize: [25, 39],
+            autostart: true,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+
+        graphic.addStation(1, 2000);
+        graphic.addStation(2, 2000);
+        graphic.addStation(3, 2000);
+        graphic.addStation(4, 2000);
+      }
+
+      //单击后图上开始运动
+      function addGraphic_03(graphicLayer) {
+        var graphic = new mars2d.graphic.MovingMarker({
+          latlngs: [
+            [31.817418, 117.282074],
+            [31.806472, 117.163788],
+          ],
+          durations: 10000,
+          style: {
+            image: "img/marker/bike.png",
+            iconSize: [25, 39],
+            autostart: false,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+
+        graphic.bindPopup("<b>单击我开始运动!</b>").openPopup();
+
+        graphic.once("click", function () {
+          graphic.closePopup();
+          graphic.unbindPopup();
+          graphic.start();
+
+          graphic.on("click", function () {
+            if (graphic.isRunning) {
+              graphic.pause();
+            } else {
+              graphic.start();
+            }
+          });
+
+          setTimeout(function () {
+            graphic.bindPopup("<b>单击我暂停或继续运动!</b>").openPopup();
+          }, 2000);
+        });
+      }
+    </script>
+  </body>
+</html>

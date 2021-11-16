@@ -1,0 +1,812 @@
+{
+  "result": [
+    {
+      "name": "快速开始",
+      "icon": "fa-globe",
+      "children": [
+        {
+          "name": "创建地图",
+          "details": "演示 new mars2d.Map() 构造场景时支持的一些参数",
+          "children": [
+            {
+              "name": "快速创建地图",
+              "version": "3.0",
+              "thumbnail": "a10_createMap.jpg",
+              "fileName": "a10_createMap"
+            },
+            {
+              "name": "根据配置文件创建地图",
+              "version": "3.0",
+              "thumbnail": "a10_createMap_url.jpg",
+              "fileName": "a10_createMap_url"
+            }
+          ]
+        },
+
+        {
+          "name": "地图基础控制",
+          "children": [
+            {
+              "name": "设置地图背景",
+              "version": "2.0",
+              "thumbnail": "a15_backgroundImage.jpg",
+              "fileName": "a15_backgroundImage"
+            },
+            {
+              "name": "行政区划蒙板",
+              "version": "3.0",
+              "thumbnail": "a15_mask.jpg",
+              "fileName": "a15_mask"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "瓦片图层",
+      "icon": "fa-photo",
+      "children": [
+        {
+          "name": "在线地图服务",
+          "details": "支持直接加载常用的互联网在线地图服务",
+          "children": [
+            {
+              "name": "天地图",
+              "version": "1.5",
+              "thumbnail": "c10_tdt.jpg",
+              "fileName": "c10_tdt"
+            },
+            {
+              "name": "百度(百度偏移坐标系)",
+              "version": "1.5",
+              "thumbnail": "c10_baidu.jpg",
+              "fileName": "c10_baidu"
+            },
+            {
+              "name": "高德",
+              "version": "1.5",
+              "thumbnail": "c10_gaode.jpg",
+              "fileName": "c10_gaode"
+            },
+            {
+              "name": "腾讯",
+              "version": "1.6",
+              "thumbnail": "c10_tentect.jpg",
+              "fileName": "c10_tentect"
+            },
+            {
+              "name": "谷歌(已被封)",
+              "version": "1.5",
+              "thumbnail": "c10_google.jpg",
+              "fileName": "c10_google"
+            },
+            {
+              "name": "ArcGIS",
+              "version": "1.5",
+              "thumbnail": "c10_arcgis_online.jpg",
+              "fileName": "c10_arcgis_online"
+            },
+            {
+              "name": "OSM",
+              "version": "1.5",
+              "thumbnail": "c10_osm.jpg",
+              "fileName": "c10_osm"
+            }
+          ]
+        },
+        {
+          "name": "不同坐标系(可离线)",
+          "details": "支持各种坐标系服务",
+          "children": [
+            {
+              "name": "本地单张图片",
+              "version": "1.1",
+              "thumbnail": "c15_image.jpg",
+              "fileName": "c15_image"
+            },
+            {
+              "name": "带旋转角度单张图片",
+              "version": "1.5",
+              "thumbnail": "c15_imageRotated.jpg",
+              "fileName": "c15_imageRotated"
+            },
+            {
+              "name": "3857底图(墨卡托)",
+              "version": "1.5",
+              "thumbnail": "c15_3857.jpg",
+              "fileName": "c15_3857"
+            },
+            {
+              "name": "4326底图(WGS84)",
+              "version": "1.5",
+              "thumbnail": "c15_4326.jpg",
+              "fileName": "c15_4326"
+            },
+            {
+              "name": "4490底图(大地2000)",
+              "version": "1.5",
+              "thumbnail": "c15_4490.jpg",
+              "fileName": "c15_4490"
+            },
+            {
+              "name": "PGIS底图",
+              "version": "1.5",
+              "thumbnail": "c15_pgis.jpg",
+              "fileName": "c15_pgis"
+            },
+            {
+              "name": "自定义crs(基于proj4)",
+              "version": "1.5",
+              "thumbnail": "c15_proj4.jpg",
+              "fileName": "c15_proj4"
+            }
+          ]
+        },
+        {
+          "name": "标准瓦片服务",
+          "details": "支持加载在离线或私有环境发布的各种标准服务",
+          "children": [
+            {
+              "name": "xyz金字塔瓦片",
+              "version": "1.1",
+              "thumbnail": "c20_xyz.jpg",
+              "fileName": "c20_xyz"
+            },
+            {
+              "name": "arcgis瓦片",
+              "version": "1.5",
+              "thumbnail": "c20_arcgis_cache.jpg",
+              "fileName": "c20_arcgis_cache"
+            },
+            {
+              "name": "arcgis瓦片(自定义坐标系)",
+              "version": "1.5",
+              "thumbnail": "c20_arcgis_cache_proj4.jpg",
+              "fileName": "c20_arcgis_cache_proj4"
+            },
+            {
+              "name": "arcgis紧凑型瓦片",
+              "version": "1.5",
+              "thumbnail": "c20_arcgis_compact.jpg",
+              "fileName": "c20_arcgis_compact"
+            },
+            {
+              "name": "OGC WMS服务",
+              "version": "1.5",
+              "thumbnail": "c20_wms.jpg",
+              "fileName": "c20_wms"
+            },
+            {
+              "name": "OGC WMTS服务",
+              "version": "1.5",
+              "thumbnail": "c20_wmts.jpg",
+              "fileName": "c20_wmts"
+            },
+            {
+              "name": "ArcGIS MapServer",
+              "version": "1.5",
+              "thumbnail": "c21_arcgis_tile.jpg",
+              "fileName": "c21_arcgis_tile",
+              "plugins": "esri"
+            },
+            {
+              "name": "ArcGIS ImageServer",
+              "version": "1.5",
+              "thumbnail": "c21_arcgis_image.jpg",
+              "fileName": "c21_arcgis_image",
+              "plugins": "esri"
+            }
+          ]
+        },
+        {
+          "name": "图层参数及控制",
+          "children": [
+            {
+              "name": "底图纠偏(融合高德、天地图等)",
+              "version": "2.0",
+              "thumbnail": "c25_chinaCRS.jpg",
+              "fileName": "c25_chinaCRS"
+            },
+            {
+              "name": "瓦片叠加颜色",
+              "version": "2.0",
+              "thumbnail": "c25_customColor.jpg",
+              "fileName": "c25_customColor"
+            },
+            {
+              "name": "瓦片叠加颜色(灰色)",
+              "version": "1.5",
+              "thumbnail": "c25_customColor_gray.jpg",
+              "fileName": "c25_customColor_gray"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "控件",
+      "icon": "fa-briefcase",
+      "children": [
+        {
+          "name": "内置控件",
+          "details": "Mars2D内置的控件，直接按需调用即可",
+          "children": [
+            {
+              "name": "右键菜单",
+              "version": "1.5",
+              "thumbnail": "d10_contextmenu.jpg",
+              "fileName": "d10_contextmenu"
+            }
+          ]
+        },
+        {
+          "name": "自定义控件",
+          "children": [
+            {
+              "name": "工具按钮栏",
+              "version": "2.0",
+              "thumbnail": "d10_toolBar.jpg",
+              "fileName": "d10_toolBar"
+            },
+            {
+              "name": "下侧状态栏",
+              "version": "2.0",
+              "thumbnail": "d10_locationBar.jpg",
+              "fileName": "d10_locationBar"
+            },
+            {
+              "name": "三维全景切换",
+              "version": "1.5",
+              "thumbnail": "d15_mapSwich.jpg",
+              "fileName": "d15_mapSwich"
+            },
+            {
+              "name": "鱼骨导航",
+              "version": "1.5",
+              "thumbnail": "d15_slider.jpg",
+              "fileName": "d15_slider"
+            },
+
+            {
+              "name": "鹰眼地图",
+              "version": "1.5",
+              "thumbnail": "d15_overviewMap.jpg",
+              "fileName": "d15_overviewMap"
+            },
+            {
+              "name": "时间播放",
+              "version": "1.5",
+              "thumbnail": "d15_timeDimension.jpg",
+              "fileName": "d15_timeDimension"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "矢量图层",
+      "icon": "fa-server",
+      "children": [
+        {
+          "name": "矢量数据图层",
+          "children": [
+            {
+              "name": "graphic 数据图层",
+              "version": "3.0",
+              "thumbnail": "e10_graphicLayer.jpg",
+              "fileName": "e10_graphicLayer"
+            },
+            {
+              "name": "聚合点图层",
+              "version": "1.5",
+              "thumbnail": "e10_clusterLayer.jpg",
+              "fileName": "e10_clusterLayer"
+            },
+            {
+              "name": "大数据点图层(Canvas绘制)",
+              "version": "1.5",
+              "thumbnail": "e10_canvasMarkerLayer.jpg",
+              "fileName": "e10_canvasMarkerLayer"
+            }
+          ]
+        },
+        {
+          "name": "标准格式文件",
+          "children": [
+            {
+              "name": "GeoJson数据",
+              "version": "1.5",
+              "thumbnail": "e15_geojson.jpg",
+              "fileName": "e15_geojson"
+            }
+          ]
+        },
+        {
+          "name": "WFS矢量服务",
+          "children": [
+            {
+              "name": "pbf矢量瓦片服务",
+              "version": "2.0",
+              "thumbnail": "e20_pbf.jpg",
+              "fileName": "e20_pbf"
+            },
+            {
+              "name": "ArcGIS MapServer动态服务",
+              "version": "1.5",
+              "thumbnail": "e20_arcgis_dynamic.jpg",
+              "fileName": "e20_arcgis_dynamic",
+              "plugins": "esri"
+            },
+            {
+              "name": "ArcGIS FeatureServer服务",
+              "version": "1.5",
+              "thumbnail": "e20_arcgis_feature.jpg",
+              "fileName": "e20_arcgis_feature",
+              "plugins": "esri"
+            },
+            {
+              "name": "OGC WFS服务",
+              "version": "1.5",
+              "thumbnail": "e20_wfs.jpg",
+              "fileName": "e20_wfs"
+            }
+
+          ]
+        },
+        {
+          "name": "其他矢量图层",
+          "children": [
+            {
+              "name": "昼夜覆盖区域",
+              "version": "1.5",
+              "thumbnail": "e25_dayNight.jpg",
+              "fileName": "e25_dayNight"
+            },
+            {
+              "name": "经纬网",
+              "version": "1.5",
+              "thumbnail": "e25_graticule.jpg",
+              "fileName": "e25_graticule"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "矢量数据",
+      "icon": "fa-puzzle-piece",
+      "children": [
+        {
+          "name": "基础对象",
+          "children": [
+            {
+              "name": "Marker 图标点",
+              "version": "3.0",
+              "thumbnail": "f10_marker.jpg",
+              "fileName": "f10_marker"
+            },
+            {
+              "name": "运动点",
+              "version": "1.5",
+              "thumbnail": "f10_movingMarker.gif",
+              "fileName": "f10_movingMarker"
+            },
+            {
+              "name": "Point 像素点",
+              "version": "3.0",
+              "thumbnail": "f10_point.jpg",
+              "fileName": "f10_point"
+            },
+            {
+              "name": "Label 文本",
+              "version": "3.0",
+              "thumbnail": "f10_label.jpg",
+              "fileName": "f10_label"
+            },
+            {
+              "name": "DivGraphic DIV点",
+              "version": "3.0",
+              "thumbnail": "f10_divGraphic.jpg",
+              "fileName": "f10_divGraphic"
+            },
+            {
+              "name": "Circle 圆",
+              "version": "3.0",
+              "thumbnail": "f10_circle.jpg",
+              "fileName": "f10_circle"
+            },
+            {
+              "name": "扇形",
+              "version": "1.5",
+              "thumbnail": "f10_sector.jpg",
+              "fileName": "f10_sector"
+            },
+            {
+              "name": "椭圆",
+              "version": "1.5",
+              "thumbnail": "f10_ellipse.jpg",
+              "fileName": "f10_ellipse"
+            },
+            {
+              "name": "Polyline 线",
+              "version": "3.0",
+              "thumbnail": "f15_polyline.jpg",
+              "fileName": "f15_polyline"
+            },
+            {
+              "name": "平行线",
+              "version": "1.5",
+              "thumbnail": "f15_polyline_offset.jpg",
+              "fileName": "f15_polyline_offset"
+            },
+            {
+              "name": "Polygon 面",
+              "version": "3.0",
+              "thumbnail": "f15_polygon.jpg",
+              "fileName": "f15_polygon"
+            },
+            {
+              "name": "Rectangle 矩形",
+              "version": "3.0",
+              "thumbnail": "f15_rectangle.jpg",
+              "fileName": "f15_rectangle"
+            },
+            {
+              "name": "Image 图片",
+              "version": "1.5",
+              "thumbnail": "f15_image.jpg",
+              "fileName": "f15_image"
+            },
+            {
+              "name": "Canvas图片",
+              "version": "1.5",
+              "thumbnail": "f15_canvasImage.jpg",
+              "fileName": "f15_canvasImage"
+            }
+          ]
+        },
+        {
+          "name": "点状对象应用案例",
+          "children": [
+            {
+              "name": "点的加载动画",
+              "version": "1.5",
+              "thumbnail": "f30_marker_magic.jpg",
+              "fileName": "f30_marker_magic"
+            },
+            {
+              "name": "扩散动画点",
+              "version": "1.5",
+              "thumbnail": "f30_marker_pulse.gif",
+              "fileName": "f30_marker_pulse"
+            }
+          ]
+        },
+        {
+          "name": "线面对象应用案例",
+          "children": [
+            {
+              "name": "动画效果线(铁路)",
+              "version": "1.5",
+              "thumbnail": "f35_antPath.gif",
+              "fileName": "f35_antPath",
+              "plugins": "antPath"
+            },
+            {
+              "name": "线的运动动画",
+              "version": "1.5",
+              "thumbnail": "f35_polyline_snakeIn.jpg",
+              "fileName": "f35_polyline_snakeIn"
+            },
+            {
+              "name": "多个线的运动动画(图层级)",
+              "version": "1.5",
+              "thumbnail": "f35_layer_snakeIn.jpg",
+              "fileName": "f35_layer_snakeIn"
+            },
+            {
+              "name": "GeoJson大数据面(Canvas合并渲染)",
+              "version": "1.5",
+              "thumbnail": "f35_geojsonCanvas.jpg",
+              "fileName": "f35_geojsonCanvas",
+              "plugins": "canvasGeojson"
+            },
+            {
+              "name": "中国各省市面",
+              "version": "1.5",
+              "thumbnail": "f35_geojson_polygon.jpg",
+              "fileName": "f35_geojson_polygon"
+            },
+            {
+              "name": "建筑物3D立体",
+              "version": "1.5",
+              "thumbnail": "f35_osmbuildings.jpg",
+              "fileName": "f35_osmbuildings",
+              "plugins": "OSMBuildings"
+            }
+          ]
+        },
+        {
+          "name": "编辑及控制",
+          "children": [
+            {
+              "name": "标绘（绘制点、线、面、圆、矩形等）",
+              "version": "3.0",
+              "thumbnail": "f40_draw.jpg",
+              "fileName": "f40_draw"
+            },
+            {
+              "name": "军事标绘",
+              "version": "3.0",
+              "thumbnail": "f40_plot.jpg",
+              "fileName": "f40_plot"
+            },
+            {
+              "name": "图上选点",
+              "version": "1.5",
+              "thumbnail": "f40_selectPoint.jpg",
+              "fileName": "f40_selectPoint"
+            },
+
+            {
+              "name": "文字碰撞",
+              "version": "1.5",
+              "thumbnail": "f45_textCollision.jpg",
+              "fileName": "f45_textCollision",
+              "plugins": "textCollision"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "分析",
+      "icon": "fa-futbol-o",
+      "children": [
+        {
+          "name": "空间分析",
+          "children": [
+            {
+              "name": "量算 (长度、面积)",
+              "version": "3.0",
+              "thumbnail": "k10_measure.jpg",
+              "fileName": "k10_measure"
+            }
+          ]
+        },
+
+        {
+          "name": "客户端空间分析",
+          "children": [
+            {
+              "name": "缓冲分析",
+              "version": "1.5",
+              "thumbnail": "k20_buffer.jpg",
+              "fileName": "k20_buffer"
+            },
+            {
+              "name": "最近点分析",
+              "version": "1.5",
+              "thumbnail": "k20_nearestPoint.jpg",
+              "fileName": "k20_nearestPoint"
+            },
+            {
+              "name": "面的切割(线分割面)",
+              "version": "2.0",
+              "thumbnail": "k20_polygonClipByLine.jpg",
+              "fileName": "k20_polygonClipByLine"
+            },
+            {
+              "name": "等值线面(离散点生成)",
+              "version": "2.0",
+              "thumbnail": "k20_isobands.jpg",
+              "fileName": "k20_isobands"
+            }
+          ]
+        }
+      ]
+    },
+
+    {
+      "name": "可视化",
+      "icon": "fa-street-view",
+      "children": [
+        {
+          "name": "普通可视化",
+          "children": [
+            {
+              "name": "热力图",
+              "version": "1.6",
+              "thumbnail": "m10_heatLayer.jpg",
+              "fileName": "m10_heatLayer"
+            }
+          ]
+        },
+        {
+          "name": "MapV支持",
+          "children": [
+            {
+              "name": "蜂巢图",
+              "version": "1.5",
+              "thumbnail": "m20_mapv_gridHoneycomb.jpg",
+              "fileName": "m20_mapv_gridHoneycomb",
+              "plugins": "mapv"
+            },
+            {
+              "name": "方格图",
+              "version": "1.5",
+              "thumbnail": "m20_mapv_gridPoint.jpg",
+              "fileName": "m20_mapv_gridPoint",
+              "plugins": "mapv"
+            },
+            {
+              "name": "微博",
+              "version": "1.5",
+              "thumbnail": "m20_mapv_pointWeibo.jpg",
+              "fileName": "m20_mapv_pointWeibo",
+              "plugins": "mapv"
+            },
+            {
+              "name": "动态点",
+              "version": "1.5",
+              "thumbnail": "m20_mapv_pointTime.jpg",
+              "fileName": "m20_mapv_pointTime",
+              "plugins": "mapv"
+            },
+            {
+              "name": "简单线",
+              "version": "1.5",
+              "thumbnail": "m20_mapv_polyline.jpg",
+              "fileName": "m20_mapv_polyline",
+              "plugins": "mapv"
+            },
+            {
+              "name": "强度线",
+              "version": "1.5",
+              "thumbnail": "m20_mapv_polylineIntensity.jpg",
+              "fileName": "m20_mapv_polylineIntensity",
+              "plugins": "mapv"
+            },
+            {
+              "name": "动态轨迹",
+              "version": "1.5",
+              "thumbnail": "m20_mapv_lineTime.jpg",
+              "fileName": "m20_mapv_lineTime",
+              "plugins": "mapv"
+            },
+            {
+              "name": "强边界图",
+              "version": "1.5",
+              "thumbnail": "m20_mapv_lineForceEdgeBunding.jpg",
+              "fileName": "m20_mapv_lineForceEdgeBunding",
+              "plugins": "mapv"
+            },
+            {
+              "name": "迁徙图",
+              "version": "1.5",
+              "thumbnail": "m20_mapv_qianxi.jpg",
+              "fileName": "m20_mapv_qianxi",
+              "plugins": "mapv"
+            },
+            {
+              "name": "大迁徙图",
+              "version": "1.5",
+              "thumbnail": "m20_mapv_qianxiTime.jpg",
+              "fileName": "m20_mapv_qianxiTime",
+              "plugins": "mapv"
+            },
+            {
+              "name": "北京",
+              "version": "1.5",
+              "thumbnail": "m20_mapv_polygon.jpg",
+              "fileName": "m20_mapv_polygon",
+              "plugins": "mapv"
+            }
+          ]
+        },
+        {
+          "name": "ECharts支持",
+          "children": [
+            {
+              "name": "饼形图标记",
+              "version": "1.5",
+              "thumbnail": "m30_marker_pie.jpg",
+              "fileName": "m30_marker_pie"
+            },
+            {
+              "name": "折线图标记",
+              "version": "1.5",
+              "thumbnail": "m30_marker_table.jpg",
+              "fileName": "m30_marker_table"
+            },
+            {
+              "name": "散点图全省经济指标",
+              "version": "1.5",
+              "thumbnail": "m30_echarts_sandian1.jpg",
+              "fileName": "m30_echarts_sandian1",
+              "plugins": "echarts"
+            },
+            {
+              "name": "散点图城市空气质量",
+              "version": "1.5",
+              "thumbnail": "m30_echarts_sandian2.jpg",
+              "fileName": "m30_echarts_sandian2",
+              "plugins": "echarts"
+            },
+            {
+              "name": "散点图态势",
+              "version": "1.5",
+              "thumbnail": "m30_echarts_sandian3.jpg",
+              "fileName": "m30_echarts_sandian3",
+              "plugins": "echarts"
+            },
+            {
+              "name": "散点图微博签到",
+              "version": "1.5",
+              "thumbnail": "m30_echarts_sandianWeibo.jpg",
+              "fileName": "m30_echarts_sandianWeibo",
+              "plugins": "echarts"
+            },
+            {
+              "name": "流出线",
+              "version": "1.5",
+              "thumbnail": "m30_echarts_line_chu.jpg",
+              "fileName": "m30_echarts_line_chu",
+              "plugins": "echarts"
+            },
+            {
+              "name": "流入线",
+              "version": "1.5",
+              "thumbnail": "m30_echarts_line_ru.jpg",
+              "fileName": "m30_echarts_line_ru",
+              "plugins": "echarts"
+            },
+            {
+              "name": "物流运输图",
+              "version": "1.5",
+              "thumbnail": "m30_echarts_line1.jpg",
+              "fileName": "m30_echarts_line1",
+              "plugins": "echarts"
+            },
+            {
+              "name": "人口迁徙图",
+              "version": "1.5",
+              "thumbnail": "m30_echarts_line2.jpg",
+              "fileName": "m30_echarts_line2",
+              "plugins": "echarts"
+            },
+            {
+              "name": "流向动态效果",
+              "version": "1.5",
+              "thumbnail": "m30_echarts_line3.jpg",
+              "fileName": "m30_echarts_line3",
+              "plugins": "echarts"
+            },
+            {
+              "name": "道路拥堵图",
+              "version": "1.5",
+              "thumbnail": "m30_echarts_lineroad.jpg",
+              "fileName": "m30_echarts_lineroad",
+              "plugins": "echarts"
+            },
+            {
+              "name": "公交路线热力图",
+              "version": "1.5",
+              "thumbnail": "m30_echarts_lineroad2.jpg",
+              "fileName": "m30_echarts_lineroad2",
+              "plugins": "echarts"
+            },
+            {
+              "name": "铁路热力图Arc",
+              "version": "1.5",
+              "thumbnail": "m30_echarts_lineroad3.jpg",
+              "fileName": "m30_echarts_lineroad3",
+              "plugins": "echarts"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

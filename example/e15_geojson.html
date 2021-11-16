@@ -1,0 +1,327 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars2d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="http://mars2d.cn/favicon.ico" />
+
+    <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,三维,地球,地图,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 三维 地球 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 三维地图 全景漫游 地理信息系统 云GIS 三维GIS GIS平台 WebGIS"
+    />
+
+    <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
+
+    <script
+      type="text/javascript"
+      src="../lib/include-lib.js"
+      libpath="../lib/"
+      include="jquery,font-awesome,bootstrap,layer,haoutil,mars2d"
+    ></script>
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div id="mars2dContainer" class="mars2d-container"></div>
+
+    <div id="viewSL" class="infoview">
+      示例：
+      <input type="button" class="btn btn-primary" value="体育设施点" onclick="showPointDemo()" />
+      <input type="button" class="btn btn-primary" value="省界线" onclick="showChinaLineDemo()" />
+      <input type="button" class="btn btn-primary" value="规划面" onclick="showGuihuaDemo()" />
+      <input type="button" class="btn btn-primary" value="安徽各市" onclick="showAnhuiDemo()" />
+      <input type="button" class="btn btn-primary" value="世界各国" onclick="showWorldDemo()" />
+    </div>
+
+    <script src="./js/common.js"></script>
+    <script type="text/javascript">
+      "use script"; //开发环境建议开启严格模式
+
+      var map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        let mapOptions = mars2d.Util.merge(options, {
+          zoom: 11,
+          center: { x: 117.287917, y: 31.904563 },
+        });
+
+        //创建地图
+        map = new mars2d.Map("mars2dContainer", mapOptions);
+
+        showPointDemo();
+      }
+
+      var geoJsonLayer;
+
+      function removeLayer() {
+        if (geoJsonLayer) {
+          map.removeLayer(geoJsonLayer, true);
+          geoJsonLayer = null;
+        }
+      }
+
+      //示例：显示点数据
+      function showPointDemo() {
+        removeLayer();
+
+        geoJsonLayer = new mars2d.layer.GeoJsonLayer({
+          name: "体育设施点",
+          url: "//data.mars3d.cn/file/geojson/hfty-point.json",
+          symbol: {
+            styleOptions: {
+              image: "img/marker/mark1.png",
+              width: 32,
+              height: 44,
+            },
+          },
+          popup: [
+            { field: "项目名称", name: "项目名称" },
+            { field: "建设性质", name: "建设性质" },
+            { field: "设施级别", name: "设施级别" },
+            { field: "所属区县", name: "所属区县" },
+            { field: "建筑内容及", name: "建筑内容" },
+            { field: "新增用地（", name: "新增用地" },
+            { field: "开工", name: "开工" },
+            { field: "总投资（万", name: "总投资" },
+            { field: "资金来源", name: "资金来源" },
+            { field: "初步选址", name: "初步选址" },
+            { field: "设施类型", name: "设施类型" },
+            { field: "设施等级", name: "设施等级" },
+            { field: "所在区县", name: "所在区县" },
+            { field: "具体位置", name: "具体位置" },
+            { field: "建设内容（", name: "建设内容" },
+            { field: "用地面积（", name: "用地面积", format: "mars2d.MeasureUtil.formatArea" },
+            { field: "设施规模（", name: "设施规模" },
+            { field: "举办者类型", name: "举办者类型" },
+            { field: "开工时间", name: "开工时间" },
+            { field: "总投资额（", name: "总投资额", unit: "亿元" },
+            { field: "项目推进主", name: "项目推进主体" },
+            { field: "项目进度", name: "项目进度" },
+            { field: "项目来源", name: "项目来源" },
+            { field: "备注", name: "备注" },
+          ],
+          flyTo: true,
+        });
+        map.addLayer(geoJsonLayer);
+
+        //绑定事件
+        geoJsonLayer.on(mars2d.EventType.load, function (event) {
+          console.log("数据加载完成", event);
+        });
+        geoJsonLayer.on(mars2d.EventType.click, function (event) {
+          console.log("单击了图层", event);
+        });
+      }
+
+      //示例：显示线数据
+      function showChinaLineDemo() {
+        removeLayer();
+
+        geoJsonLayer = new mars2d.layer.GeoJsonLayer({
+          name: "全国省界",
+          url: "http://data.mars2d.cn/file/geojson/areas/100000_full.json",
+          symbol: {
+            type: "polyline",
+            styleOptions: {
+              color: "#ff0000",
+              width: 3,
+            },
+          },
+          flyTo: true,
+        });
+        map.addLayer(geoJsonLayer);
+
+        //绑定事件
+        geoJsonLayer.on(mars2d.EventType.load, function (event) {
+          console.log("数据加载完成", event);
+        });
+      }
+
+      //示例：显示面数据（规划面）
+      function showGuihuaDemo() {
+        removeLayer();
+
+        geoJsonLayer = new mars2d.layer.GeoJsonLayer({
+          id: 1987,
+          name: "用地规划",
+          url: "//data.mars3d.cn/file/geojson/guihua.json",
+          symbol: {
+            type: "polygon",
+            styleOptions: {
+              fillOpacity: 0.6,
+              fillColor: "#0000FF",
+              outline: false,
+            },
+            styleField: "类型",
+            styleFieldOptions: {
+              一类居住用地: { fillColor: "#FFDF7F" },
+              二类居住用地: { fillColor: "#FFFF00" },
+              社区服务用地: { fillColor: "#FF6A38" },
+              幼托用地: { fillColor: "#FF6A38" },
+              商住混合用地: { fillColor: "#FF850A" },
+              行政办公用地: { fillColor: "#FF00FF" },
+              文化设施用地: { fillColor: "#FF00FF" },
+              小学用地: { fillColor: "#FF7FFF" },
+              初中用地: { fillColor: "#FF7FFF" },
+              体育场用地: { fillColor: "#00A57C" },
+              医院用地: { fillColor: "#A5527C" },
+              社会福利用地: { fillColor: "#FF7F9F" },
+              商业用地: { fillColor: "#FF0000" },
+              商务用地: { fillColor: "#7F0000" },
+              营业网点用地: { fillColor: "#FF7F7F" },
+              一类工业用地: { fillColor: "#A57C52" },
+              社会停车场用地: { fillColor: "#C0C0C0" },
+              通信用地: { fillColor: "#007CA5" },
+              排水用地: { fillColor: "#00BFFF" },
+              公园绿地: { fillColor: "#00FF00" },
+              防护绿地: { fillColor: "#007F00" },
+              河流水域: { fillColor: "#7FFFFF" },
+              配建停车场: { fillColor: "#ffffff" },
+              道路用地: { fillColor: "#ffffff" },
+            },
+          },
+          popup: "类型:{类型}",
+          flyTo: true,
+        });
+        map.addLayer(geoJsonLayer);
+
+        //下面代码演示如果再config.json中配置的图层，如何绑定额外事件方法
+        // 绑定config.json中对应图层配置的"id"值图层的单击事件（比如下面是id:1987对应图层）
+        var layerTest = map.getLayer(1987, "id");
+
+        //绑定事件
+        layerTest.on(mars2d.EventType.load, function (event) {
+          console.log("数据加载完成", event);
+        });
+
+        layerTest.on(mars2d.EventType.click, function (event) {
+          //单击事件
+          console.log("单击了图层", event);
+        });
+      }
+
+      //示例：
+      function showAnhuiDemo() {
+        removeLayer();
+
+        var colors = ["#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"];
+
+        geoJsonLayer = new mars2d.layer.GeoJsonLayer({
+          name: "安徽各市",
+          url: "http://data.mars2d.cn/file/geojson/areas/340000_full.json",
+          symbol: {
+            type: "polygon",
+            styleOptions: {
+              fill: true,
+              fillOpacity: 0.5,
+              outline: true,
+              outlineWidth: 2,
+              outlineOpacity: 1,
+              outlineColor: "white",
+            },
+            callback: function (attr, style) {
+              return {
+                fillColor: haoutil.math.getArrayRandomOne(colors),
+              };
+            },
+          },
+          flyTo: true,
+        });
+        map.addLayer(geoJsonLayer);
+
+        //绑定事件
+        geoJsonLayer.on(mars2d.EventType.load, function (event) {
+          console.log("数据加载完成", event);
+        });
+
+        //绑定事件
+        geoJsonLayer.on(mars2d.EventType.click, function (event) {
+          var graphic = event.layer;
+          map.fitBounds(graphic.getBounds());
+        });
+
+        geoJsonLayer.on(mars2d.EventType.mouseover, function (event) {
+          var graphic = event.layer;
+          graphic.setStyle({
+            outlineColor: "#666",
+            outlineWidth: 3,
+            fillOpacity: 0.7,
+          });
+          graphic.bringToFront();
+        });
+
+        geoJsonLayer.on(mars2d.EventType.mouseout, function (event) {
+          var graphic = event.layer;
+          graphic.setStyle({
+            outlineColor: "white",
+            outlineWidth: 2,
+            fillOpacity: 0.5,
+          });
+        });
+      }
+
+      //示例：
+      function showWorldDemo() {
+        removeLayer();
+
+        map.setMinZoom(1);
+        map.setView([35.603719, 104.0625], 3);
+
+        geoJsonLayer = new mars2d.layer.GeoJsonLayer({
+          name: "世界各国",
+          url: "http://data.mars2d.cn/file/geojson/world.json",
+          symbol: {
+            type: "polygon",
+            styleOptions: {
+              fill: true,
+              fillOpacity: 0.01,
+              fillColor: "#000000",
+              outline: true,
+              outlineColor: "#666",
+              outlineWidth: 0,
+            },
+          },
+          // flyTo: true,
+        });
+        map.addLayer(geoJsonLayer);
+
+        //绑定事件
+        geoJsonLayer.on(mars2d.EventType.load, function (event) {
+          console.log("数据加载完成", event);
+        });
+
+        //绑定事件
+        geoJsonLayer.on(mars2d.EventType.click, function (event) {
+          var item = event.layer.attr;
+          haoutil.msg("你单击了：" + item.name + "," + item.name_cn);
+        });
+
+        geoJsonLayer.on(mars2d.EventType.mouseover, function (event) {
+          var graphic = event.layer;
+          graphic.setStyle({
+            fillOpacity: 0.5,
+            outlineWidth: 2,
+          });
+          graphic.bringToFront();
+        });
+
+        geoJsonLayer.on(mars2d.EventType.mouseout, function (event) {
+          var graphic = event.layer;
+          graphic.setStyle({
+            fillOpacity: 0.01,
+            outlineWidth: 0,
+          });
+        });
+      }
+    </script>
+  </body>
+</html>
