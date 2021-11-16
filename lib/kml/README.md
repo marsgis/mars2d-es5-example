@@ -18,7 +18,7 @@
 ### KML转GeoJSON示例：
 ```js
 //直接加载url
-kgUtil.toGeoJSON('//data.mars3d.cn/file/kml/NAVWARN.kmz').then((geojoson) => {
+kgUtil.toGeoJSON('//data.mars2d.cn/file/kml/NAVWARN.kmz').then((geojoson) => {
   console.log(geojoson) 
 })
 
@@ -28,7 +28,7 @@ kgUtil.toGeoJSON(e.target.files[0]).then((geojoson) => {
 })
 
 //加载kml文档对象
-$.ajax('//data.mars3d.cn/file/kml/dg8.kml').done(function (xml) {
+$.ajax('//data.mars2d.cn/file/kml/dg8.kml').done(function (xml) {
   kgUtil.toGeoJSON(xml).then((geojoson) => {
     console.log(geojoson) 
   })
@@ -39,9 +39,9 @@ $.ajax('//data.mars3d.cn/file/kml/dg8.kml').done(function (xml) {
 
 ```js 
 var kml = kgUtil.tokml(geojsonObject, {
-  name: 'Mars3D标绘数据',
-  documentName: 'Mars3D标绘数据文件',
-  documentDescription: '标绘数据 by mars3d.cn',
+  name: 'Mars2D标绘数据',
+  documentName: 'Mars2D标绘数据文件',
+  documentDescription: '标绘数据 by mars2d.cn',
   simplestyle: true,
 }) 
 ```

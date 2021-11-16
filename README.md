@@ -43,9 +43,9 @@
 
 
 ### 相关网站 
-- Mars2D官网：[http://mars3d.cn](http://mars3d.cn)  
+- Mars2D官网：[http://mars2d.cn](http://mars2d.cn)  
 
-- Mars2D开源项目列表：[https://github.com/marsgis/mars3d](https://github.com/marsgis/mars3d)
+- Mars2D开源项目列表：[https://github.com/marsgis/mars2d](https://github.com/marsgis/mars2d)
 
 
 ## 版权说明
