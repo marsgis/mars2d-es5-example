@@ -11,14 +11,14 @@
     <meta name="x5-fullscreen" content="true" />
     <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
 
-    <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,三维,地球,地图,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
     <meta
       name="description"
-      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 三维 地球 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 三维地图 全景漫游 地理信息系统 云GIS 三维GIS GIS平台 WebGIS"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS"
     />
 
     <link rel="shortcut icon" type="image/x-icon" href="http://mars2d.cn/favicon.ico" />
-    <title>graphic 数据图层 | Mars2D | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
+    <title>graphic 数据图层 | Mars2D | 地理信息平台 | 火星科技 | 合肥火星科技有限公司</title>
 
     <!--第三方lib-->
     <script
@@ -54,31 +54,25 @@
         </div>
       </div>
 
-      <!-- <div>
+      <div>
         <span>点状(单个坐标)：</span>
-        <a href="editor.html#f10_entity_label" target="_blank" class="btn btn-default">文字</a>
-        <a href="editor.html#f10_entity_point" target="_blank" class="btn btn-default">点</a>
-        <a href="editor.html#f10_entity_marker" target="_blank" class="btn btn-default">图标点</a>
-        <a href="editor.html#f10_entity_plane" target="_blank" class="btn btn-default">平面</a>
-        <a href="editor.html#f10_entity_box" target="_blank" class="btn btn-default">盒子</a>
-        <a href="editor.html#f10_entity_circle" target="_blank" class="btn btn-default">圆</a>
-        <a href="editor.html#f10_entity_cylinder" target="_blank" class="btn btn-default">圆锥</a>
-        <a href="editor.html#f10_entity_ellipsoid" target="_blank" class="btn btn-default">球</a>
-        <a href="editor.html#f10_entity_model" target="_blank" class="btn btn-default">小模型</a>
+        <a href="editor.html#f10_marker" target="_blank" class="btn btn-primary">图标点</a>
+        <a href="editor.html#f10_movingMarker" target="_blank" class="btn btn-primary">运动点</a>
+        <a href="editor.html#f10_point" target="_blank" class="btn btn-primary">像素点</a>
+        <a href="editor.html#f10_label" target="_blank" class="btn btn-primary">文本</a>
+        <a href="editor.html#f10_divGraphic" target="_blank" class="btn btn-primary">DIV点</a>
+        <a href="editor.html#f10_circle" target="_blank" class="btn btn-primary">圆</a>
+        <a href="editor.html#f10_ellipse" target="_blank" class="btn btn-primary">椭圆</a>
       </div>
       <div>
         <span>线面状(多个坐标)：</span>
-        <a href="editor.html#f15_entity_polyline" target="_blank" class="btn btn-default">线</a>
-        <a href="editor.html#f15_entity_polylineVolume" target="_blank" class="btn btn-default">管道</a>
-        <a href="editor.html#f15_entity_corridor" target="_blank" class="btn btn-default">走廊</a>
-        <a href="editor.html#f15_entity_wall" target="_blank" class="btn btn-default">墙</a>
-        <a href="editor.html#f15_entity_rectangle" target="_blank" class="btn btn-default">矩形</a>
-        <a href="editor.html#f15_entity_polygon" target="_blank" class="btn btn-default">面</a>
-      </div> -->
+        <a href="editor.html#f15_polyline" target="_blank" class="btn btn-primary">线</a>
+        <a href="editor.html#f15_polyline_offset" target="_blank" class="btn btn-primary">平行线</a>
+        <a href="editor.html#f15_rectangle" target="_blank" class="btn btn-primary">矩形</a>
+        <a href="editor.html#f15_image" target="_blank" class="btn btn-primary">图片</a>
+        <a href="editor.html#f15_polygon" target="_blank" class="btn btn-primary">面</a>
+      </div>
     </div>
-
-    <!-- 图层管理相关处理js -->
-    <script type="text/javascript" src="./js/graphicManager.js"></script>
 
     <script src="./js/common.js"></script>
     <script type="text/javascript">
@@ -102,7 +96,7 @@
         let graphicLayer = new mars2d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
-        //图层管理的相关处理，代码在\js\graphicManager.js
+        //图层管理的相关处理，
         //2.在layer上绑定监听事件
         initLayerManager(graphicLayer);
 
@@ -112,13 +106,14 @@
       }
 
       function addGraphic_01(graphicLayer) {
-        var graphic = new mars2d.graphic.Marker([31.854628, 117.245425], {
-          icon: L.icon({
-            iconUrl: "img/marker/mark1.png",
-            iconSize: [32, 44],
-            iconAnchor: [16, 44],
-            popupAnchor: [0, -34],
-          }),
+        var graphic = new mars2d.graphic.Marker({
+          latlng: [31.854628, 117.245425],
+          style: {
+            image: "img/marker/mark1.png",
+            width: 32,
+            height: 44,
+            // rotationAngle: 90,
+          },
         });
         graphicLayer.addGraphic(graphic);
       }
@@ -126,6 +121,226 @@
       function addGraphic_02(graphicLayer) {
         //
       }
-    </script>
+
+      //在图层级处理一些事物
+      function initLayerManager(graphicLayer) {
+        //在layer上绑定监听事件
+        graphicLayer.on(mars2d.EventType.click, function (event) {
+          console.log("监听layer，单击了矢量对象", event);
+        });
+
+        //可在图层上绑定popup,对所有加到这个图层的矢量数据都生效
+        bindLayerPopup(graphicLayer);
+
+        $("#chkPopup").change(function () {
+          let val = $(this).is(":checked");
+
+          if (val) {
+            bindLayerPopup(graphicLayer);
+          } else {
+            graphicLayer.unbindPopup();
+          }
+        });
+
+        //可在图层上绑定tooltip,对所有加到这个图层的矢量数据都生效
+        $("#chkTooltip").change(function () {
+          let val = $(this).is(":checked");
+
+          if (val) {
+            graphicLayer.bindTooltip("我是layer上绑定的Tooltip");
+          } else {
+            graphicLayer.unbindTooltip();
+          }
+        });
+
+        //可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
+        bindLayerContextMenu(graphicLayer);
+        $("#chkContextMenu").change(function () {
+          let val = $(this).is(":checked");
+
+          if (val) {
+            bindLayerContextMenu(graphicLayer);
+          } else {
+            graphicLayer.unbindContextMenu(true);
+          }
+        });
+
+        $("#chkHasEdit").change(function () {
+          let val = $(this).is(":checked");
+
+          graphicLayer.hasEdit = val; //启用编辑
+        });
+
+        $("#chkShow").change(function () {
+          let val = $(this).is(":checked");
+
+          graphicLayer.show = val; //显示隐藏
+        });
+
+        $("#btnClear").click(function () {
+          graphicLayer.clear();
+        });
+
+        $("#btnExpFile").click(function () {
+          if (graphicLayer.length === 0) {
+            window.layer.msg("当前没有标注任何数据，无需保存！");
+            return;
+          }
+
+          let geojson = graphicLayer.toGeoJSON();
+          haoutil.file.downloadFile("我的标注.json", JSON.stringify(geojson));
+        });
+
+        $("#btnImpFile").click(function () {
+          $("#input_draw_file").click();
+        });
+
+        function clearSelectFile() {
+          if (!window.addEventListener) {
+            document.getElementById("input_draw_file").outerHTML += ""; //IE
+          } else {
+            document.getElementById("input_draw_file").value = ""; //FF
+          }
+        }
+
+        $("#input_draw_file").change(function (e) {
+          let file = this.files[0];
+
+          let fileName = file.name;
+          let fileType = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase();
+
+          if (fileType == "json" || fileType == "geojson") {
+            let reader = new FileReader();
+            reader.readAsText(file, "UTF-8");
+            reader.onloadend = function (e) {
+              let json = this.result;
+              graphicLayer.loadGeoJSON(json, {
+                flyTo: true,
+              });
+              clearSelectFile();
+            };
+          } else {
+            window.layer.msg("暂不支持 " + fileType + " 文件类型的数据！");
+            clearSelectFile();
+          }
+        });
+      }
+
+      function bindLayerPopup(graphicLayer) {
+        graphicLayer.bindPopup(function (event) {
+          let attr = event.graphic?.attr || {};
+          attr.test1 = "测试属性";
+          // attr["视频"] = `<video src='http://data.mars2d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`;
+
+          return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr });
+        });
+      }
+
+      function bindLayerContextMenu(graphicLayer) {
+        graphicLayer.bindContextMenu([
+          {
+            text: "开始编辑对象",
+            iconCls: "fa fa-edit",
+            show: function (e) {
+              let graphic = e.graphic;
+              if (!graphic || !graphic.editing) {
+                return false;
+              }
+              return !graphic.editing.enabled();
+            },
+            callback: function (e) {
+              let graphic = e.graphic;
+              if (graphic && graphic.editing) {
+                graphic.editing.enable();
+              }
+            },
+          },
+          {
+            text: "停止编辑对象",
+            iconCls: "fa fa-edit",
+            show: function (e) {
+              let graphic = e.graphic;
+              if (!graphic || !graphic.editing) {
+                return false;
+              }
+              return graphic.editing.enabled();
+            },
+            callback: function (e) {
+              let graphic = e.graphic;
+              if (graphic && graphic.editing) {
+                graphic.editing.disable();
+              }
+            },
+          },
+          {
+            text: "删除对象",
+            iconCls: "fa fa-trash-o",
+            show: (event) => {
+              let graphic = event.graphic;
+              if (!graphic) {
+                return false;
+              } else {
+                return true;
+              }
+            },
+            callback: function (e) {
+              let graphic = e.graphic;
+              if (!graphic) {
+                return;
+              }
+              graphicLayer.removeGraphic(graphic);
+            },
+          },
+          {
+            text: "计算长度",
+            iconCls: "fa fa-medium",
+            show: function (e) {
+              let graphic = e.graphic;
+              if (!graphic) {
+                return false;
+              }
+              return graphic.type === "polyline" || graphic.type === "brushLine";
+            },
+            callback: function (e) {
+              let graphic = e.graphic;
+              let strDis = mars2d.MeasureUtil.formatDistance(graphic.distance);
+              haoutil.alert("该对象的长度为:" + strDis);
+            },
+          },
+          {
+            text: "计算周长",
+            iconCls: "fa fa-medium",
+            show: function (e) {
+              let graphic = e.graphic;
+              if (!graphic) {
+                return false;
+              }
+              return graphic.type === "circle" || graphic.type === "rectangle" || graphic.type === "polygon";
+            },
+            callback: function (e) {
+              let graphic = e.graphic;
+              let strDis = mars2d.MeasureUtil.formatDistance(graphic.distance);
+              haoutil.alert("该对象的周长为:" + strDis);
+            },
+          },
+          {
+            text: "计算面积",
+            iconCls: "fa fa-reorder",
+            show: function (e) {
+              let graphic = e.graphic;
+              if (!graphic) {
+                return false;
+              }
+              return graphic.type === "circle" || graphic.type === "rectangle" || graphic.type === "polygon";
+            },
+            callback: function (e) {
+              let graphic = e.graphic;
+              let strArea = mars2d.MeasureUtil.formatArea(graphic.area);
+              haoutil.alert("该对象的面积为:" + strArea);
+            },
+          },
+        ]);
+      }
+     </script>
   </body>
 </html>

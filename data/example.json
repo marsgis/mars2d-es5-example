@@ -22,22 +22,10 @@
             }
           ]
         },
-
         {
           "name": "地图基础控制",
           "children": [
-            {
-              "name": "设置地图背景",
-              "version": "2.0",
-              "thumbnail": "a15_backgroundImage.jpg",
-              "fileName": "a15_backgroundImage"
-            },
-            {
-              "name": "行政区划蒙板",
-              "version": "3.0",
-              "thumbnail": "a15_mask.jpg",
-              "fileName": "a15_mask"
-            }
+      
           ]
         }
       ]
@@ -57,12 +45,6 @@
               "fileName": "c10_tdt"
             },
             {
-              "name": "百度(百度偏移坐标系)",
-              "version": "1.5",
-              "thumbnail": "c10_baidu.jpg",
-              "fileName": "c10_baidu"
-            },
-            {
               "name": "高德",
               "version": "1.5",
               "thumbnail": "c10_gaode.jpg",
@@ -75,22 +57,28 @@
               "fileName": "c10_tentect"
             },
             {
+              "name": "百度(百度偏移坐标系)",
+              "version": "1.5",
+              "thumbnail": "c10_baidu.jpg",
+              "fileName": "c10_baidu"
+            },
+            {
+              "name": "OpenStreetMap（OSM）",
+              "version": "1.5",
+              "thumbnail": "c10_osm.jpg",
+              "fileName": "c10_osm"
+            },
+            {
               "name": "谷歌(已被封)",
               "version": "1.5",
               "thumbnail": "c10_google.jpg",
               "fileName": "c10_google"
             },
             {
-              "name": "ArcGIS",
+              "name": "ArcGIS Online",
               "version": "1.5",
               "thumbnail": "c10_arcgis_online.jpg",
               "fileName": "c10_arcgis_online"
-            },
-            {
-              "name": "OSM",
-              "version": "1.5",
-              "thumbnail": "c10_osm.jpg",
-              "fileName": "c10_osm"
             }
           ]
         },
@@ -99,16 +87,10 @@
           "details": "支持各种坐标系服务",
           "children": [
             {
-              "name": "本地单张图片",
+              "name": "单张图片局部坐标系",
               "version": "1.1",
-              "thumbnail": "c15_image.jpg",
-              "fileName": "c15_image"
-            },
-            {
-              "name": "带旋转角度单张图片",
-              "version": "1.5",
-              "thumbnail": "c15_imageRotated.jpg",
-              "fileName": "c15_imageRotated"
+              "thumbnail": "c15_crs_image.jpg",
+              "fileName": "c15_crs_image"
             },
             {
               "name": "3857底图(墨卡托)",
@@ -240,19 +222,19 @@
           ]
         },
         {
-          "name": "自定义控件",
+          "name": "支持的控件",
           "children": [
             {
               "name": "工具按钮栏",
               "version": "2.0",
-              "thumbnail": "d10_toolBar.jpg",
-              "fileName": "d10_toolBar"
+              "thumbnail": "d15_toolBar.jpg",
+              "fileName": "d15_toolBar"
             },
             {
               "name": "下侧状态栏",
               "version": "2.0",
-              "thumbnail": "d10_locationBar.jpg",
-              "fileName": "d10_locationBar"
+              "thumbnail": "d15_locationBar.jpg",
+              "fileName": "d15_locationBar"
             },
             {
               "name": "三维全景切换",
@@ -266,7 +248,6 @@
               "thumbnail": "d15_slider.jpg",
               "fileName": "d15_slider"
             },
-
             {
               "name": "鹰眼地图",
               "version": "1.5",
@@ -291,19 +272,19 @@
           "name": "矢量数据图层",
           "children": [
             {
-              "name": "graphic 数据图层",
+              "name": "graphic 矢量数据图层",
               "version": "3.0",
               "thumbnail": "e10_graphicLayer.jpg",
               "fileName": "e10_graphicLayer"
             },
             {
-              "name": "聚合点图层",
+              "name": "聚合点 图层",
               "version": "1.5",
               "thumbnail": "e10_clusterLayer.jpg",
               "fileName": "e10_clusterLayer"
             },
             {
-              "name": "大数据点图层(Canvas绘制)",
+              "name": "大数据点 图层",
               "version": "1.5",
               "thumbnail": "e10_canvasMarkerLayer.jpg",
               "fileName": "e10_canvasMarkerLayer"
@@ -318,6 +299,13 @@
               "version": "1.5",
               "thumbnail": "e15_geojson.jpg",
               "fileName": "e15_geojson"
+            },
+            {
+              "name": "建筑物3D立体",
+              "version": "1.5",
+              "thumbnail": "e16_osmbuildings.jpg",
+              "fileName": "e16_osmbuildings",
+              "plugins": "OSMBuildings"
             }
           ]
         },
@@ -329,6 +317,12 @@
               "version": "2.0",
               "thumbnail": "e20_pbf.jpg",
               "fileName": "e20_pbf"
+            },
+            {
+              "name": "OGC WFS服务",
+              "version": "1.5",
+              "thumbnail": "e20_wfs.jpg",
+              "fileName": "e20_wfs"
             },
             {
               "name": "ArcGIS MapServer动态服务",
@@ -343,14 +337,7 @@
               "thumbnail": "e20_arcgis_feature.jpg",
               "fileName": "e20_arcgis_feature",
               "plugins": "esri"
-            },
-            {
-              "name": "OGC WFS服务",
-              "version": "1.5",
-              "thumbnail": "e20_wfs.jpg",
-              "fileName": "e20_wfs"
             }
-
           ]
         },
         {
@@ -386,7 +373,7 @@
               "fileName": "f10_marker"
             },
             {
-              "name": "运动点",
+              "name": "MovingMarker 运动点",
               "version": "1.5",
               "thumbnail": "f10_movingMarker.gif",
               "fileName": "f10_movingMarker"
@@ -422,7 +409,7 @@
               "fileName": "f10_sector"
             },
             {
-              "name": "椭圆",
+              "name": "Ellipse 椭圆",
               "version": "1.5",
               "thumbnail": "f10_ellipse.jpg",
               "fileName": "f10_ellipse"
@@ -458,7 +445,7 @@
               "fileName": "f15_image"
             },
             {
-              "name": "Canvas图片",
+              "name": "CanvasImage 图片",
               "version": "1.5",
               "thumbnail": "f15_canvasImage.jpg",
               "fileName": "f15_canvasImage"
@@ -471,14 +458,14 @@
             {
               "name": "点的加载动画",
               "version": "1.5",
-              "thumbnail": "f30_marker_magic.jpg",
-              "fileName": "f30_marker_magic"
+              "thumbnail": "f40_marker_magic.jpg",
+              "fileName": "f40_marker_magic"
             },
             {
               "name": "扩散动画点",
               "version": "1.5",
-              "thumbnail": "f30_marker_pulse.gif",
-              "fileName": "f30_marker_pulse"
+              "thumbnail": "f40_marker_pulse.gif",
+              "fileName": "f40_marker_pulse"
             }
           ]
         },
@@ -488,41 +475,35 @@
             {
               "name": "动画效果线(铁路)",
               "version": "1.5",
-              "thumbnail": "f35_antPath.gif",
-              "fileName": "f35_antPath",
+              "thumbnail": "f45_antPath.gif",
+              "fileName": "f45_antPath",
               "plugins": "antPath"
             },
             {
               "name": "线的运动动画",
               "version": "1.5",
-              "thumbnail": "f35_polyline_snakeIn.jpg",
-              "fileName": "f35_polyline_snakeIn"
+              "thumbnail": "f45_polyline_snakeIn.jpg",
+              "fileName": "f45_polyline_snakeIn"
             },
             {
               "name": "多个线的运动动画(图层级)",
               "version": "1.5",
-              "thumbnail": "f35_layer_snakeIn.jpg",
-              "fileName": "f35_layer_snakeIn"
+              "thumbnail": "f45_layer_snakeIn.jpg",
+              "fileName": "f45_layer_snakeIn"
             },
+
             {
               "name": "GeoJson大数据面(Canvas合并渲染)",
               "version": "1.5",
-              "thumbnail": "f35_geojsonCanvas.jpg",
-              "fileName": "f35_geojsonCanvas",
+              "thumbnail": "f45_geojsonCanvas.jpg",
+              "fileName": "f45_geojsonCanvas",
               "plugins": "canvasGeojson"
             },
             {
               "name": "中国各省市面",
               "version": "1.5",
-              "thumbnail": "f35_geojson_polygon.jpg",
-              "fileName": "f35_geojson_polygon"
-            },
-            {
-              "name": "建筑物3D立体",
-              "version": "1.5",
-              "thumbnail": "f35_osmbuildings.jpg",
-              "fileName": "f35_osmbuildings",
-              "plugins": "OSMBuildings"
+              "thumbnail": "f45_geojson_polygon.jpg",
+              "fileName": "f45_geojson_polygon"
             }
           ]
         },
@@ -532,27 +513,21 @@
             {
               "name": "标绘（绘制点、线、面、圆、矩形等）",
               "version": "3.0",
-              "thumbnail": "f40_draw.jpg",
-              "fileName": "f40_draw"
+              "thumbnail": "f60_draw.jpg",
+              "fileName": "f60_draw"
             },
             {
               "name": "军事标绘",
               "version": "3.0",
-              "thumbnail": "f40_plot.jpg",
-              "fileName": "f40_plot"
-            },
-            {
-              "name": "图上选点",
-              "version": "1.5",
-              "thumbnail": "f40_selectPoint.jpg",
-              "fileName": "f40_selectPoint"
+              "thumbnail": "f60_plot.jpg",
+              "fileName": "f60_plot"
             },
 
             {
               "name": "文字碰撞",
               "version": "1.5",
-              "thumbnail": "f45_textCollision.jpg",
-              "fileName": "f45_textCollision",
+              "thumbnail": "f65_textCollision.jpg",
+              "fileName": "f65_textCollision",
               "plugins": "textCollision"
             }
           ]
@@ -580,28 +555,29 @@
           "name": "客户端空间分析",
           "children": [
             {
-              "name": "缓冲分析",
-              "version": "1.5",
-              "thumbnail": "k20_buffer.jpg",
-              "fileName": "k20_buffer"
-            },
-            {
               "name": "最近点分析",
               "version": "1.5",
-              "thumbnail": "k20_nearestPoint.jpg",
-              "fileName": "k20_nearestPoint"
+              "thumbnail": "k25_nearestPoint.jpg",
+              "fileName": "k25_nearestPoint"
             },
             {
               "name": "面的切割(线分割面)",
               "version": "2.0",
-              "thumbnail": "k20_polygonClipByLine.jpg",
-              "fileName": "k20_polygonClipByLine"
+              "thumbnail": "k25_polygonClipByLine.jpg",
+              "fileName": "k25_polygonClipByLine"
             },
+
             {
               "name": "等值线面(离散点生成)",
               "version": "2.0",
-              "thumbnail": "k20_isobands.jpg",
-              "fileName": "k20_isobands"
+              "thumbnail": "k25_isobands.jpg",
+              "fileName": "k25_isobands"
+            },
+            {
+              "name": "缓冲分析",
+              "version": "1.5",
+              "thumbnail": "k25_buffer.jpg",
+              "fileName": "k25_buffer"
             }
           ]
         }

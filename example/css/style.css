@@ -29,10 +29,48 @@ body {
 }
 
 body {
-  position: relative;
   overflow-x: hidden;
-  overflow-y: hidden;
+  overflow-y: auto;
+  line-height: 1.6;
+  color: #76838f;
+  background-color: #fff;
 }
+
+input,
+button,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+a {
+  color: #62a8ea;
+  text-decoration: none;
+}
+
+a:hover,
+a:focus {
+  color: #89bceb;
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: thin dotted;
+  outline: 5px auto -webkit-focus-ring-color;
+  outline: none;
+  outline-offset: -2px;
+}
+
+figure {
+  margin: 0;
+}
+
+img {
+  vertical-align: middle;
+}
+
 #centerDiv {
   height: 100%;
   width: 100%;
@@ -69,6 +107,15 @@ body {
 
 .info-tips {
   margin: 5px 10px 20px 10px;
+}
+
+.map-control-bar {
+  position: absolute;
+  width: 36px;
+  height: 36px;
+  padding: 5px;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 9999;
 }
 
 /*弹出层皮肤*/

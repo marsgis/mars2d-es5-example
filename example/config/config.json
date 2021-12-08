@@ -1,10 +1,11 @@
 {
   "map": {
     "zoom": 13,
-    "center": { "x": 117.240601, "y": 31.827107 },
+    "center": { "lng": 117.240601, "lat": 31.827107 },
     "minZoom": 3,
     "maxZoom": 18,
     "centerAutoLevel": 15,
+    "copyright":true,
     "controls": {
       "scale": true,
       "locationBar": {
@@ -22,9 +23,10 @@
         "type": "group"
       },
       {
+        "id": 2021,
         "pid": 10,
         "name": "天地图电子",
-        "icon": "tianditumap.png",
+        "icon": "img/basemaps/tianditumap.png",
         "type": "group",
         "layers": [
           {
@@ -45,7 +47,7 @@
       {
         "pid": 10,
         "name": "天地图卫星",
-        "icon": "tiandituimage.png",
+        "icon": "img/basemaps/tiandituimage.png",
         "type": "tdt",
         "layer": "img",
         "key": ["ad5bee3fe473a639887fa9d57a670c6e"]
@@ -53,12 +55,12 @@
       {
         "pid": 10,
         "name": "天地图地形",
-        "icon": "tianditudem.png",
+        "icon": "img/basemaps/tianditudem.png",
         "type": "tdt",
         "layer": "ter",
         "key": ["ad5bee3fe473a639887fa9d57a670c6e"],
         "maxNativeZoom": 14,
-        "errorTileUrl": "img/tile/notile.png"
+        "errorTileUrl": "img/tile/errortile.png"
       },
       {
         "pid": 10,
@@ -66,7 +68,7 @@
         "type": "xyz",
         "url": "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
         "subdomains": "abc",
-        "icon": "bingmap.png"
+        "icon": "img/basemaps/bingmap.png"
       },
       {
         "pid": 10,
@@ -74,28 +76,28 @@
         "type": "tile",
         "url": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer/tile/{z}/{y}/{x}",
         "chinaCRS": "GCJ02",
-        "icon": "bd-c-googlelite.png"
+        "icon": "img/basemaps/bd-c-googlelite.png"
       },
       {
         "pid": 10,
         "name": "ArcGIS卫星",
         "type": "arcgis",
         "url": "https://services.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer",
-        "icon": "bingimage.png"
+        "icon": "img/basemaps/bingimage.png"
       },
       {
         "pid": 10,
         "name": "高德地图",
         "type": "gaode",
         "layer": "vec",
-        "icon": "bingmap.png"
+        "icon": "img/basemaps/bingmap.png"
       },
       {
         "pid": 10,
         "name": "高德卫星",
         "type": "gaode",
         "layer": "img",
-        "icon": "bingimage.png"
+        "icon": "img/basemaps/bingimage.png"
       },
       {
         "pid": 10,
@@ -103,7 +105,7 @@
         "type": "google",
         "layer": "vec",
         "chinaCRS": "GCJ02",
-        "icon": "googlemap.png"
+        "icon": "img/basemaps/googlemap.png"
       },
       {
         "pid": 10,
@@ -111,7 +113,7 @@
         "type": "google",
         "layer": "img",
         "chinaCRS": "GCJ02",
-        "icon": "googleimage.png"
+        "icon": "img/basemaps/googleimage.png"
       },
       {
         "pid": 10,
@@ -119,7 +121,7 @@
         "type": "arcgis",
         "url": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetGray/MapServer",
         "chinaCRS": "GCJ02",
-        "icon": "bd-c-grayscale.png"
+        "icon": "img/basemaps/bd-c-grayscale.png"
       },
       {
         "id": 2017,
@@ -128,7 +130,7 @@
         "type": "arcgis",
         "url": "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
         "chinaCRS": "GCJ02",
-        "icon": "bd-c-midnight.png"
+        "icon": "img/basemaps/bd-c-midnight.png"
       }
     ],
     "operationallayers": [

@@ -1,0 +1,89 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars2d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="http://mars2d.cn/favicon.ico" />
+
+    <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS"
+    />
+
+    <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
+
+    <script
+      type="text/javascript"
+      src="../lib/include-lib.js"
+      libpath="../lib/"
+      include="jquery,font-awesome,bootstrap,layer,haoutil,mars2d"
+    ></script>
+    <link href="css/style.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="mars2dContainer" class="mars2d-container"></div>
+
+    <script src="../lib/mars2d/thirdParty/OSMBuildings/OSMBuildings-Leaflet.js"></script>
+
+    <script src="./js/common.js"></script>
+    <script type="text/javascript">
+      "use script"; //开发环境建议开启严格模式
+
+      var map;
+      var geojson;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        let mapOptions = mars2d.Util.merge(options, {
+          zoom: 16,
+         "center": { "lng": 116.445315, lat:39.916728 },
+        });
+
+        //创建地图
+        map = new mars2d.Map("mars2dContainer", mapOptions);
+
+        //添加建筑物图层
+        const osmb = new OSMBuildings(map);
+        osmb
+          .date(new Date(2017, 5, 15, 17, 30))
+          .load()
+          .click(function (e) {
+            console.log("单击了:", e);
+
+            showPopup(e);
+          });
+
+        $.get("http://data.mars2d.cn/file/geojson/buildings-bj.json", function (data) {
+          geojson = data;
+          osmb.set(geojson);
+        });
+      }
+
+      function showPopup(evt) {
+        var name = getFeatureNameById(evt.feature);
+        name = name || "<span style='color:red'>无数据</span>";
+        L.popup().setContent(name).setLatLng(L.latLng(evt.lat, evt.lon)).openOn(map);
+      }
+
+      function getFeatureNameById(id) {
+        if (!geojson || !id) {
+          return null;
+        }
+        var features = geojson.features;
+        for (var i = 0; i < features.length; i++) {
+          if (features[i].properties.id === id) {
+            return features[i].properties.name;
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
