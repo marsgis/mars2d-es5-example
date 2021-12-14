@@ -20,7 +20,7 @@
 
     <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
 
-   <script
+    <script
       type="text/javascript"
       src="../lib/include-lib.js"
       libpath="../lib/"
@@ -31,47 +31,36 @@
   <body>
     <div id="mars2dContainer" class="mars2d-container"></div>
 
+    <script src="./js/common.js"></script>
     <script type="text/javascript">
-      $(document).ready(function () {
-        initMap();
-      });
+      "use script"; //开发环境建议开启严格模式
 
-      function initMap() {
-        //构造map
-        var map = new mars2d.Map("mars2dContainer", {
+      var map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        let mapOptions = mars2d.Util.merge(options, {
           crs: mars2d.CRS.EPSG3857,
-          zoom: 4,
-          center: [33.027088, 109.467773],
-          control: {
-            scale: true,
-            locationBar: {
-              template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>层级:{level}</div>",
+          basemaps: [
+            {
+              name: "高德地图",
+              type: "gaode",
+              layer: "vec",
+              show: true,
             },
-            zoom: { position: "bottomright" },
-            toolBar: { position: "bottomright" },
-          },
+            {
+              type: "group",
+              name: "卫星地图",
+              layers: [
+                { type: "tencent", layer: "img_d" },
+                { type: "tencent", layer: "img_z" },
+              ],
+            },
+          ],
         });
 
-        //地图底图 及图层控制控件
-        var baseLayers = {
-          单张图片: mars2d.LayerUtil.create({
-            type: "image",
-            url: "img/simple/world-gcj.jpg",
-            bounds: [
-              [-85, -180],
-              [85, 180],
-            ],
-          }),
-          高德地图: mars2d.LayerUtil.create({ type: "gaode", layer: "vec" }).addTo(map),
-          腾讯地图: mars2d.LayerUtil.create({
-            type: "tile",
-            url: "http://rt{s}.map.gtimg.com/realtimerender?z={z}&x={x}&y={y}&type=vector&style=0",
-            subdomains: "0123",
-            tms: true,
-          }),
-        };
-        var overlays = {};
-        L.control.layers(baseLayers, overlays, { position: "topleft" }).addTo(map);
+        //创建地图
+        map = new mars2d.Map("mars2dContainer", mapOptions);
       }
     </script>
   </body>

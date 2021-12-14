@@ -38,7 +38,7 @@ class Typhoon {
   }
 
   getPointTooltip(event, isYB) {
-    let item = event.graphic?.attr;
+    let item = event.marsOptions?.attr;
     if (!item) {
       return;
     }
@@ -62,7 +62,7 @@ class Typhoon {
     fqHtml += "</table>";
 
     return `<div class="tipBox">
-              <div class="triangle-left"></div>
+
               <div class="tipHeader">
                 <p>${this.options.typnumber} ${this.options.name_cn}</p>
               </div>
@@ -81,18 +81,12 @@ class Typhoon {
 
   addNameGraphic(firstItem) {
     //[起点]绘制台风起点名字
-    var nameGraphic = new mars2d.graphic.RectanglePrimitive({
-      positions: [
-        [firstItem.lon, firstItem.lat],
-        [firstItem.lon + 0.7, firstItem.lat - 0.4],
-      ],
+    var nameGraphic = new mars2d.graphic.Label({
+      latlng: [firstItem.lat-0.5,firstItem.lon+0.7],
       style: {
-        material: mars2d.MaterialUtil.createMaterial(mars2d.MaterialType.Text, {
-          text: this.options.name_cn,
-          font_size: 60,
-          fillColor: "red",
-        }),
-        zIndex: 2,
+        text: this.options.name_cn,
+        font_size: 20,
+        color: "red",
       },
       attr: firstItem,
     });
@@ -113,14 +107,12 @@ class Typhoon {
     //路径点
     for (let i = 0, len = arr.length; i < len; i++) {
       let item = arr[i];
-      let point = [item.lon, item.lat];
-
+      let point = [item.lat,item.lon ];
       //在图层上绘画出所有的点
-      let pointEntity = new mars2d.graphic.PointEntity({
-        id: item.id,
-        position: point,
+      var pointEntity = new mars2d.graphic.Point({
+        latlng: point,
         style: {
-          pixelSize: 6,
+          pixelSize: 4,
           color: item.color,
         },
         attr: item,
@@ -129,7 +121,7 @@ class Typhoon {
 
       //轨迹点绑定点击事件
       pointEntity.on(mars2d.EventType.click, (event) => {
-        this.showPointFQ(event.graphic.attr);
+        this.showPointFQ(event.target.attr);
       });
       pointEntity.bindTooltip(
         (event) => {
@@ -137,7 +129,6 @@ class Typhoon {
         },
         {
           template: "",
-          anchor: [260, -20],
         }
       );
 
@@ -146,8 +137,8 @@ class Typhoon {
       //判断台风的typlevel
       if (lastType !== item.level || i == len - 1) {
         //绘制线
-        let graphicLine = new mars2d.graphic.PolylineEntity({
-          positions: arrPoint,
+        let graphicLine = new mars2d.graphic.Polyline({
+          latlngs: arrPoint,
           style: {
             color: getColor(lastType),
           },
@@ -164,11 +155,11 @@ class Typhoon {
 
     //[终点]绘制台风当前位置gif点
     let gifGraphic = new mars2d.graphic.DivGraphic({
-      position: [endItem.lon, endItem.lat],
+      latlng: [endItem.lat,endItem.lon ],
       style: {
         html: `<img src="img/marker/typhoon.gif">`,
-        horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-        verticalOrigin: Cesium.VerticalOrigin.CENTER,
+        horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+        verticalOrigin: mars2d.VerticalOrigin.CENTER,
       },
     });
     this.typhoonLayer.addGraphic(gifGraphic);
@@ -184,7 +175,7 @@ class Typhoon {
       this.clickPtLayer.clear();
     }
 
-    let position = [item.lon, item.lat];
+    let position = [ item.lat,item.lon];
 
     //台风实时位置gif点更新
     if (this.gifGraphic) {
@@ -199,13 +190,13 @@ class Typhoon {
       points7 = points7.concat(getPoints(position, item.circle7.radius3, 180)); //西南
       points7 = points7.concat(getPoints(position, item.circle7.radius4, 270)); //西北
 
-      let graphic = new mars2d.graphic.PolygonEntity({
-        positions: points7,
+      let graphic = new mars2d.graphic.Polygon({
+        latlngs: points7,
         availability: availability,
         style: {
           setHeight: 900,
-          color: "#eed139",
-          opacity: 0.3,
+          fillColor: "#eed139",
+          fillOpacity: 0.3,
           outline: true,
           outlineWidth: 2,
           outlineColor: "#eed139",
@@ -222,17 +213,15 @@ class Typhoon {
       points10 = points10.concat(getPoints(position, item.circle10.radius3, 180));
       points10 = points10.concat(getPoints(position, item.circle10.radius4, 270));
 
-      let tenGraphic = new mars2d.graphic.PolygonEntity({
-        positions: points10,
+      let tenGraphic = new mars2d.graphic.Polygon({
+        latlngs: points10,
         availability: availability,
         style: {
-          setHeight: 800,
-          color: "#fe9c45",
-          opacity: 0.3,
+          fillColor: "#fe9c45",
+          fillOpacity: 0.3,
           outline: true,
           outlineWidth: 2,
           outlineColor: "#fe9c45",
-          arcType: Cesium.ArcType.GEODESIC,
         },
       });
       this.clickPtLayer.addGraphic(tenGraphic);
@@ -246,17 +235,14 @@ class Typhoon {
       points12 = points12.concat(getPoints(position, item.circle12.radius3, 180));
       points12 = points12.concat(getPoints(position, item.circle12.radius4, 270));
 
-      let tenGraphic = new mars2d.graphic.PolygonEntity({
-        positions: points12,
-        availability: availability,
+      let tenGraphic = new mars2d.graphic.Polygon({
+        latlngs: points12,
         style: {
-          setHeight: 700,
-          color: "#ffff00",
-          opacity: 0.3,
+          fillColor: "#ffff00",
+          fillOpacity: 0.3,
           outline: true,
           outlineWidth: 2,
           outlineColor: "#ffff00",
-          arcType: Cesium.ArcType.GEODESIC,
         },
       });
       this.clickPtLayer.addGraphic(tenGraphic);
@@ -266,13 +252,12 @@ class Typhoon {
     if (item.forecast) {
       let linePoint = [position];
       item.forecast.forEach((element) => {
-        let forecastPt = [element.lon, element.lat];
+        let forecastPt = [ element.lat,element.lon];
         linePoint.push(forecastPt);
 
         //在图层上绘画出所有的点
-        let pointEntity = new mars2d.graphic.PointEntity({
-          position: forecastPt,
-          availability: availability,
+        let pointEntity = new mars2d.graphic.Point({
+          latlng: forecastPt,
           style: {
             pixelSize: 6,
             color: element.color, //不同typlevel显示不同的颜色
@@ -293,15 +278,8 @@ class Typhoon {
         );
 
         //预测路线
-        let graphicLine = new mars2d.graphic.PolylineEntity({
-          positions: linePoint,
-          availability: availability,
-          style: {
-            material: mars2d.MaterialUtil.createMaterialProperty(mars2d.MaterialType.PolylineDash, {
-              dashLength: 20.0,
-              color: "red",
-            }),
-          },
+        let graphicLine = new mars2d.graphic.Polyline({
+          latlngs: linePoint,
         });
         this.clickPtLayer.addGraphic(graphicLine);
       });
@@ -354,10 +332,7 @@ class PlayTyphoon extends Typhoon {
 
     for (let i = 0, len = arr.length; i < len; i++) {
       let item = arr[i];
-      let point = [item.lon, item.lat];
-
-      let position = Cesium.Cartesian3.fromDegrees(item.lon, item.lat); //经度、纬度坐标转化
-      let pointTime = Cesium.JulianDate.fromDate(item.time); //将时间转化成需要的格式
+      let point = [item.lat,item.lon];
 
       property.addSample(pointTime, position);
 
@@ -425,37 +400,6 @@ class PlayTyphoon extends Typhoon {
     this.addNameGraphic(firstItem);
   }
 
-  //开始播放
-  start() {
-    this._isStart = true;
-
-    this.map.clock.startTime = this.startTime.clone();
-    this.map.clock.stopTime = this.stopTime.clone();
-    this.map.clock.currentTime = this.startTime.clone();
-    this.map.clock.clockRange = Cesium.ClockRange.CLAMPED; //到达时间点后终止
-    this.map.clock.multiplier = 16000;
-
-    if (this.map.viewer.timeline) {
-      this.map.viewer.timeline.zoomTo(this.startTime, this.stopTime);
-    }
-
-    this.show = true;
-    this.map.clock.shouldAnimate = true;
-  }
-
-  //停止播放
-  stop() {
-    this._isStart = false;
-
-    this.show = false;
-
-    let now = Cesium.JulianDate.fromDate(new Date());
-    this.map.clock.startTime = now.clone();
-    this.map.clock.stopTime = Cesium.JulianDate.addDays(now, 1.0, new Cesium.JulianDate());
-    this.map.clock.currentTime = now.clone();
-    this.map.clock.clockRange = Cesium.ClockRange.UNBOUNDED;
-    this.map.clock.multiplier = 1;
-  }
 }
 
 //不同等级的台风对应不同的颜色

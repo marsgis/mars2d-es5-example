@@ -1,98 +1,102 @@
 ﻿<!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
-    <meta name="author" content="火星科技 http://mars2d.cn " />
-    <meta name="apple-touch-fullscreen" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="x5-fullscreen" content="true" />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
-    <link rel="shortcut icon" type="image/x-icon" href="http://mars2d.cn/favicon.ico" />
 
-    <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
-    <meta
-      name="description"
-      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS"
-    />
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+  <meta name="author" content="火星科技 http://mars2d.cn " />
+  <meta name="apple-touch-fullscreen" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="x5-fullscreen" content="true" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+  <link rel="shortcut icon" type="image/x-icon" href="http://mars2d.cn/favicon.ico" />
 
-    <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
+  <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+  <meta name="description"
+    content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS" />
 
-    <script
-      type="text/javascript"
-      src="../lib/include-lib.js"
-      libpath="../lib/"
-      include="jquery,font-awesome,bootstrap,layer,haoutil,mars2d"
-    ></script>
-    <link href="css/style.css" rel="stylesheet" />
-  </head>
-  <body>
-    <div id="mars2dContainer" class="mars2d-container"></div>
+  <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
 
-    <script src="./js/common.js"></script>
-    <script type="text/javascript">
-      "use script"; //开发环境建议开启严格模式
+  <script type="text/javascript" src="../lib/include-lib.js" libpath="../lib/"
+    include="jquery,font-awesome,bootstrap,layer,haoutil,mars2d"></script>
+  <link href="css/style.css" rel="stylesheet" />
+</head>
 
-      var map;
+<body>
+  <div id="mars2dContainer" class="mars2d-container"></div>
 
-      function initMap(options) {
-        //合并属性参数，可覆盖config.json中的对应配置
-        let mapOptions = mars2d.Util.merge(options, {});
+  <script src="./js/common.js"></script>
+  <script type="text/javascript">
+    "use script"; //开发环境建议开启严格模式
 
-        //创建地图
-        map = new mars2d.Map("mars2dContainer", mapOptions);
+    var map;
 
-        //加载数据
-        $.getJSON("http://data.mars2d.cn/file/geojson/tianzhushan.json", function (geojson) {
+    function initMap(options) {
+      //合并属性参数，可覆盖config.json中的对应配置
+      let mapOptions = mars2d.Util.merge(options, {});
+
+      //创建地图
+      map = new mars2d.Map("mars2dContainer", mapOptions);
+
+      //加载数据
+      mars2d.Util.fetchJson({
+        url: "http://data.mars2d.cn/file/geojson/tianzhushan.json",
+      })
+        .then((geojson) => {
           let latlngs = mars2d.PointTrans.coords2latlngs(geojson.features[0].geometry.coordinates);
           showTianzhushan(latlngs);
+        })
+        .catch((error) => {
+          console.log("请求出错了", error);
         });
-      }
+    }
 
-      function showTianzhushan(latlngs) {
-        //创建矢量数据图层
-        let graphicLayer = new mars2d.layer.GraphicLayer();
-        map.addLayer(graphicLayer);
+    function showTianzhushan(latlngs) {
+      //创建矢量数据图层
+      let graphicLayer = new mars2d.layer.GraphicLayer();
+      map.addLayer(graphicLayer);
 
-        var graphicLine = new mars2d.graphic.Polyline({
-          latlngs: latlngs,
-          style: {
-            color: "#0000ff",
-            width: 3,
-            snakingSpeed: 80,
-          },
-        });
-        graphicLayer.addGraphic(graphicLine);
+      var graphicLine = new mars2d.graphic.Polyline({
+        latlngs: latlngs,
+        style: {
+          color: "#0000ff",
+          width: 3,
+          snakingSpeed: 80,
+        },
+      });
+      graphicLayer.addGraphic(graphicLine);
 
-        //开始运动
-        graphicLine.snakeIn();
+      //开始运动
+      graphicLine.snakeIn();
 
-        //创建随着线运动的marker点
-        var marker = new mars2d.graphic.Marker({
-          latlng: latlngs[0],
-          style: {
-            image: "img/marker/bike.png",
-            iconSize: [25, 39],
-            horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
-            verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
-          },
-        });
-        graphicLayer.addGraphic(marker);
+      //创建随着线运动的marker点
+      var marker = new mars2d.graphic.Marker({
+        latlng: latlngs[0],
+        style: {
+          image: "img/marker/bike.png",
+          iconSize: [25, 39],
+          horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+          verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
+        },
+      });
+      graphicLayer.addGraphic(marker);
 
-        var inhtml = '<div style="width:250px;text-align: center;"><h4>木遥环天柱山骑行</h4><br/><img src="img/photo/tzs.jpg" /></div>';
-        marker.bindPopup(inhtml).openPopup();
+      var inhtml = '<div style="width:250px;text-align: center;"><h4>木遥环天柱山骑行</h4><br/><img src="img/photo/tzs.jpg" /></div>';
+      marker.bindPopup(inhtml).openPopup();
 
-        graphicLine.on("snakestart snake snakeend", function (ev) {
-          var temp = graphicLine.latlngs;
-          var currLatlng = temp[temp.length - 1];
+      graphicLine.on("snakestart snake snakeend", function (ev) {
+        var temp = graphicLine.latlngs;
+        var currLatlng = temp[temp.length - 1];
 
-          marker.setLatLng(currLatlng);
+        marker.setLatLng(currLatlng);
 
-          map.setView(currLatlng); //地图联动
-        });
-      }
-    </script>
-  </body>
+        map.setView(currLatlng); //地图联动
+      });
+    }
+  </script>
+</body>
+
 </html>

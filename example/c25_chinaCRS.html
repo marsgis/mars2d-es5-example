@@ -20,7 +20,7 @@
 
     <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
 
-   <script
+    <script
       type="text/javascript"
       src="../lib/include-lib.js"
       libpath="../lib/"
@@ -32,62 +32,69 @@
   <body>
     <div id="mars2dContainer" class="mars2d-container"></div>
 
+    <script src="./js/common.js"></script>
     <script type="text/javascript">
-      $(document).ready(function () {
-        initMap();
-      });
+      "use script"; //开发环境建议开启严格模式
 
-      //地图加载
-      function initMap() {
-        var map = new mars2d.Map("mars2dContainer", {
-          zoom: 12,
-          center: [31.834912, 117.220102],
-          control: {
-            scale: true,
-            locationBar: {
-              template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>层级:{level}</div>",
-            },
-            zoom: { position: "bottomright" },
-            toolBar: { position: "bottomright" },
-          },
+      var map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        let mapOptions = mars2d.Util.merge(options, {
           chinaCRS: mars2d.ChinaCRS.WGS84,
+          basemaps: [
+            {
+              id: 10,
+              name: "地图底图",
+              type: "group",
+            },
+            {
+              id: 2021,
+              pid: 10,
+              name: "天地图电子",
+              type: "group",
+              layers: [
+                {
+                  name: "底图",
+                  type: "tdt",
+                  layer: "vec_d",
+                  key: ["ad5bee3fe473a639887fa9d57a670c6e"],
+                },
+                {
+                  name: "注记",
+                  type: "tdt",
+                  layer: "vec_z",
+                  key: ["ad5bee3fe473a639887fa9d57a670c6e"],
+                },
+              ],
+              show: true,
+            },
+            {
+              pid: 10,
+              name: "OSM地图",
+              type: "xyz",
+              url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+              subdomains: "abc",
+            },
+            {
+              pid: 10,
+              name: "高德地图",
+              type: "gaode",
+              layer: "vec",
+            },
+            {
+              id: 2017,
+              pid: 10,
+              name: "蓝色地图",
+              type: "arcgis",
+              url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+              chinaCRS: "GCJ02",
+            },
+          ],
         });
 
-        //地图底图 及图层控制控件,配置的chinaCRS参数后，框架已自动纠偏处理，均转为wgs84无偏。
-        var baseLayers = {
-          天地图地图: mars2d.LayerUtil.create({
-            type: "group",
-            layers: [
-              { type: "tdt", layer: "vec_d", key: mars2d.Token.tiandituArr },
-              { type: "tdt", layer: "vec_z", key: mars2d.Token.tiandituArr },
-            ],
-            show: true,
-          }).addTo(map),
-          天地图影像: mars2d.LayerUtil.create({
-            type: "group",
-            layers: [
-              { type: "tdt", layer: "img_d", key: mars2d.Token.tiandituArr },
-              { type: "tdt", layer: "img_z", key: mars2d.Token.tiandituArr },
-            ],
-          }),
-          高德地图: mars2d.LayerUtil.create({ type: "gaode", layer: "vec" }),
-          高德影像: mars2d.LayerUtil.create({ type: "gaode", layer: "img_d" }),
-
-          // 谷歌地图: mars2d.LayerUtil.create({ type: "google", layer: "vec", chinaCRS: "GCJ02" }),
-          // 谷歌影像: mars2d.LayerUtil.create({ type: "google", layer: "img_d", chinaCRS: "GCJ02" }),
-
-          ArcGIS地图: L.tileLayer("http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer/tile/{z}/{y}/{x}", { chinaCRS: "GCJ02" }),
-          ArcGIS影像: L.tileLayer("http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}"),
-
-          藏蓝地图: L.tileLayer("http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer/tile/{z}/{y}/{x}", {
-            maxZoom: 17,
-            chinaCRS: "GCJ02",
-          }),
-        };
-        var overlays = {
-          实时交通信息: mars2d.LayerUtil.create({ type: "gaode", layer: "time", chinaCRS: "GCJ02" }).addTo(map),
-        };
-        L.control.layers(baseLayers, overlays, { position: "topright" }).addTo(map);
+        //创建地图
+        map = new mars2d.Map("mars2dContainer", mapOptions);
       }
     </script>
   </body>

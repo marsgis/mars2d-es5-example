@@ -42,9 +42,15 @@
         map.basemap = 2017; //切换到蓝色底图
         map.setView([39.907, 116.377], 10);
 
-        $.getJSON("http://data.mars2d.cn/file/apidemo/bjgj.json", function (data) {
-          showEchartsLayer(data);
-        });
+        mars2d.Util.fetchJson({
+          url: "http://data.mars2d.cn/file/apidemo/bjgj.json",
+        })
+          .then((data) => {
+            showEchartsLayer(data);
+          })
+          .catch((error) => {
+            console.log("请求出错了", error);
+          });
       }
 
       function showEchartsLayer(data) {

@@ -40,43 +40,33 @@
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
-        //显示高校点
-        queryGaoXiaoApiData().then(function (arrPoint) {
-          //热点图
-          var layerWork = new mars2d.layer.HeatLayer(arrPoint, {
-            //radius: 20,
-            //blur: 10,
-            minOpacity: 0.3,
-            gradient: { 0.4: "blue", 0.6: "cyan", 0.7: "lime", 0.8: "yellow", 1: "red" },
-          });
-          map.addLayer(layerWork);
+        //
+        mars2d.Util.fetchJson({
+          url: "http://data.mars2d.cn/file/apidemo/heat.json",
+        })
+          .then((data) => {
+            var mpts = [];
+            var arrdata = data.Data;
+            for (var i = 0; i < arrdata.length; i++) {
+              var item = arrdata[i];
+              mpts.push([item.Y, item.X, item.Count]);
+            }
 
-          map.fitBounds(arrPoint);
-        });
-      }
+            //热点图
+            var layerWork = new mars2d.layer.HeatLayer(mpts, {
+              //radius: 20,
+              //blur: 10,
+              minOpacity: 0.3,
+              gradient: { 0.4: "blue", 0.6: "cyan", 0.7: "lime", 0.8: "yellow", 1: "red" },
+            });
+            map.addLayer(layerWork);
 
-      // 访问后端接口，取数据
-      function queryGaoXiaoApiData() {
-        return new Promise(function (resolve, reject) {
-          $.ajax({
-            url: "http://data.mars2d.cn/file/apidemo/heat.json",
-            type: "get",
-            dataType: "json",
-            success: function (data) {
-              var mpts = [];
-              var arrdata = data.Data;
-              for (var i = 0; i < arrdata.length; i++) {
-                var item = arrdata[i];
-                mpts.push([item.Y, item.X, item.Count]);
-              }
-              resolve(mpts);
-            },
-            error: function (data) {
-              reject(data);
-            },
+            map.fitBounds(mpts);
+          })
+          .catch((error) => {
+            console.log("请求出错了", error);
           });
-        });
       }
-    </script>
+      </script>
   </body>
 </html>

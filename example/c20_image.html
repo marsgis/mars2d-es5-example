@@ -90,6 +90,7 @@
         //方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
         tileLayer = new mars2d.layer.ImageLayer({
           url: "//data.mars2d.cn//file/img/radar/201906211112.PNG",
+          zIndex: 999, // 使该图层处于最上层
           rectangle: { xmin: 73.16895, xmax: 134.86816, ymin: 12.2023, ymax: 54.11485 },
           alpha: 0.7,
         });

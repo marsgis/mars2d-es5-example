@@ -42,14 +42,15 @@
         map.basemap = 2017; //切换到蓝色底图
         map.setView([38.028658, 105.403119], 4);
 
-        $.ajax({
+        mars2d.Util.fetchJson({
           url: "http://data.mars2d.cn/file/apidemo/weibo2.json",
-          type: "GET",
-          dataType: "json",
-          success: function (rs) {
-            showMapVLayer(rs);
-          },
-        });
+        })
+          .then((data) => {
+            showMapVLayer(data);
+          })
+          .catch((error) => {
+            console.log("请求出错了", error);
+          });
       }
 
       function showMapVLayer(rs) {

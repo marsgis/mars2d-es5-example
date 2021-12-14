@@ -1,0 +1,126 @@
+﻿/* 2017-9-7 17:42:13 | 修改 木遥（微信:  http://marsgis.cn/weixin.html ） */
+@charset "utf-8";
+/*widget view公共css*/
+
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+    *:before, *:after {
+        -webkit-box-sizing: border-box;
+        -moz-box-sizing: border-box;
+        box-sizing: border-box;
+    }
+
+html, body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    border: none;
+    overflow: hidden;
+    background-color: transparent !important;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    font-size: 14px;
+    font-family: "Helvetica Neue", Helvetica, Tahoma, Arial, "Microsoft Yahei", "Hiragino Sans GB", "WenQuanYi Micro Hei", sans-serif;
+}
+
+body {
+    padding: 1px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    line-height: 1.6;
+    color: #76838f;
+    background-color: #fff;
+}
+
+input, button, select, textarea {
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+}
+
+a {
+    color: #62a8ea;
+    text-decoration: none;
+}
+
+    a:hover, a:focus {
+        color: #89bceb;
+        text-decoration: underline;
+    }
+
+    a:focus {
+        outline: thin dotted;
+        outline: 5px auto -webkit-focus-ring-color;
+        outline: none;
+        outline-offset: -2px;
+    }
+
+figure {
+    margin: 0;
+}
+
+img {
+    vertical-align: middle;
+}
+
+
+
+/*滚动条*/
+body, html {
+    scrollbar-base-color: #f4f7fc;
+    scrollbar-track-color: #f4f7fc;
+    scrollbar-face-color: #797979;
+    scrollbar-arrow-color: #f4f7fc;
+    scrollbar-shadow-color: #f4f7fc;
+    scrollbar-3dlight-color: #f4f7fc;
+    scrollbar-highlight-color: #f4f7fc;
+    scrollbar-darkshadow-color: #f4f7fc;
+}
+
+::-webkit-scrollbar-button {
+    height: 0;
+    width: 0;
+    display: none;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-track, ::-webkit-scrollbar-thumb {
+    border: 0;
+}
+
+::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+    background: transparent;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    padding-top: 100px;
+    -webkit-box-shadow: inset 1px 1px 0 rgba(0, 0, 0, .1), inset -1px -1px 0 rgba(0, 0, 0, .07);
+    background-color: #797979;
+    min-height: 28px;
+    border-radius: 4px;
+    background-clip: padding-box;
+}
+
+::-webkit-scrollbar-track, ::-webkit-scrollbar-thumb {
+    border: 0;
+}
+
+    ::-webkit-scrollbar-thumb:hover {
+        -webkit-box-shadow: inset 1px 1px 1px rgba(0, 0, 0, .25);
+        background-color: rgba(0, 0, 0, .4);
+    }
+
+    ::-webkit-scrollbar-thumb:active {
+        -webkit-box-shadow: inset 1px 1px 3px rgba(0, 0, 0, .35);
+        background-color: rgba(0, 0, 0, .5);
+    }

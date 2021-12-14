@@ -41,14 +41,15 @@
 
         map.setView([39.93, 116.402], 12);
 
-        $.ajax({
+        mars2d.Util.fetchJson({
           url: "http://data.mars2d.cn/file/geojson/beijing-village.json",
-          type: "GET",
-          dataType: "json",
-          success: function (rs) {
-            showMapVLayer(rs);
-          },
-        });
+        })
+          .then((data) => {
+            showMapVLayer(data);
+          })
+          .catch((error) => {
+            console.log("请求出错了", error);
+          });
       }
 
       function showMapVLayer(geojson) {

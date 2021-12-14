@@ -34,28 +34,28 @@
     <div id="mars2dContainer" class="mars2d-container"></div>
 
     <script type="text/javascript">
-      $(document).ready(function () {
-        //读取 config.json 配置文件
-        let configUrl = "config/config.json";
-        mars2d.axios
-          .get(configUrl)
-          .then(function (response) {
+            $(document).ready(function () {
+  //读取 config.json 配置文件
+  let configUrl = "config/config.json";
+  mars2d.axios
+    .get(configUrl)
+    .then(function (response) {
             //构建地图
             initMap(response.data.map);
-          })
-          .catch(function (error) {
+    })
+    .catch(function (error) {
             console.log(error);
             haoutil.alert(error && error.message, "出错了");
-          });
-      });
+    });
+});
 
-      function initMap(options) {
-        //合并属性参数，可覆盖config.json中的对应配置
-        let mapOptions = mars2d.Util.merge(options, {});
+function initMap(options) {
+  //合并属性参数，可覆盖config.json中的对应配置
+  let mapOptions = mars2d.Util.merge(options, {});
 
-        //创建地图
-        var map = new mars2d.Map("mars2dContainer", mapOptions);
-      }
+  //创建地图
+  var map = new mars2d.Map("mars2dContainer", mapOptions);
+}
     </script>
   </body>
 </html>

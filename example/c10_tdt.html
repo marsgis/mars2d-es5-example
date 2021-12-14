@@ -20,7 +20,7 @@
 
     <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
 
-   <script
+    <script
       type="text/javascript"
       src="../lib/include-lib.js"
       libpath="../lib/"
@@ -31,53 +31,45 @@
   <body>
     <div id="mars2dContainer" class="mars2d-container"></div>
 
+    <script src="./js/common.js"></script>
     <script type="text/javascript">
-      $(document).ready(function () {
-        initMap();
-      });
+      "use script"; //开发环境建议开启严格模式
 
-      //地图加载
-      function initMap() {
-        var map = new mars2d.Map("mars2dContainer", {
-          zoom: 7,
-          center: [31.834912, 117.220102],
-          control: {
-            scale: true,
-            locationBar: {
-              template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>层级:{level}</div>",
+      var map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        let mapOptions = mars2d.Util.merge(options, {
+          basemaps: [
+            {
+              type: "group",
+              name: "天地图电子",
+              layers: [
+                { type: "tdt", layer: "vec_d", key: mars2d.Token.tiandituArr },
+                { type: "tdt", layer: "vec_z", key: mars2d.Token.tiandituArr },
+              ],
+              show: true,
             },
-            zoom: { position: "bottomright" },
-            toolBar: { position: "bottomright" },
-          },
+            {
+              type: "group",
+              name: "天地图影像",
+              layers: [
+                { type: "tdt", layer: "img_d", key: mars2d.Token.tiandituArr },
+                { type: "tdt", layer: "img_z", key: mars2d.Token.tiandituArr },
+              ],
+            },
+            {
+              type: "group",
+              name: "天地图地形",
+              layers: [
+                { type: "tdt", layer: "ter_d", key: mars2d.Token.tiandituArr, errorTileUrl: "img/tile/errortile.png" },
+                { type: "tdt", layer: "ter_z", key: mars2d.Token.tiandituArr },
+              ],
+            },
+          ],
         });
-
-        //地图底图 及图层控制控件
-        var baseLayers = {
-          天地图地图: mars2d.LayerUtil.create({
-            type: "group",
-            layers: [
-              { type: "tdt", layer: "vec_d", key: mars2d.Token.tiandituArr },
-              { type: "tdt", layer: "vec_z", key: mars2d.Token.tiandituArr },
-            ],
-            show: true,
-          }).addTo(map),
-          天地图影像: mars2d.LayerUtil.create({
-            type: "group",
-            layers: [
-              { type: "tdt", layer: "img_d", key: mars2d.Token.tiandituArr },
-              { type: "tdt", layer: "img_z", key: mars2d.Token.tiandituArr },
-            ],
-          }),
-          天地图地形: mars2d.LayerUtil.create({
-            type: "group",
-            layers: [
-              { type: "tdt", layer: "ter_d", key: mars2d.Token.tiandituArr },
-              { type: "tdt", layer: "ter_z", key: mars2d.Token.tiandituArr },
-            ],
-          }),
-        };
-        var overlays = {};
-        L.control.layers(baseLayers, overlays, { position: "topright" }).addTo(map);
+        //创建地图
+        map = new mars2d.Map("mars2dContainer", mapOptions);
 
         //测试坐标信息
         activatePOIQuery(map);

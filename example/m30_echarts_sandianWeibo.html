@@ -42,11 +42,10 @@
         map.basemap = 2017; //切换到蓝色底图
         map.setView([30.652, 107.661], 5);
 
-        $.ajax({
+        mars2d.Util.fetchJson({
           url: "http://data.mars2d.cn/file/apidemo/weibo-echars.json",
-          type: "GET",
-          dataType: "json",
-          success: function (weiboData) {
+        })
+          .then((weiboData) => {
             weiboData = weiboData.map(function (serieData, idx) {
               var px = serieData[0] / 1000;
               var py = serieData[1] / 1000;
@@ -66,8 +65,10 @@
             });
 
             showEchartsLayer(weiboData);
-          },
-        });
+          })
+          .catch((error) => {
+            console.log("请求出错了", error);
+          });
       }
 
       function showEchartsLayer(weiboData) {

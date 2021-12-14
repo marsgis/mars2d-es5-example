@@ -31,64 +31,45 @@
   <body>
     <div id="mars2dContainer" class="mars2d-container"></div>
 
+    <script src="./js/common.js"></script>
     <script type="text/javascript">
-      $(document).ready(function () {
-        initMap();
-      });
+      "use script"; //开发环境建议开启严格模式
 
-      function initMap() {
-        //构造map
-        var map = new mars2d.Map("mars2dContainer", {
-          zoom: 11,
-          center: [31.847574, 117.281904],
+      var map;
 
-          control: {
-            scale: true,
-            locationBar: {
-              template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>层级:{level}</div>",
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        let mapOptions = mars2d.Util.merge(options, {
+          operationallayers: [
+            {
+              name: "基础教育设施",
+              type: "wms",
+              url: "http://server.mars2d.cn/geoserver/mars/wms",
+              layers: "mars:hfjy",
+              transparent: true,
+              format: "image/png",
             },
-            zoom: { position: "bottomright" },
-            toolBar: { position: "bottomright" },
-          },
+            {
+              name: "道路",
+              type: "wms",
+              url: "http://server.mars2d.cn/geoserver/mars/wms",
+              layers: "mars:hfdl",
+              transparent: true,
+              format: "image/png",
+              show: true,
+            },
+            {
+              name: "规划图",
+              type: "wms",
+              url: "http://server.mars2d.cn/geoserver/mars/wms",
+              layers: "mars:hfgh",
+              transparent: true,
+              format: "image/png",
+            },
+          ],
         });
-
-        //地图底图 及图层控制控件
-        var key = ["ad5bee3fe473a639887fa9d57a670c6e"];
-        var baseLayers = {
-          天地图地图: mars2d.LayerUtil.create({ type: "tdt", layer: "vec", key: key }).addTo(map),
-          天地图影像: mars2d.LayerUtil.create({ type: "tdt", layer: "img", key: key }),
-          天地图地形: mars2d.LayerUtil.create({ type: "tdt", layer: "ter", key: key }),
-        };
-
-        var overlays = {
-          教育点: mars2d.LayerUtil.create({
-            name: "基础教育设施",
-            type: "wms",
-            url: "http://server.mars2d.cn/geoserver/mars/wms",
-            layers: "mars:hfjy",
-            transparent: true,
-            format: "image/png",
-          }),
-
-          道路线: mars2d.LayerUtil.create({
-            name: "道路",
-            type: "wms",
-            url: "http://server.mars2d.cn/geoserver/mars/wms",
-            layers: "mars:hfdl",
-            transparent: true,
-            format: "image/png",
-          }).addTo(map),
-
-          规划面: mars2d.LayerUtil.create({
-            name: "规划图",
-            type: "wms",
-            url: "http://server.mars2d.cn/geoserver/mars/wms",
-            layers: "mars:hfgh",
-            transparent: true,
-            format: "image/png",
-          }),
-        };
-        L.control.layers(baseLayers, overlays, { position: "topleft" }).addTo(map);
+        //创建地图
+        map = new mars2d.Map("mars2dContainer", mapOptions);
       }
     </script>
   </body>

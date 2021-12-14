@@ -44,7 +44,7 @@
         //合并属性参数，可覆盖config.json中的对应配置
         let mapOptions = mars2d.Util.merge(options, {
           zoom: 16,
-         "center": { "lng": 116.445315, lat:39.916728 },
+          center: { lng: 116.445315, lat: 39.916728 },
         });
 
         //创建地图
@@ -61,10 +61,16 @@
             showPopup(e);
           });
 
-        $.get("http://data.mars2d.cn/file/geojson/buildings-bj.json", function (data) {
-          geojson = data;
-          osmb.set(geojson);
-        });
+        mars2d.Util.fetchJson({
+          url: "http://data.mars2d.cn/file/geojson/buildings-bj.json",
+        })
+          .then((data) => {
+            geojson = data;
+            osmb.set(geojson);
+          })
+          .catch((error) => {
+            console.log("请求出错了", error);
+          });
       }
 
       function showPopup(evt) {

@@ -43,17 +43,16 @@
         //合并属性参数，可覆盖config.json中的对应配置
         let mapOptions = mars2d.Util.merge(options, {
           zoom: 7,
-         "center": { "lng": 118.100831, lat:31.318573 },
+          center: { lng: 118.100831, lat: 31.318573 },
         });
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
-        $.ajax({
+        mars2d.Util.fetchJson({
           url: "http://data.mars2d.cn/file/geojson/urban.json",
-          type: "GET",
-          dataType: "json",
-          success: function (geojson) {
+        })
+          .then((geojson) => {
             for (var i = 0; i < geojson.features.length; i++) {
               var feature = geojson.features[i];
               if (feature.properties.area_sqkm > 1000) {
@@ -64,8 +63,10 @@
             }
             haoutil.msg("共渲染" + geojson.features.length + "个面");
             showData(geojson);
-          },
-        });
+          })
+          .catch((error) => {
+            console.log("请求出错了", error);
+          });
       }
 
       function showData(geojsonData) {

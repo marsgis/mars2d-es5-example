@@ -20,7 +20,7 @@
 
     <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
 
-   <script
+    <script
       type="text/javascript"
       src="../lib/include-lib.js"
       libpath="../lib/"
@@ -31,47 +31,37 @@
   <body>
     <div id="mars2dContainer" class="mars2d-container"></div>
 
+    <script src="./js/common.js"></script>
     <script type="text/javascript">
-      $(document).ready(function () {
-        initMap();
-      });
+      "use script"; //开发环境建议开启严格模式
 
-      function initMap() {
-        //构造map
-        var map = new mars2d.Map("mars2dContainer", {
+      var map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        let mapOptions = mars2d.Util.merge(options, {
           crs: mars2d.CRS.EPSG4326,
-          zoom: 6,
-          center: [27.630615, 111.654053],
-          control: {
-            scale: true,
-            locationBar: {
-              template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>层级:{level}</div>",
+          basemaps: [
+            {
+              type: "group",
+              name: "国家天地图",
+              layers: [
+                { type: "tdt", layer: "vec_d", crs: "EPSG:4326", key: mars2d.Token.tiandituArr },
+                { type: "tdt", layer: "vec_z", crs: "EPSG:4326", key: mars2d.Token.tiandituArr },
+              ],
+              show: true,
             },
-            zoom: { position: "bottomright" },
-            toolBar: { position: "bottomright" },
-          },
+            {
+              name: "wms地图",
+              type: "wms",
+              url: "http://vmap0.tiles.osgeo.org/wms/vmap0",
+              layers: "basic",
+              format: "image/jpeg",
+            },
+          ],
         });
-
-        //地图底图 及图层控制控件
-        var baseLayers = {
-          单张图片: mars2d.LayerUtil.create({
-            type: "image",
-            url: "img/simple/world.jpg",
-            bounds: [
-              [-90, -180],
-              [90, 180],
-            ],
-          }),
-          国家天地图: mars2d.LayerUtil.create({ type: "tdt", crs: "EPSG:4326", layer: "vec", key: mars2d.Token.tiandituArr }).addTo(map),
-          基础地图: mars2d.LayerUtil.create({
-            type: "wms",
-            url: "http://vmap0.tiles.osgeo.org/wms/vmap0",
-            layers: "basic",
-            format: "image/jpeg",
-          }),
-        };
-        var overlays = {};
-        L.control.layers(baseLayers, overlays, { position: "topleft" }).addTo(map);
+        //创建地图
+        map = new mars2d.Map("mars2dContainer", mapOptions);
       }
     </script>
   </body>

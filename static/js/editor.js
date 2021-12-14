@@ -1,4 +1,10 @@
 /* 2017-12-4 15:15:45 | 修改 木遥（微信:  http://marsgis.cn/weixin.html ） */
+
+var protocol = window.location.protocol;
+if (protocol == "https:") {
+  window.location.href = window.location.href.replace("https", "http");
+}
+
 $(document).ready(function () {
   initPage();
   bindEvents();
@@ -20,11 +26,7 @@ function screenResize() {
 }
 
 function findConfig(locationParam, search) {
-  if (search && search.length > 1) {
-    search = search.substr(1);
-  }
-
-  let exConfig = haoutil.storage.get("exConfig");
+  let exConfig = haoutil.storage.get("mars2d-es5-example");
   if (!exConfig) {
     return;
   }
@@ -46,16 +48,9 @@ function findConfig(locationParam, search) {
       }
       for (let index3 = 0; index3 < item2.children.length; index3++) {
         let item3 = item2.children[index3];
-        if (search) {
-          if (item3.fileName == locationParam && item3.params == search) {
-            document.title = item3.name + " 【" + item2.name + " " + item.name + "】 | Mars2D示例 | 合肥火星科技有限公司";
-            return;
-          }
-        } else {
-          if (item3.fileName == locationParam) {
-            document.title = item3.name + " 【" + item2.name + " " + item.name + "】 | Mars2D示例 | 合肥火星科技有限公司";
-            return;
-          }
+        if (item3.fileName == locationParam) {
+          document.title = item3.name + " 【" + item2.name + " " + item.name + "】 | Mars2D示例 | 合肥火星科技有限公司";
+          return;
         }
       }
     }
@@ -126,9 +121,14 @@ function loadExampleHtml() {
 }
 
 function getLocationParam() {
+  let id = haoutil.system.getRequestByName("id");
+  if (id) {
+    return id;
+  }
+
   let param = window.location.toString();
   if (param.indexOf("#") === -1) {
-    return "11_online_tdt";
+    return "";
   }
   param = param.split("#");
   if (param && param.length > 0) {

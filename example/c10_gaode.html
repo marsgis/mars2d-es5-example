@@ -31,36 +31,54 @@
   <body>
     <div id="mars2dContainer" class="mars2d-container"></div>
 
+    <script src="./js/common.js"></script>
     <script type="text/javascript">
-      $(document).ready(function () {
-        initMap();
-      });
+      "use script"; //开发环境建议开启严格模式
 
-      //地图加载
-      function initMap() {
-        var map = new mars2d.Map("mars2dContainer", {
-          zoom: 12,
-          center: [31.834912, 117.220102],
-          control: {
-            scale: true,
-            locationBar: {
-              template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>层级:{level}</div>",
+      var map;
+
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        let mapOptions = mars2d.Util.merge(options, {
+          basemaps: [
+            {
+              name: "高德地图",
+              type: "gaode",
+              layer: "vec",
+              show: true,
             },
-            zoom: { position: "bottomright" },
-            toolBar: { position: "bottomright" },
-          },
+            {
+              name: "高德卫星",
+              type: "group",
+              layers: [
+                {
+                  type: "gaode",
+                  layer: "img_d",
+                },
+                {
+                  type: "gaode",
+                  layer: "img_z",
+                },
+              ],
+            },
+            {
+              name: "高德大字体地图",
+              type: "gaode",
+              layer: "vec",
+              bigfont: true,
+            },
+          ],
+          operationallayers: [
+            {
+              name: "实时交通信息",
+              type: "gaode",
+              layer: "time",
+            },
+          ],
         });
 
-        //地图底图 及图层控制控件
-        var baseLayers = {
-          高德地图: mars2d.LayerUtil.create({ type: "gaode", layer: "vec" }).addTo(map),
-          高德影像: mars2d.LayerUtil.create({ type: "gaode", layer: "img_d" }),
-          "高德地图-大字体": mars2d.LayerUtil.create({ type: "gaode", layer: "vec", bigfont: true }),
-        };
-        var overlays = {
-          实时交通信息: mars2d.LayerUtil.create({ type: "gaode", layer: "time" }),
-        };
-        L.control.layers(baseLayers, overlays, { position: "topright" }).addTo(map);
+        //创建地图
+        map = new mars2d.Map("mars2dContainer", mapOptions);
 
         //测试坐标信息
         activatePOIQuery(map);

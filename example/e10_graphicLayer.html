@@ -29,6 +29,7 @@
     ></script>
 
     <link href="css/style.css" rel="stylesheet" />
+    <link href="css/divGraphic.css" rel="stylesheet" />
   </head>
   <body>
     <div id="mars2dContainer" class="mars2d-container"></div>
@@ -82,7 +83,10 @@
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        let mapOptions = mars2d.Util.merge(options, {});
+        let mapOptions = mars2d.Util.merge(options, {
+          zoom: 13,
+          center: { lng: 117.251587, lat: 31.81748 },
+        });
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
@@ -103,8 +107,19 @@
         //加一些演示数据
         addGraphic_01(graphicLayer);
         addGraphic_02(graphicLayer);
+        addGraphic_03(graphicLayer);
+        addGraphic_04(graphicLayer);
+        addGraphic_05(graphicLayer);
+        addGraphic_06(graphicLayer);
+        addGraphic_07(graphicLayer);
+        addGraphic_08(graphicLayer);
+        addGraphic_09(graphicLayer);
+        addGraphic_10(graphicLayer);
+        addGraphic_11(graphicLayer);
+        addGraphic_12(graphicLayer);
       }
 
+      // 图标点
       function addGraphic_01(graphicLayer) {
         var graphic = new mars2d.graphic.Marker({
           latlng: [31.854628, 117.245425],
@@ -118,8 +133,259 @@
         graphicLayer.addGraphic(graphic);
       }
 
+      //运动点
       function addGraphic_02(graphicLayer) {
-        //
+        let latlngs = [
+          [31.85044, 117.102757],
+          [31.851607, 117.143269],
+          [31.852919, 117.185154],
+          [31.857002, 117.216396],
+          [31.851607, 117.233219],
+          [31.854085, 117.253132],
+          [31.872893, 117.252102],
+          [31.872164, 117.236652],
+          [31.873184, 117.22086],
+          [31.875663, 117.21365],
+        ];
+        var movingMarker = new mars2d.graphic.MovingMarker({
+          latlngs: latlngs,
+          durations: [3000, 9000, 9000, 4000, 4000, 4000, 4000, 4000, 4000, 4000],
+          style: {
+            image: "img/marker/bike.png",
+            iconSize: [25, 39],
+            autostart: true,
+          },
+        });
+        graphicLayer.addGraphic(movingMarker);
+
+        //放个线参考
+        var graphic = new mars2d.graphic.Polyline({
+          latlngs: latlngs,
+          style: {
+            color: "#0000ff",
+            width: 2,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+
+        movingMarker.on("end", function () {
+          movingMarker.bindPopup("<b>运动完成了!</b>", { closeOnClick: false }).openPopup();
+        });
+      }
+
+      // 像素点
+      function addGraphic_03(graphicLayer) {
+        var graphic = new mars2d.graphic.Point({
+          latlng: L.latLng(31.842639, 117.225795),
+          style: {
+            pixelSize: 10,
+            // fill: true,
+            color: "#00ffff",
+            opacity: 0.3,
+            outline: true,
+            outlineColor: "#00ff00",
+            outlineOpacity: 1.0,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+      }
+
+      // 文本
+      function addGraphic_04(graphicLayer) {
+        var graphic = new mars2d.graphic.Label({
+          latlng: L.latLng(31.818606, 117.296904),
+          style: {
+            text: "安徽合肥欢迎您",
+            color: "#0000FF",
+            font_size: 25,
+            font_family: "楷体",
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+      }
+
+      //一个黑色面板，指向左下角黄色连线
+      function addGraphic_05(graphicLayer) {
+        var graphic = new mars2d.graphic.DivGraphic({
+          latlng: [31.822294, 117.221761],
+          style: {
+            html: `<div class="marsBlackPanel  animation-spaceInDown">
+                    <div class="marsBlackPanel-text">大湖名城,创新高地</div>
+                </div>`,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+
+        // graphic.testPoint = true; //打开测试点，与DIV点进行对比位置调整css
+      }
+
+      // 圆
+      function addGraphic_06(graphicLayer) {
+        var graphic = new mars2d.graphic.Circle({
+          latlng: L.latLng(31.818606, 117.296904),
+          style: {
+            radius: 2500, //单位：米
+            fill: true,
+            fillColor: "#ff0000",
+            fillOpacity: 0.3,
+            outline: false,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+      }
+
+      // 椭圆
+      function addGraphic_07(graphicLayer) {
+        var graphic = new mars2d.graphic.Ellipse({
+          latlng: [31.81748, 117.251587],
+          style: {
+            semiMinorAxis: 1000, //单位：米
+            semiMajorAxis: 2000,
+            rotation: 0,
+
+            fill: true,
+            fillColor: "#00ffff",
+            fillOpacity: 0.3,
+            outline: true,
+            outlineWidth: 2,
+            outlineColor: "#00ff00",
+            outlineOpacity: 0.5,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+      }
+
+      // 线
+      function addGraphic_08(graphicLayer) {
+        var colors = ["rgb(255, 0, 100)", "rgb(20, 200, 100)", "rgb(0, 0, 255)"];
+
+        var graphic = new mars2d.graphic.Polyline({
+          latlngs: [
+            [31.809299, 117.163284],
+            [31.777104, 117.169052],
+            [31.764332, 117.211006],
+          ],
+          style: {
+            width: 4,
+            gradientColors: colors,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+      }
+
+      // 平行线
+      function addGraphic_09(graphicLayer) {
+        var coords = [
+          [31.853069, 117.154857],
+          [31.848546, 117.15404],
+          [31.846285, 117.153482],
+          [31.844166, 117.151462],
+          [31.84183, 117.150301],
+          [31.839572, 117.151505],
+          [31.836659, 117.153999],
+          [31.834728, 117.155159],
+          [31.833051, 117.155461],
+        ];
+
+        var middleLine = new mars2d.graphic.Polyline({
+          latlngs: coords,
+          style: {
+            width: 1,
+            dashArray: "5,10",
+            color: "black",
+            opacity: 0.3,
+          },
+        });
+        graphicLayer.addGraphic(middleLine);
+
+        var leftLine = new mars2d.graphic.Polyline({
+          latlngs: coords,
+          style: {
+            color: "#f00",
+            opacity: 1,
+            offset: -6,
+          },
+        });
+        graphicLayer.addGraphic(leftLine);
+
+        var rightLine = new mars2d.graphic.Polyline({
+          latlngs: coords,
+          style: {
+            color: "#080",
+            opacity: 1,
+            offset: 6,
+          },
+        });
+        graphicLayer.addGraphic(rightLine);
+      }
+
+      // 矩形
+      function addGraphic_10(graphicLayer) {
+        let latlngs = [
+          [31.870639, 117.271662],
+          [31.8491, 117.247705],
+        ];
+        var graphic = new mars2d.graphic.Rectangle({
+          latlngs: latlngs,
+          style: {
+            fill: true,
+            fillColor: "#3388ff",
+            fillOpacity: 0.3,
+            outline: true,
+            outlineWidth: 2,
+            outlineColor: "#0000FF",
+            outlineOpacity: 0.5,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+      }
+
+      // 图片
+      function addGraphic_11(graphicLayer) {
+        var graphic = new mars2d.graphic.Image({
+          latlngs: mars2d.PointTrans.coords2latlngs([
+            [117.170734, 31.788157],
+            [117.170734, 31.823752],
+            [117.206955, 31.823752],
+            [117.206955, 31.788157],
+            [117.170734, 31.788157],
+          ]),
+          style: {
+            opacity: 1,
+            stroke: false,
+            fill: true,
+            fillColor: "#ffffff",
+            fillOpacity: 0.01,
+            url: "img/simple/gugong.jpg",
+          },
+        });
+        graphicLayer.addGraphic(graphic);
+      }
+
+      // 水面
+      function addGraphic_12(graphicLayer) {
+        //经纬度 转为leafelt的纬度、经度标准
+        let latlngs = mars2d.PointTrans.coords2latlngs([
+          [117.216386, 31.815376, 35.16],
+          [117.222533, 31.81729, 29.21],
+          [117.22642, 31.814983, 28.43],
+          [117.22681, 31.810739, 28.55],
+          [117.212868, 31.811302, 34.4],
+          [117.212538, 31.81424, 31.87],
+          [117.214681, 31.81402, 32.97],
+        ]);
+        var graphic = new mars2d.graphic.Polygon({
+          latlngs: latlngs,
+          style: {
+            fill: true,
+            image: "img/fill/movingRiver.png",
+            outline: true,
+            outlineWidth: 6,
+            outlineColor: "#00ffff",
+            outlineOpacity: 1.0,
+          },
+        });
+        graphicLayer.addGraphic(graphic);
       }
 
       //在图层级处理一些事物
@@ -341,6 +607,6 @@
           },
         ]);
       }
-     </script>
+    </script>
   </body>
 </html>

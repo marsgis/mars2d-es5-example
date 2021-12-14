@@ -31,43 +31,38 @@
   <body>
     <div id="mars2dContainer" class="mars2d-container"></div>
 
+    <script src="./js/common.js"></script>
     <script type="text/javascript">
-      $(document).ready(function () {
-        initMap();
-      });
+      "use script"; //开发环境建议开启严格模式
 
-      //地图加载
-      function initMap() {
-        var map = new mars2d.Map("mars2dContainer", {
-          zoom: 7,
-          center: [31.834912, 117.220102],
-          control: {
-            scale: true,
-            locationBar: {
-              template: "<div>经度:{lng}</div> <div>纬度:{lat}</div> <div>层级:{level}</div>",
+      function initMap(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        var mapOptions = mars2d.Util.merge(options, {
+          basemaps: [
+            {
+              name: "电子地图",
+              type: "arcgis",
+              url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer",
+              chinaCRS: "GCJ02",
+              show: true,
             },
-            zoom: { position: "bottomright" },
-            toolBar: { position: "bottomright" },
-          },
+            {
+              name: "卫星地图",
+              type: "arcgis",
+              url: "http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer",
+              chinaCRS: "GCJ02",
+            },
+            {
+              name: "藏蓝地图",
+              type: "arcgis",
+              url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+              chinaCRS: "GCJ02",
+            },
+          ],
         });
 
-        //地图底图 及图层控制控件
-        var baseLayers = {
-          电子地图: new mars2d.layer.ArcGisLayer({
-            url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineCommunity/MapServer",
-            chinaCRS: "GCJ02",
-          }).addTo(map),
-          卫星地图: new mars2d.layer.ArcGisLayer({
-            url: "http://services.arcgisonline.com/arcgis/rest/services/World_Imagery/MapServer",
-            chinaCRS: "GCJ02",
-          }),
-          藏蓝地图: new mars2d.layer.ArcGisLayer({
-            url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-            chinaCRS: "GCJ02",
-          }),
-        };
-        var overlays = {};
-        L.control.layers(baseLayers, overlays, { position: "topright" }).addTo(map);
+        //创建地图
+        var map = new mars2d.Map("mars2dContainer", mapOptions);
 
         //测试坐标信息
         activatePOIQuery(map);

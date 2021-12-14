@@ -11,7 +11,10 @@ $(document).ready(function () {
     $("img.chart-thumb").lazyload();
   }, 1000);
 
-  fetch(window.exampleConfig || "../data/example.json")
+  //记录url传入参数
+  let request = haoutil.system.getRequest();
+
+  fetch(request.json || window.exampleConfig || "../data/example.json")
     .then(function (response) {
       if (!response.ok) {
         let error = new Error(response.statusText);
@@ -38,7 +41,7 @@ $(document).ready(function () {
         }
       });
 
-      haoutil.storage.add("exConfig", JSON.stringify(exConfig));
+      haoutil.storage.add("mars2d-es5-example", JSON.stringify(exConfig));
 
       initPage();
     })
@@ -166,38 +169,24 @@ function createGalleryCharts(examples) {
 
 function createGalleryChart(example) {
   let _path = window.examplePath || "example/";
-  let _widgetpath = window.widgetPath || "//mars2d.cn/project/zhts/map.html";
+  let _id = fileName2Id(example.fileName);
 
-  let target = _path + "editor.html",
-    title = example.name,
-    href = fileName2Id(example.fileName),
-    thumbnail = (window.exampleIconPath || "../data/exampleIcon/") + (example.thumbnail || "");
-
-  let isWidget = false;
+  let editorUrl = _path + "editor.html?id=" + _id;
+  if (window.autoShowCode) {
+    editorUrl += "&code=true&";
+  }
   if (example.params) {
-    target += "?" + (window.autoShowCode ? "code=true&" : "") + example.params;
-
-    if (example.params.indexOf("widget=") != -1) {
-      if (!window.showWidget) {
-        return false;
-      }
-      isWidget = true;
-      target = _widgetpath + "?onlyStart=true&name=" + title + "&" + example.params;
-    }
-  } else {
-    target += "?" + (window.autoShowCode ? "code=true&" : "");
+    editorUrl += "&" + example.params;
   }
 
-  if (href) {
-    target = target + "#" + href;
-  }
-
+  let title = example.name;
   let msg = title + " v" + (example.version || "");
 
-  let chartDiv = $("<div class='col-xlg-2 col-lg-3 col-md-4 col-sm-6 col-xs-12'><a target='_blank'href='" + _path + href + ".html'></a></div>");
+  let chartDiv = $("<div class='col-xlg-2 col-lg-3 col-md-4 col-sm-6 col-xs-12'><a target='_blank'href='" + _path + _id + ".html'></a></div>");
   let chart = $('<div class="chart"></div>');
-  let link = $("<a class='chart-link' target='_blank' href='" + target + "'></a>");
+  let link = $("<a class='chart-link' target='_blank' href='" + editorUrl + "'></a>");
   let chartTitle = $("<h5 class='chart-title'  title='" + msg + "' >" + title + "</h5>");
+  let thumbnail = (window.exampleIconPath || "../data/exampleIcon/") + (example.thumbnail || "");
   let thumb = $("<img class='chart-area' src='" + thumbnail + "' style='display: inline'>");
 
   if (example.plugins) {
@@ -212,15 +201,7 @@ function createGalleryChart(example) {
         "插件]</span></h5>"
     );
   }
-  if (isWidget) {
-    msg += "\n该功能属于项目内功能，此处仅做演示，具体交付依赖是否选择对应项目。";
-    chartTitle = $("<h5 class='chart-title' title='" + msg + "' >" + title + "<span style='color:rgba(0, 147, 255, 0.7)'>[项目widget]</span></h5>");
-  }
 
-  //最新加的示例
-  // if (window.mars2d.version == example.version) {
-  //     $('<span class="newTitle" title="新添加示例">新</span>').appendTo(chart);
-  // }
   chartDiv.attr("title", msg);
 
   chartTitle.appendTo(link);

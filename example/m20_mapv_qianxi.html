@@ -42,14 +42,15 @@
         map.basemap = 2017; //切换到蓝色底图
         map.setView([33.468108, 112.939453], 5);
 
-        $.ajax({
+        mars2d.Util.fetchJson({
           url: "http://data.mars2d.cn/file/geojson/mapvchina.json",
-          type: "GET",
-          dataType: "json",
-          success: function (rs) {
-            showMapVLayer(rs);
-          },
-        });
+        })
+          .then((data) => {
+            showMapVLayer(data);
+          })
+          .catch((error) => {
+            console.log("请求出错了", error);
+          });
       }
 
       function showMapVLayer(geojson) {

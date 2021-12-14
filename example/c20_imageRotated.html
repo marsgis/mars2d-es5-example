@@ -38,7 +38,7 @@
         <input type="button" value="清除" onclick="workDraw.clearDraw();" />
         <input id="btnSave" type="button" value="保存" />
         <br />-->
-      透明度 &nbsp; <label id="lblOpacity">100%</label>
+      透明度 &nbsp; <label id="lblOpacity">80%</label>
       <input id="imgOpacity" type="range" />
     </div>
 
@@ -89,7 +89,7 @@
           min: 0,
           max: 100,
           step: 1,
-          value: 100,
+          value: 80,
           onChange: function (value, bfb) {
             $("#lblOpacity").html(bfb + "%");
 

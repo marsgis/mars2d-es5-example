@@ -65,8 +65,9 @@
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
         var mapOptions = mars2d.Util.merge(options, {
+          zoom:10,
           scene: {
-            center: { lat: 31.255881, lng: 117.271026, alt: 60133, heading: 360, pitch: -46 },
+            center: { lat: 31.843733, lng:117.230988},
           },
         });
 
@@ -116,16 +117,15 @@
 
         for (var i = 0; i < polygons.length; i++) {
           var item = polygons[i];
-
-          let graphic = new mars2d.graphic.PolygonEntity({
-            positions: item.positions,
+          let graphic = new mars2d.graphic.Polygon({
+            latlngs: item.latlngs,
             style: {
-              color: "#ffff00",
-              opacity: 0.2,
+              fillColor: "#ffff00",
+              fillOpacity: 0.5,
               outline: true,
               outlineWidth: 2,
-              outlineColor: "#ffff00",
-              outlineOpacity: 0.5,
+              outlineColor: "red",
+              outlineOpacity: 0.3,
               clampToGround: true,
             },
             attr: item.attr,
@@ -144,8 +144,8 @@
         for (var i = 0; i < points.length; i++) {
           var item = points[i];
 
-          let graphic = new mars2d.graphic.PointPrimitive({
-            position: item.position,
+          let graphic = new mars2d.graphic.Point({
+            latlng: item.latlng,
             style: {
               color: "#ffff00",
               pixelSize: 8,

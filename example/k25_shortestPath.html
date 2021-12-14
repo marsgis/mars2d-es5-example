@@ -85,11 +85,11 @@
           graphicLayer.startDraw({
             type: "polygon",
             style: {
-              color: "#00ffff",
-              opacity: 0.4,
+              fillColor: "#66FF66",
+              fillOpacity: 0.4,
               outline: true,
               outlineWidth: 1,
-              outlineColor: "#ffffff",
+              outlineColor: "red",
             },
           });
         });
@@ -99,7 +99,7 @@
           pointAndLine.startDraw({
             type: "point",
             style: {
-              pixelSize: 10,
+              pixelSize: 5,
               color: "red",
               label: {
                 text: "起点",
@@ -117,7 +117,7 @@
           pointAndLine.startDraw({
             type: "point",
             style: {
-              pixelSize: 10,
+              pixelSize: 5,
               color: "red",
               label: {
                 text: "终点",
@@ -156,8 +156,14 @@
         var path = turf.shortestPath(startPoint, endPoint, options);
 
         var positions = path.geometry.coordinates;
-        let polyonLine = new mars2d.graphic.PolylineEntity({
-          positions: positions,
+
+
+        let latlngs = mars2d.PointTrans.coords2latlngs([
+          positions
+        ]);
+
+        let polyonLine = new mars2d.graphic.Polyline({
+          latlngs: latlngs,
           style: {
             color: " #55ff33",
           },

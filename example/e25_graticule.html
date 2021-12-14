@@ -53,7 +53,11 @@
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
         //经纬网
-        let layer = new mars2d.layer.GraticuleLayer();
+        let layer = new mars2d.layer.GraticuleLayer({
+          name: "经纬网",
+          type: "graticule",
+          show: true,
+        });
         map.addLayer(layer);
       }
     </script>

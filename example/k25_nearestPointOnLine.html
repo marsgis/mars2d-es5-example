@@ -81,9 +81,8 @@
           graphicLayer.startDraw({
             type: "polyline",
             style: {
-              color: "#55ff33",
+              color: "#0000ff",
               width: 3,
-              clampToGround: true,
             },
             success: function (graphic) {},
           });
@@ -92,12 +91,14 @@
         $("#btn_drawPoint").click(function () {
           pointLayer.clear();
           pointLayer.startDraw({
-            type: "point",
+            type: "marker",
             style: {
-              pixelSize: 10,
-              color: "red",
+              image: "img/marker/mark1.png",
+              horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+              verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
             },
             success: function (graphic) {
+              graphic.bindTooltip("原始点");
               nearPoint();
             },
           });
@@ -120,18 +121,16 @@
         var position = snapped.geometry.coordinates;
 
         //最近点（图标点）
-        let primitive = new mars2d.graphic.BillboardPrimitive({
-          position: position,
+        let primitive = new mars2d.graphic.Marker({
+          latlng: [position[1], position[0]],
           style: {
-            image: "img/marker/mark3.png",
-            scale: 1,
-            horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-            verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-            scaleByDistance: new Cesium.NearFarScalar(10000, 1.0, 500000, 0.1),
-            clampToGround: false,
+            image: "img/marker/mark2.png",
+            horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+            verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
           },
-          popup: "最近点",
+          tooltip: "最近点",
         });
+
         pointLayer.addGraphic(primitive);
       }
 

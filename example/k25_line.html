@@ -130,8 +130,12 @@
         var curved = turf.bezierSpline(line);
         var positions = curved.geometry.coordinates;
 
-        var graphic = new mars2d.graphic.PolylineEntity({
-          positions: positions,
+        let latlngs = mars2d.PointTrans.coords2latlngs([
+          positions
+        ]);
+
+        var graphic = new mars2d.graphic.Polyline({
+          latlngs: latlngs,
           style: {
             width: 4,
             color: "#00ffff",
@@ -156,8 +160,12 @@
 
         var positions = offsetLine.geometry.coordinates;
 
-        var graphic = new mars2d.graphic.PolylineEntity({
-          positions: positions,
+        let latlngs = mars2d.PointTrans.coords2latlngs([
+          positions
+        ]);
+
+        var graphic = new mars2d.graphic.Polyline({
+          latlngs: latlngs,
           style: {
             width: 4,
             color: "#ff0000",

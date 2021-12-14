@@ -23,9 +23,68 @@
           ]
         },
         {
+          "name": "场景参数化",
+          "details": "地图所有参数均可以存储在json或后端服务中",
+          "children": [
+            {
+              "name": "地图参数",
+              "version": "3.0",
+              "thumbnail": "a15_options.jpg",
+              "fileName": "a15_options"
+            },
+            {
+              "name": "center 默认视角",
+              "version": "3.0",
+              "thumbnail": "a15_options_center.jpg",
+              "fileName": "a15_options_center"
+            },
+            {
+              "name": "basemaps 瓦片底图",
+              "version": "3.0",
+              "thumbnail": "a15_basemaps.jpg",
+              "fileName": "a15_basemaps"
+            },
+            {
+              "name": "layers 叠加图层",
+              "version": "3.0",
+              "thumbnail": "a15_layers.jpg",
+              "fileName": "a15_layers"
+            },
+            {
+              "name": "control 控件",
+              "version": "3.0",
+              "thumbnail": "a15_control.jpg",
+              "fileName": "a15_control"
+            }
+          ]
+        },
+        {
           "name": "地图基础控制",
           "children": [
-      
+            {
+              "name": "map相关事件",
+              "version": "1.9",
+              "thumbnail": "a20_event.jpg",
+              "fileName": "a20_event"
+            },
+            {
+              "name": "销毁释放地图",
+              "version": "1.9",
+              "thumbnail": "a20_destroy.jpg",
+              "fileName": "a20_destroy"
+            },
+            {
+              "name": "蒙板遮盖",
+              "version": "3.1",
+              "thumbnail": "d20_maskDiv.jpg",
+              "fileName": "d20_maskDiv"
+            },
+            {
+              "name": "离线数据",
+              "version": "3.1",
+              "thumbnail": "a20_offline.jpg",
+              "fileName": "a20_offline"
+            }
           ]
         }
       ]
@@ -73,6 +132,12 @@
               "version": "1.5",
               "thumbnail": "c10_google.jpg",
               "fileName": "c10_google"
+            },
+            {
+              "name": "Mapbox",
+              "version": "1.1",
+              "thumbnail": "c10_mapbox.jpg",
+              "fileName": "c10_mapbox"
             },
             {
               "name": "ArcGIS Online",
@@ -129,10 +194,34 @@
           "details": "支持加载在离线或私有环境发布的各种标准服务",
           "children": [
             {
+              "name": "本地单张图片",
+              "version": "1.1",
+              "thumbnail": "c20_image.jpg",
+              "fileName": "c20_image"
+            },
+            {
+              "name": "本地单张图片(区域影像)",
+              "version": "3.0",
+              "thumbnail": "c20_image2.jpg",
+              "fileName": "c20_image2"
+            },
+            {
+              "name": "带旋转角度单张图片",
+              "version": "1.5",
+              "thumbnail": "c20_imageRotated.jpg",
+              "fileName": "c20_imageRotated"
+            },
+            {
               "name": "xyz金字塔瓦片",
               "version": "1.1",
               "thumbnail": "c20_xyz.jpg",
               "fileName": "c20_xyz"
+            },
+            {
+              "name": "xyz金字塔瓦片(区域影像)",
+              "version": "3.0",
+              "thumbnail": "c20_xyz_region.jpg",
+              "fileName": "c20_xyz_region"
             },
             {
               "name": "arcgis瓦片",
@@ -184,10 +273,22 @@
           "name": "图层参数及控制",
           "children": [
             {
+              "name": "图层管理",
+              "version": "3.0",
+              "thumbnail": "c25_manageLayers.jpg",
+              "fileName": "c25_manageLayers"
+            },
+            {
               "name": "底图纠偏(融合高德、天地图等)",
               "version": "2.0",
               "thumbnail": "c25_chinaCRS.jpg",
               "fileName": "c25_chinaCRS"
+            },
+            {
+              "name": "绘制反选遮罩层",
+              "version": "3.0",
+              "thumbnail": "c25_mask.jpg",
+              "fileName": "c25_mask"
             },
             {
               "name": "瓦片叠加颜色",
@@ -218,6 +319,36 @@
               "version": "1.5",
               "thumbnail": "d10_contextmenu.jpg",
               "fileName": "d10_contextmenu"
+            },
+            {
+              "name": "Popup鼠标单击信息窗",
+              "version": "1.3",
+              "thumbnail": "d10_popup.jpg",
+              "fileName": "d10_popup"
+            },
+            {
+              "name": "Tooltip 鼠标移入信息窗",
+              "version": "1.3",
+              "thumbnail": "d10_tooltip.jpg",
+              "fileName": "d10_tooltip"
+            },
+            {
+              "name": "SmallTooltip 鼠标小提示窗",
+              "version": "1.3",
+              "thumbnail": "d10_small_tooltip.jpg",
+              "fileName": "d10_small_tooltip"
+            },
+            {
+              "name": "比例尺",
+              "version": "3.0",
+              "thumbnail": "d10_scale.jpg",
+              "fileName": "d10_scale"
+            },
+            {
+              "name": "控件控制(显示及关闭)",
+              "version": "2.0",
+              "thumbnail": "d11_showhide.jpg",
+              "fileName": "d11_showhide"
             }
           ]
         },
@@ -466,12 +597,54 @@
               "version": "1.5",
               "thumbnail": "f40_marker_pulse.gif",
               "fileName": "f40_marker_pulse"
+            },
+            {
+              "name": "图标点+文字(含聚合)",
+              "version": "1.4",
+              "thumbnail": "f40_marker_label.jpg",
+              "fileName": "f40_marker_label"
+            },
+            {
+              "name": "动态效果点",
+              "version": "1.7",
+              "thumbnail": "f40_divGraphic_daxue.gif",
+              "fileName": "f40_divGraphic_daxue"
+            },
+            {
+              "name": "油气站标注",
+              "version": "3.0",
+              "thumbnail": "f40_divGraphic_hg.jpg",
+              "fileName": "f40_divGraphic_hg"
+            },
+            {
+              "name": "浮动监控点",
+              "version": "3.0",
+              "thumbnail": "f40_divGraphic_camera.jpg",
+              "fileName": "f40_divGraphic_camera"
+            },
+            {
+              "name": "动态水球点",
+              "version": "3.0",
+              "thumbnail": "f40_liquidfill.jpg",
+              "fileName": "f40_liquidfill"
+            },
+            {
+              "name": "统计柱状图",
+              "version": "1.7",
+              "thumbnail": "f40_cylinder_gdp.jpg",
+              "fileName": "f40_cylinder_gdp"
             }
           ]
         },
         {
           "name": "线面对象应用案例",
           "children": [
+            {
+              "name": "一带一路",
+              "version": "2.2",
+              "thumbnail": "f45_oneBeltOneRoad.jpg",
+              "fileName": "f45_oneBeltOneRoad"
+            },
             {
               "name": "动画效果线(铁路)",
               "version": "1.5",
@@ -500,10 +673,28 @@
               "plugins": "canvasGeojson"
             },
             {
+              "name": "行政区数据统计图",
+              "version": "3.1",
+              "thumbnail": "f45_quyuNum.jpg",
+              "fileName": "f45_quyuNum"
+            },
+            {
+              "name": "行政区突出展示",
+              "version": "3.0",
+              "thumbnail": "f45_district.jpg",
+              "fileName": "f45_district"
+            },
+            {
               "name": "中国各省市面",
               "version": "1.5",
               "thumbnail": "f45_geojson_polygon.jpg",
               "fileName": "f45_geojson_polygon"
+            },
+            {
+              "name": "台风轨迹(综合案例)",
+              "version": "3.0",
+              "thumbnail": "f45_typhoon.jpg",
+              "fileName": "f45_typhoon"
             }
           ]
         },
@@ -522,7 +713,12 @@
               "thumbnail": "f60_plot.jpg",
               "fileName": "f60_plot"
             },
-
+            {
+              "name": "框选数据",
+              "version": "1.8",
+              "thumbnail": "f65_isInPoly.jpg",
+              "fileName": "f65_isInPoly"
+            },
             {
               "name": "文字碰撞",
               "version": "1.5",
@@ -535,6 +731,63 @@
       ]
     },
 
+    {
+      "name": "场景控制",
+      "icon": "fa-cubes",
+      "children": [
+        {
+          "name": "视图切换和对比",
+          "children": [
+            {
+              "name": "双屏对比",
+              "version": "1.6",
+              "thumbnail": "h10_mapCompare.jpg",
+              "fileName": "h10_mapCompare"
+            },
+            {
+              "name": "二三维联动(与cesium)",
+              "version": "1.6",
+              "thumbnail": "h10_link_cesium.jpg",
+              "fileName": "h10_link_cesium"
+            },
+            {
+              "name": "街景联动",
+              "version": "3.1",
+              "thumbnail": "h10_streetview.jpg",
+              "fileName": "h10_streetview"
+            }
+          ]
+        },
+        {
+          "name": "场景背景控制",
+          "children": [
+            {
+              "name": "场景出图(导出图片)",
+              "version": "1.8",
+              "thumbnail": "h15_expImage.jpg",
+              "fileName": "h15_expImage"
+            },
+            {
+              "name": "设置地图背景",
+              "version": "2.0",
+              "thumbnail": "h15_backgroundImage.jpg",
+              "fileName": "h15_backgroundImage"
+            }
+          ]
+        },
+        {
+          "name": "鼠标交互控制",
+          "children": [
+            {
+              "name": "坐标拾取和转换",
+              "version": "1.4",
+              "thumbnail": "h25_selectPoint.jpg",
+              "fileName": "h25_selectPoint"
+            }
+          ]
+        }
+      ]
+    },
     {
       "name": "分析",
       "icon": "fa-futbol-o",
@@ -555,11 +808,66 @@
           "name": "客户端空间分析",
           "children": [
             {
+              "name": "生成随机数据(点线面)",
+              "version": "3.1",
+              "thumbnail": "k25_random.jpg",
+              "fileName": "k25_random"
+            },
+            {
+              "name": "生成网格",
+              "version": "3.1",
+              "thumbnail": "k25_grid.jpg",
+              "fileName": "k25_grid"
+            },
+            {
+              "name": "点相关计算",
+              "version": "3.1",
+              "thumbnail": "k25_point.jpg",
+              "fileName": "k25_point"
+            },
+            {
               "name": "最近点分析",
               "version": "1.5",
               "thumbnail": "k25_nearestPoint.jpg",
               "fileName": "k25_nearestPoint"
             },
+            {
+              "name": "线相关计算",
+              "version": "3.1",
+              "thumbnail": "k25_line.jpg",
+              "fileName": "k25_line"
+            },
+            {
+              "name": "线求交",
+              "version": "3.1",
+              "thumbnail": "k25_lineIntersect.jpg",
+              "fileName": "k25_lineIntersect"
+            },
+            {
+              "name": "线上最近点",
+              "version": "3.1",
+              "thumbnail": "k25_nearestPointOnLine.jpg",
+              "fileName": "k25_nearestPointOnLine"
+            },
+            {
+              "name": "最短路径",
+              "version": "3.1",
+              "thumbnail": "k25_shortestPath.jpg",
+              "fileName": "k25_shortestPath"
+            },
+            {
+              "name": "面相关计算",
+              "version": "3.1",
+              "thumbnail": "k25_polygon.jpg",
+              "fileName": "k25_polygon"
+            },
+            {
+              "name": "面求交",
+              "version": "2.3",
+              "thumbnail": "k25_intersect.jpg",
+              "fileName": "k25_intersect"
+            },
+
             {
               "name": "面的切割(线分割面)",
               "version": "2.0",
@@ -596,6 +904,12 @@
               "version": "1.6",
               "thumbnail": "m10_heatLayer.jpg",
               "fileName": "m10_heatLayer"
+            },
+            {
+              "name": "全国温度图",
+              "version": "1.9",
+              "thumbnail": "m10_kriging.jpg",
+              "fileName": "m10_kriging"
             }
           ]
         },

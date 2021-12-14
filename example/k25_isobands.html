@@ -44,23 +44,23 @@
         //合并属性参数，可覆盖config.json中的对应配置
         let mapOptions = mars2d.Util.merge(options, {
           zoom: 7,
-         "center": { "lng": 116.378174, lat:30.537774 },
+          center: { lng: 116.378174, lat: 30.537774 },
         });
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
         //加载气象
-        $.ajax({
-          type: "GET",
+        mars2d.Util.fetchJson({
           url: "http://data.mars2d.cn/file/apidemo/windpoint.json",
-          success: function (res) {
+        })
+          .then((res) => {
             showWindLine(res.data);
-          },
-          error: function (err) {
+          })
+          .catch((error) => {
+            console.log("请求出错了", error);
             haoutil.msg("实时查询气象信息失败，请稍候再试");
-          },
-        });
+          });
       }
 
       var colors = ["#006837", "#1a9850", "#66bd63", "#a6d96a", "#d9ef8b", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#a50026"];

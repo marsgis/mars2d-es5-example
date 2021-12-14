@@ -20,8 +20,7 @@
 
     <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
 
-    <script type="text/javascript" src="../lib/include-lib.js" libpath="../lib/"
-    include="jquery,layer,haoutil,echarts,mars2d"></script>
+    <script type="text/javascript" src="../lib/include-lib.js" libpath="../lib/" include="jquery,layer,haoutil,echarts,mars2d"></script>
     <link href="css/style.css" rel="stylesheet" />
   </head>
   <body>
@@ -53,9 +52,15 @@
           this.map.addLayer(this.layerWork);
 
           var that = this;
-          $.getJSON("http://data.mars2d.cn/file/apidemo/echarspoint.json", function (data) {
-            that.showData(data);
-          });
+          mars2d.Util.fetchJson({
+            url: "http://data.mars2d.cn/file/apidemo/echarspoint.json",
+          })
+            .then((data) => {
+              that.showData(data);
+            })
+            .catch((error) => {
+              console.log("请求出错了", error);
+            });
         },
         //关闭释放
         disable: function () {
