@@ -124,6 +124,10 @@ img {
   color: #fff !important;
 }
 
+.slider-selection {
+  background-image: linear-gradient(to bottom, #86b9e6 0, #86b9e6 100%);
+}
+
 
 /*解决问题：https://github.com/Leaflet/Leaflet/issues/3575**/
 .leaflet-tile-container img {

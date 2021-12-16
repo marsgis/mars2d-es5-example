@@ -77,11 +77,7 @@
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {
-          scene: {
-            center: { lat: 31.855058, lng: 117.312337, alt: 79936, heading: 0, pitch: -90 },
-          },
-        });
+        var mapOptions = mars2d.Util.merge(options, {});
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
@@ -130,9 +126,7 @@
         var curved = turf.bezierSpline(line);
         var positions = curved.geometry.coordinates;
 
-        let latlngs = mars2d.PointTrans.coords2latlngs([
-          positions
-        ]);
+        let latlngs = mars2d.PointTrans.coords2latlngs([positions]);
 
         var graphic = new mars2d.graphic.Polyline({
           latlngs: latlngs,
@@ -160,9 +154,7 @@
 
         var positions = offsetLine.geometry.coordinates;
 
-        let latlngs = mars2d.PointTrans.coords2latlngs([
-          positions
-        ]);
+        let latlngs = mars2d.PointTrans.coords2latlngs([positions]);
 
         var graphic = new mars2d.graphic.Polyline({
           latlngs: latlngs,

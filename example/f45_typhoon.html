@@ -66,6 +66,16 @@
       }
 
       /**以下为图上tooltip信息面板样式*/
+      .typhoon-tooltip {
+        background-color: #465996;
+        pointer-events: none;
+      }
+      .typhoon-tooltip.leaflet-tooltip-left{
+        margin-left: -15px !important;
+      }
+      .typhoon-tooltip.leaflet-tooltip-left:before{
+        border-left-color: #465996 !important;
+      }
       .tipBox {
         position: absolute;
         top: 0;
@@ -73,6 +83,8 @@
         width: 240px;
         height: 260px;
         z-index: 999;
+        pointer-events: none;
+        color: #fff;
       }
 
       .tipHeader {
@@ -260,30 +272,12 @@
         });
       }
 
-      function startTyphoon() {
-        $("#btnPlay").html('<span class="fa fa-stop" aria-hidden="true"></span> 停止');
-
-        selectTF.playTyphoon = selectTF.playTyphoon || new PlayTyphoon(selectTF.options, map);
-        selectTF.playTyphoon.start();
-        selectTF.show = false;
-      }
-
-      //停止播放
-      function stopTyphoon() {
-        $("#btnPlay").html('<span class="fa fa-play" aria-hidden="true"></span> 播放');
-        if (selectTF?.playTyphoon) {
-          selectTF.playTyphoon.stop();
-          selectTF.show = true;
-        }
-      }
-
       let typhoonListObj = {};
 
       //取消勾选台风
       function unSelectOneTyphoon(row) {
         let typhoon = typhoonListObj[row.id];
         if (typhoon == selectTF) {
-          stopTyphoon();
           $("#typhoonPath").hide();
         }
         if (typhoon) {
@@ -295,7 +289,6 @@
       function selectOneTyphoon(row) {
         $("#typhoonPath").show();
         $("#lblName").html("[" + row.typnumber + "]" + "" + row.name_cn);
-        stopTyphoon();
 
         if (typhoonListObj[row.id]) {
           let typhoon = typhoonListObj[row.id];

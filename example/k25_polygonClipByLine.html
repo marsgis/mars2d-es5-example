@@ -50,12 +50,13 @@
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        let mapOptions = mars2d.Util.merge(options, {});
+        let mapOptions = mars2d.Util.merge(options, {
+          zoom: 11,
+          center: { lng: 117.29501, lat: 31.841349 },
+        });
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
-
-        map.setView([31.853597, 117.329865], 12);
 
         //加载面数据
         loadPolygon();

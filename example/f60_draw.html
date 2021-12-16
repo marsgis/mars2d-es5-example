@@ -170,6 +170,19 @@
           var strResult = toWKT();
           haoutil.file.downloadFile("我的标注wkt.txt", JSON.stringify(strResult));
         });
+
+        //加载演示数据
+        if (location.hostname !== "127.0.0.1" && location.hostname !== "localhost") {
+          mars2d.Util.fetchJson({
+            url: "//data.mars2d.cn/file/geojson/mars2d-draw.json",
+          })
+            .then((data) => {
+              graphicLayer.loadGeoJSON(data, { clear: true, flyTo: true });
+            })
+            .catch(function (error) {
+              console.log("请求出错了", error);
+            });
+        }
       }
 
       function drawPoint() {

@@ -345,6 +345,12 @@
               "fileName": "d10_scale"
             },
             {
+              "name": "卷帘对比",
+              "version": "3.0",
+              "thumbnail": "d15_mapSplit.jpg",
+              "fileName": "d15_mapSplit"
+            },
+            {
               "name": "控件控制(显示及关闭)",
               "version": "2.0",
               "thumbnail": "d11_showhide.jpg",
@@ -419,6 +425,12 @@
               "version": "1.5",
               "thumbnail": "e10_canvasMarkerLayer.jpg",
               "fileName": "e10_canvasMarkerLayer"
+            },
+            {
+              "name": "多个线的运动动画(图层级)",
+              "version": "1.5",
+              "thumbnail": "f45_layer_snakeIn.jpg",
+              "fileName": "f45_layer_snakeIn"
             }
           ]
         },
@@ -430,6 +442,19 @@
               "version": "1.5",
               "thumbnail": "e15_geojson.jpg",
               "fileName": "e15_geojson"
+            },
+            {
+              "name": "中国各省市面",
+              "version": "1.5",
+              "thumbnail": "f45_geojson_polygon.jpg",
+              "fileName": "f45_geojson_polygon"
+            },
+            {
+              "name": "GeoJson大数据面(Canvas合并渲染)",
+              "version": "1.5",
+              "thumbnail": "f45_geojsonCanvas.jpg",
+              "fileName": "f45_geojsonCanvas",
+              "plugins": "canvasGeojson"
             },
             {
               "name": "建筑物3D立体",
@@ -504,6 +529,24 @@
               "fileName": "f10_marker"
             },
             {
+              "name": "点的加载动画",
+              "version": "1.5",
+              "thumbnail": "f40_marker_magic.jpg",
+              "fileName": "f40_marker_magic"
+            },
+            {
+              "name": "扩散动画点",
+              "version": "1.5",
+              "thumbnail": "f40_marker_pulse.gif",
+              "fileName": "f40_marker_pulse"
+            },
+            {
+              "name": "图标点+文字(含聚合)",
+              "version": "1.4",
+              "thumbnail": "f40_marker_label.jpg",
+              "fileName": "f40_marker_label"
+            },
+            {
               "name": "MovingMarker 运动点",
               "version": "1.5",
               "thumbnail": "f10_movingMarker.gif",
@@ -526,6 +569,30 @@
               "version": "3.0",
               "thumbnail": "f10_divGraphic.jpg",
               "fileName": "f10_divGraphic"
+            },
+            {
+              "name": "动态效果点",
+              "version": "1.7",
+              "thumbnail": "f40_divGraphic_daxue.gif",
+              "fileName": "f40_divGraphic_daxue"
+            },
+            {
+              "name": "油气站标注",
+              "version": "3.0",
+              "thumbnail": "f40_divGraphic_hg.jpg",
+              "fileName": "f40_divGraphic_hg"
+            },
+            {
+              "name": "浮动监控点",
+              "version": "3.0",
+              "thumbnail": "f40_divGraphic_camera.jpg",
+              "fileName": "f40_divGraphic_camera"
+            },
+            {
+              "name": "动态水球点",
+              "version": "3.0",
+              "thumbnail": "f40_liquidfill.jpg",
+              "fileName": "f40_liquidfill"
             },
             {
               "name": "Circle 圆",
@@ -558,6 +625,25 @@
               "fileName": "f15_polyline_offset"
             },
             {
+              "name": "一带一路",
+              "version": "2.2",
+              "thumbnail": "f45_oneBeltOneRoad.jpg",
+              "fileName": "f45_oneBeltOneRoad"
+            },
+            {
+              "name": "动画效果线(铁路)",
+              "version": "1.5",
+              "thumbnail": "f45_antPath.gif",
+              "fileName": "f45_antPath",
+              "plugins": "antPath"
+            },
+            {
+              "name": "线的运动动画",
+              "version": "1.5",
+              "thumbnail": "f45_polyline_snakeIn.jpg",
+              "fileName": "f45_polyline_snakeIn"
+            },
+            {
               "name": "Polygon 面",
               "version": "3.0",
               "thumbnail": "f15_polygon.jpg",
@@ -584,94 +670,16 @@
           ]
         },
         {
-          "name": "点状对象应用案例",
+          "name": "综合应用案例",
           "children": [
-            {
-              "name": "点的加载动画",
-              "version": "1.5",
-              "thumbnail": "f40_marker_magic.jpg",
-              "fileName": "f40_marker_magic"
-            },
-            {
-              "name": "扩散动画点",
-              "version": "1.5",
-              "thumbnail": "f40_marker_pulse.gif",
-              "fileName": "f40_marker_pulse"
-            },
-            {
-              "name": "图标点+文字(含聚合)",
-              "version": "1.4",
-              "thumbnail": "f40_marker_label.jpg",
-              "fileName": "f40_marker_label"
-            },
-            {
-              "name": "动态效果点",
-              "version": "1.7",
-              "thumbnail": "f40_divGraphic_daxue.gif",
-              "fileName": "f40_divGraphic_daxue"
-            },
-            {
-              "name": "油气站标注",
-              "version": "3.0",
-              "thumbnail": "f40_divGraphic_hg.jpg",
-              "fileName": "f40_divGraphic_hg"
-            },
-            {
-              "name": "浮动监控点",
-              "version": "3.0",
-              "thumbnail": "f40_divGraphic_camera.jpg",
-              "fileName": "f40_divGraphic_camera"
-            },
-            {
-              "name": "动态水球点",
-              "version": "3.0",
-              "thumbnail": "f40_liquidfill.jpg",
-              "fileName": "f40_liquidfill"
-            },
             {
               "name": "统计柱状图",
               "version": "1.7",
               "thumbnail": "f40_cylinder_gdp.jpg",
               "fileName": "f40_cylinder_gdp"
-            }
-          ]
-        },
-        {
-          "name": "线面对象应用案例",
-          "children": [
-            {
-              "name": "一带一路",
-              "version": "2.2",
-              "thumbnail": "f45_oneBeltOneRoad.jpg",
-              "fileName": "f45_oneBeltOneRoad"
-            },
-            {
-              "name": "动画效果线(铁路)",
-              "version": "1.5",
-              "thumbnail": "f45_antPath.gif",
-              "fileName": "f45_antPath",
-              "plugins": "antPath"
-            },
-            {
-              "name": "线的运动动画",
-              "version": "1.5",
-              "thumbnail": "f45_polyline_snakeIn.jpg",
-              "fileName": "f45_polyline_snakeIn"
-            },
-            {
-              "name": "多个线的运动动画(图层级)",
-              "version": "1.5",
-              "thumbnail": "f45_layer_snakeIn.jpg",
-              "fileName": "f45_layer_snakeIn"
             },
 
-            {
-              "name": "GeoJson大数据面(Canvas合并渲染)",
-              "version": "1.5",
-              "thumbnail": "f45_geojsonCanvas.jpg",
-              "fileName": "f45_geojsonCanvas",
-              "plugins": "canvasGeojson"
-            },
+
             {
               "name": "行政区数据统计图",
               "version": "3.1",
@@ -683,12 +691,6 @@
               "version": "3.0",
               "thumbnail": "f45_district.jpg",
               "fileName": "f45_district"
-            },
-            {
-              "name": "中国各省市面",
-              "version": "1.5",
-              "thumbnail": "f45_geojson_polygon.jpg",
-              "fileName": "f45_geojson_polygon"
             },
             {
               "name": "台风轨迹(综合案例)",

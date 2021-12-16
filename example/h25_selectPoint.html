@@ -317,6 +317,10 @@
       }
 
       updateMarker(true); //更新点
+      if (pointEntity) {
+        map.flyToGraphic(pointEntity)
+
+      }
     }
 
     var pointEntity;

@@ -111,9 +111,11 @@
 
         //方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
         tileLayer = new mars2d.layer.MapboxLayer({
+          type: "mapbox",
           username: "marsgis",
           styleId: "cki0a92b123qo1aluk0e5v7sb",
           token: mars2d.Token.mapbox,
+          zIndex:999
         });
         map.addLayer(tileLayer);
       }

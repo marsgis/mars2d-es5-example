@@ -34,6 +34,7 @@
 
     <div id="viewSL" class="infoview">
       示例：
+      <input type="button" class="btn btn-primary" value="标绘数据" onclick="showDrawDemo()" />
       <input type="button" class="btn btn-primary" value="体育设施点" onclick="showPointDemo()" />
       <input type="button" class="btn btn-primary" value="省界线" onclick="showChinaLineDemo()" />
       <input type="button" class="btn btn-primary" value="规划面" onclick="showGuihuaDemo()" />
@@ -67,6 +68,25 @@
           map.removeLayer(geoJsonLayer, true);
           geoJsonLayer = null;
         }
+      }
+
+      //示例：显示点数据
+      function showDrawDemo() {
+        removeLayer();
+
+        geoJsonLayer = new mars2d.layer.GeoJsonLayer({
+          name: "标绘示例数据",
+          url: "//data.mars2d.cn/file/geojson/mars2d-draw.json",
+        });
+        map.addLayer(geoJsonLayer);
+
+        //绑定事件
+        geoJsonLayer.on(mars2d.EventType.load, function (event) {
+          console.log("数据加载完成", event);
+        });
+        geoJsonLayer.on(mars2d.EventType.click, function (event) {
+          console.log("单击了图层", event);
+        });
       }
 
       //示例：显示点数据

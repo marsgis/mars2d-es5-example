@@ -57,11 +57,7 @@
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {
-          scene: {
-            center: { lat: 31.784729, lng: 117.130275, alt: 4447, heading: 65, pitch: -17 },
-          },
-        });
+        var mapOptions = mars2d.Util.merge(options, {});
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);

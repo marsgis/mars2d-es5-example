@@ -2,7 +2,7 @@
   "map": {
     "zoom": 13,
     "center": { "lng": 117.240601, "lat": 31.827107 },
-    "minZoom": 3,
+    "minZoom": 2,
     "maxZoom": 18,
     "centerAutoLevel": 15,
     "controls": {
@@ -22,7 +22,6 @@
         "type": "group"
       },
       {
-        "id": 2021,
         "pid": 10,
         "name": "天地图电子",
         "type": "group",
@@ -39,8 +38,7 @@
             "layer": "vec_z",
             "key": ["ad5bee3fe473a639887fa9d57a670c6e"]
           }
-        ],
-        "show": true
+        ]
       },
       {
         "pid": 10,
@@ -62,16 +60,30 @@
         ]
       },
       {
+        "id": 2021,
         "pid": 10,
         "name": "高德地图",
         "type": "gaode",
-        "layer": "vec"
+        "layer": "vec",
+        "show": true
       },
       {
         "pid": 10,
         "name": "高德卫星",
-        "type": "gaode",
-        "layer": "img"
+        "type": "group",
+        "icon": "img/basemaps/googleimage.png",
+        "layers": [
+          {
+            "name": "底图",
+            "type": "gaode",
+            "layer": "img_d"
+          },
+          {
+            "name": "注记",
+            "type": "gaode",
+            "layer": "img_z"
+          }
+        ]
       },
       {
         "pid": 10,
@@ -117,7 +129,12 @@
       }
     ],
     "operationallayers": [
-      { "name": "经纬网", "type": "graticule" }
+      {
+        "id": 20,
+        "name": "辅助图层",
+        "type": "group"
+      },
+      { "pid":20,"name": "经纬网", "type": "graticule" }
     ]
   }
 }

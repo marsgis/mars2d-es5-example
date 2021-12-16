@@ -45,16 +45,7 @@
       var geoJsonLayer;
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {
-          scene: {
-            center: { lat: 31.663835, lng: 117.52331, alt: 407326, heading: 352, pitch: -88 },
-            cameraController: {
-              zoomFactor: 3.0,
-              minimumZoomDistance: 1,
-              maximumZoomDistance: 1000000,
-            },
-          },
-        });
+        var mapOptions = mars2d.Util.merge(options, {});
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);

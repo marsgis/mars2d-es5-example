@@ -65,7 +65,9 @@
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {});
+        var mapOptions = mars2d.Util.merge(options, {
+          zoom: 12, center: { lng: 117.309471, lat: 31.797018 },
+        });
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
@@ -87,6 +89,12 @@
       }
 
       function removeDemoLayer() {
+        //关闭弹窗
+        if(lastMaplTooltip){
+          map.closeTooltip(lastMaplTooltip);
+          delete lastMaplTooltip
+        }
+
         graphicLayer.clear();
 
         if (geoJsonLayer) {
@@ -95,16 +103,21 @@
         }
       }
 
+      let lastMaplTooltip
+
       //1.在map地图上绑定Tooltip单击弹窗
       function bindMapDemo() {
         removeDemoLayer();
 
-        //关闭弹窗
-        map.closeTooltip();
+        if(lastMaplTooltip){
+          map.closeTooltip(lastMaplTooltip);
+          delete lastMaplTooltip
+        }
 
         //传入坐标和内容，可以直接任意弹出,当前获取的是地图的中心点
         let position = map.getCenter();
-        map.openTooltip("我是地图上直接弹出的", position);
+        lastMaplTooltip = new L.Tooltip().setContent("我是地图上直接弹出的").setLatLng(position);
+        map.openTooltip(lastMaplTooltip);
       }
 
       //2.在layer图层上绑定Tooltip单击弹窗

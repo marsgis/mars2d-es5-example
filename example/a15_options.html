@@ -90,8 +90,7 @@
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
         let mapOptions = mars2d.Util.merge(options, {
-          minZoom: 1,
-          zoom: 5,
+          minZoom: 0,
           maxZoom: 13,
         });
 
@@ -113,7 +112,7 @@
 
         //空间背景颜色
         $("#baseColor").minicolors({
-          position: "bottom left",
+          position: "bottom right",
           control: "saturation",
           format: "rgb",
           change: function (color, opacity) {
