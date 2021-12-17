@@ -45,7 +45,7 @@
               "fileName": "a15_basemaps"
             },
             {
-              "name": "layers 叠加图层",
+              "name": "operationallayers 叠加图层",
               "version": "3.0",
               "thumbnail": "a15_layers.jpg",
               "fileName": "a15_layers"
