@@ -134,7 +134,7 @@ function createSideBarMenuTitle(config, collapse) {
 
   let href = "";
   if (location.href.indexOf("editor.html") != -1) {
-    href = "../examples.html#" + id;
+    href = "../index.html#" + id;
   } else {
     href = "#" + id;
   }
@@ -156,7 +156,7 @@ function createSideBarMenuSecondTitle(item, collapse) {
 
   let href = "";
   if (location.href.indexOf("editor.html") != -1) {
-    href = "../examples.html#" + id;
+    href = "../index.html#" + id;
   } else {
     href = "#" + id;
   }

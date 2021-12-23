@@ -23,7 +23,7 @@
  
 
 ## 运行站点
- 在任意开发编辑器（如vscode等）或http服务器(如node、nginx、tomcat、IIS等)下直接运行浏览`examples.html`即可,运行效果参考[在线预览](http://mars2d.cn/example)  
+ 在任意开发编辑器（如vscode等）或http服务器(如node、nginx、tomcat、IIS等)下直接运行浏览`index.html`即可,运行效果参考[在线预览](http://mars2d.cn/example)  
  
  
 
