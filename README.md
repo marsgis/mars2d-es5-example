@@ -28,6 +28,8 @@
  
 
 ## 运行效果  
+[在线体验](http://marsgis.gitee.io/mars2d-es5-example)
+
  功能示例：
  ![image](https://cdn.jsdelivr.net/gh/muyao1987/cdn/mars2d.cn/xm/example/1.jpg)
  
