@@ -1,7 +1,8 @@
 .DS_Store
 node_modules
-/dist 
+/dist
 mars2d-*src.*
+!mars2d-widget-src.*
 
 # local env files
 .env.local
@@ -20,8 +21,8 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
- 
- 
+
+
 # System Files
 .DS_Store
-Thumbs.db 
+Thumbs.db
