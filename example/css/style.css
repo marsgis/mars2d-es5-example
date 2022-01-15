@@ -123,11 +123,26 @@ img {
   background-color: #1e9fff !important;
   color: #fff !important;
 }
-
+.fixed-table-loading {
+  background-color: #fff;
+}
+#nprogress .bar {
+	height: 2px;
+	background: #62a8ea;
+  border:none;
+}
 .slider-selection {
   background-image: linear-gradient(to bottom, #86b9e6 0, #86b9e6 100%);
 }
 
+.jedate .jedate-hmsmask{background-color:#fff;}
+.jedate .jedate-wrap{background: #fff;}
+.jedate .jedate-content .daystable{border: 1px solid #fff;}
+.jedate .jedate-content .daystable thead{background-color:#fff;}
+.jedate .jedate-content .daystable td.disabled:hover{background-color:#fff;}
+.jedate .jedate-content .daystable td.action .marks{ background-color:#fff; }
+.jedate .jedate-time{background-color:#fff;}
+.jedate .jedate-time .hmslist ul li:hover{background-color: #F2F2F2;}
 
 /*解决问题：https://github.com/Leaflet/Leaflet/issues/3575**/
 .leaflet-tile-container img {
