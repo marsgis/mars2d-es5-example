@@ -53,8 +53,8 @@
       }
       this.attrDefConfig = attrDefConfig;
 
-      let logInfo = JSON.stringify(attrDefConfig);
-      console.log("标号默认样式", logInfo);
+      // let logInfo = JSON.stringify(attrDefConfig);
+      // console.log("标号默认样式", logInfo);
     }
 
     //每个窗口创建完成后调用

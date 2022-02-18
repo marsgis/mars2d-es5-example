@@ -3,11 +3,10 @@
 //读取 config.json 配置文件
 let configUrl = "config/config.json";
 
-mars2d.axios
-  .get(configUrl)
-  .then(function (response) {
+mars2d.Util.fetchJson({ url: configUrl })
+  .then(function (data) {
     //构建地图
-    window.initMap(response.data.map);
+    window.initMap(data.mars2d);
   })
   .catch(function (error) {
     console.log(error);

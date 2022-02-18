@@ -348,16 +348,21 @@
             typhoon.showPointFQ(row);
             let graphic = typhoon.getPointById(row.id);
             if (graphic) {
-              graphic.flyTo({
-                radius: 1600000,
-                complete() {
-                  graphic.openTooltip();
-                },
-              });
+              map.flyToGraphic(graphic, {
+      radius: 1600000,
+      complete() {
+        graphic.openTooltip()
+      }
+    })
             }
           },
         });
       }
+
+
+
+
+
 
       function getHeight() {
         return $(window).height() - 440;

@@ -20,7 +20,7 @@
 
     <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
 
-   <script
+    <script
       type="text/javascript"
       src="../lib/include-lib.js"
       libpath="../lib/"
@@ -45,22 +45,10 @@
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
-        //固定的样式
-        // var vectorTileStyling = {
-        //     hfgh3857: {//图层名称
-        //         color: '#ffffff',//线颜色
-        //         opacity: 0.2,
-        //         weight: 1,
-        //         fill: true,
-        //         fillColor: '#0000ff',//填充颜色
-        //         fillOpacity: 0.2,
-        //     },
-        // };
-
-        //根据属性判断返回不同样式
-        var vectorTileStyling = {
-          //根据属性判断返回不同样式
-          hfgh3857: function (properties, level) {
+        var mapboxPbfLayer = new mars2d.layer.PbfLayer({
+          url: "http://server.mars2d.cn/geoserver/gwc/service/tms/1.0.0/mars%3Ahfgh3857@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf",
+          interactive: true, //是否允许鼠标交互，比如触发单击事件
+          style: function (properties, level) {
             var styleDef = {
               color: "rgba(110, 110, 110, 255)", //线颜色
               opacity: 1,
@@ -69,31 +57,16 @@
               fillColor: "rgba(205, 233, 247, 255)", //填充颜色
               fillOpacity: 1,
             };
-            var style = styleForType[properties["用地编号"]];
+            var style = styleForType[properties["用地编号"]]; //根据属性取对应样式
             for (var key in style) {
               styleDef[key] = style[key];
             }
             return styleDef;
           },
-        };
-
-        var mapboxPbfLayer = new mars2d.layer.PbfLayer({
-          url: "http://server.mars2d.cn/geoserver/gwc/service/tms/1.0.0/mars%3Ahfgh3857@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf",
-          interactive: true, //是否允许鼠标交互，比如触发单击事件
-          vectorTileLayerStyles: vectorTileStyling,
+          popup: "名称:{用地名称}<br/>编号:{用地编号}<br/>类型:{规划用地}",
           zIndex: 999,
         });
         mapboxPbfLayer.addTo(map);
-
-        mapboxPbfLayer.on("click", function (e) {
-          var attr = e.layer.properties;
-          var latlng = e.latlng;
-
-          var popup = L.popup()
-            .setLatLng(latlng)
-            .setContent(`用地编号:${attr["用地编号"]}<br/>用地名称:${attr["用地名称"]}<br/>规划用地:${attr["规划用地"]}<br/>`)
-            .openOn(map);
-        });
       }
 
       //规划 配色

@@ -35,7 +35,7 @@
           return false;
         }
 
-        var inHtml = `<div class="mars-popup-titile"><a href="https://www.amap.com/detail/${item.id}"  target="_black" style="color: #ffffff; ">${item.name}</a></div><div class="mars-popup-content" >`;
+        var inHtml = `<div class="mars2d-template-titile"><a href="https://www.amap.com/detail/${item.id}"  target="_black" style="color: #ffffff; ">${item.name}</a></div><div class="mars2d-template-content" >`;
 
         var phone = $.trim(item.tel);
         if (phone != "") {
@@ -426,7 +426,7 @@
       });
 
       if (arr.length > 1) {
-        this.graphicLayer.flyTo();
+        this.graphicLayer.flyTo({ duration: 2 });
       }
     }
     flyTo(item) {
@@ -435,7 +435,7 @@
         window.toastr.warning(item.name + " 无经纬度坐标信息！");
         return;
       }
-      this.graphicLayer.openPopup(graphic.getLatLng());
+      this.graphicLayer.openPopup(graphic);
 
       this.map.flyToGraphic(graphic);
     }
@@ -475,8 +475,8 @@
       });
       this.graphicLayer.addGraphic(graphic);
 
-      graphic.bindPopup(`<div class="mars-popup-titile">坐标定位</div>
-              <div class="mars-popup-content" >
+      graphic.bindPopup(`<div class="mars2d-template-titile">坐标定位</div>
+              <div class="mars2d-template-content" >
                 <div><label>经度</label> ${jd}</div>
                 <div><label>纬度</label>${wd}</div>
               </div>`);

@@ -1,5 +1,5 @@
 {
-  "map": {
+  "mars2d": {
     "zoom": 13,
     "center": { "lng": 117.240601, "lat": 31.827107 },
     "minZoom": 2,

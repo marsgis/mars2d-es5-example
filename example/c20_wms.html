@@ -56,7 +56,6 @@
               layers: "mars:hfdl",
               transparent: true,
               format: "image/png",
-              show: true,
             },
             {
               name: "规划图",
@@ -65,11 +64,34 @@
               layers: "mars:hfgh",
               transparent: true,
               format: "image/png",
+              popup: "all",
+              show: true,
             },
           ],
         });
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
+
+        let layer = map.getLayer("规划图", "name");
+        layer.on(mars2d.EventType.click, function (event) {
+          console.log("您单击了wms图层", event);
+        });
+
+        // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
+        // let layer = new mars2d.layer.WmsLayer({
+        //   name: "规划图",
+        //   type: "wms",
+        //   url: "http://server.mars2d.cn/geoserver/mars/wms",
+        //   layers: "mars:hfgh",
+        //   transparent: true,
+        //   format: "image/png",
+        //   popup: "all",
+        // });
+        // map.addLayer(layer);
+
+        // layer.on(mars2d.EventType.click, function (event) {
+        //   console.log("您单击了wms图层", event);
+        // });
       }
     </script>
   </body>

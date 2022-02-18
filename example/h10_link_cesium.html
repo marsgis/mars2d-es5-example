@@ -42,7 +42,7 @@
     .infoview {
       left: 43%;
       top: 2px;
-      width: 210px;
+      width: 230px;
     }
     #centerDiv {
       position: absolute;
@@ -129,12 +129,10 @@
       haoutil.loading.show();
 
       //读取 config.json 配置文件
-      var configUrl = "http://mars3d.cn/example/config/config.json";
-      return mars2d.axios
-        .get(configUrl)
-        .then(function (response) {
-          //构建地图
-          mapManager.createMap3D("map3d", response.data.map3d);
+      var configUrl = "http://mars3d.cn/config/config.json";
+      return mars2d.Util.fetchJson({ url: configUrl })
+        .then(function (data) {
+          mapManager.createMap3D("map3d", data.map3d); //构建地图
 
           mapManager.bind2D(map2d);
           mapManager.viewTo23D(); //默认
@@ -164,7 +162,6 @@
       viewTo3d: function () {
         $("#centerDiv3D").hide();
         $("#centerDiv").css({ width: "100%" }).show();
-
       },
       viewTo2d: function () {
         $("#centerDiv").hide();
@@ -185,26 +182,26 @@
         this.map2d.on("drag", this._map_extentChangeHandler, this);
         this.map2d.on("zoomend", this._map_extentChangeHandler, this);
       },
-        unbind2dEvent: function () {
-          this.map2d.off("drag", this._map_extentChangeHandler, this);
-          this.map2d.off("zoomend", this._map_extentChangeHandler, this);
-        },
-        _map_extentChangeHandler: function (e) {
-          var bounds = this.map2d.getBounds();
-          var extent = {
-            xmin: bounds.getWest(),
-            xmax: bounds.getEast(),
-            ymin: bounds.getSouth(),
-            ymax: bounds.getNorth(),
-          };
-          console.log(`'二维地图变化了，区域： ${JSON.stringify(extent)} `);
+      unbind2dEvent: function () {
+        this.map2d.off("drag", this._map_extentChangeHandler, this);
+        this.map2d.off("zoomend", this._map_extentChangeHandler, this);
+      },
+      _map_extentChangeHandler: function (e) {
+        var bounds = this.map2d.getBounds();
+        var extent = {
+          xmin: bounds.getWest(),
+          xmax: bounds.getEast(),
+          ymin: bounds.getSouth(),
+          ymax: bounds.getNorth(),
+        };
+        console.log(`'二维地图变化了，区域： ${JSON.stringify(extent)} `);
 
-          this.unbind3dEvent();
-          this.map3d.camera.setView({
-            destination: Cesium.Rectangle.fromDegrees(extent.xmin, extent.ymin, extent.xmax, extent.ymax),
-          });
-          this.bind3dEvent();
-        },
+        this.unbind3dEvent();
+        this.map3d.camera.setView({
+          destination: Cesium.Rectangle.fromDegrees(extent.xmin, extent.ymin, extent.xmax, extent.ymax),
+        });
+        this.bind3dEvent();
+      },
       //三维地图相机移动结束事件
       bind3dEvent: function () {
         this.map3d.on(mars3d.EventType.cameraChanged, this.camera_moveEndHandler, this);
@@ -212,18 +209,18 @@
       unbind3dEvent: function () {
         this.map3d.off(mars3d.EventType.cameraChanged, this.camera_moveEndHandler, this);
       },
-        camera_moveEndHandler: function (e) {
-          // 范围对象
-          var point = this.map3d.getCenter();
-          var level = this.map3d.level;
-          console.log(`'二维地图变化了，位置： ${point.toString()},层级 ${level} `);
+      camera_moveEndHandler: function (e) {
+        // 范围对象
+        var point = this.map3d.getCenter();
+        var level = this.map3d.level;
+        console.log(`'二维地图变化了，位置： ${point.toString()},层级 ${level} `);
 
-          this.unbind2dEvent();
+        this.unbind2dEvent();
 
-          this.map2d.setView([point.lat, point.lng], level, { animate: false });
+        this.map2d.setView([point.lat, point.lng], level, { animate: false });
 
-          this.bind2dEvent();
-        },
+        this.bind2dEvent();
+      },
     };
   </script>
 </body>
