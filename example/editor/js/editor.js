@@ -48,7 +48,7 @@ function findConfig(locationParam, search) {
       }
       for (let index3 = 0; index3 < item2.children.length; index3++) {
         let item3 = item2.children[index3];
-        if (item3.fileName == locationParam) {
+        if (item3.main_es5 == locationParam) {
           document.title = item3.name + " 【" + item2.name + " " + item.name + "】 | Mars2D示例 | 合肥火星科技有限公司";
           return;
         }

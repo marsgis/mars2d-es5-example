@@ -14,18 +14,12 @@ $(document).ready(function () {
   //记录url传入参数
   let request = haoutil.system.getRequest();
 
-  fetch(request.json || window.exampleConfig || "../data/example.json")
-    .then(function (response) {
-      if (!response.ok) {
-        let error = new Error(response.statusText);
-        error.response = response;
-        throw error;
-      } else {
-        return response.json();
-      }
-    })
-    .then((json) => {
-      exConfig = json.result;
+  $.ajax({
+    type: "get",
+    dataType: "json",
+    url: request.json || window.exampleConfig || "../config/example-es5.json",
+    success: function (result) {
+      exConfig = result;
       //赋值id
       exConfig.forEach((item, index1) => {
         item.id = "ex_" + index1;
@@ -44,11 +38,12 @@ $(document).ready(function () {
       haoutil.storage.add("mars2d-es5-example", JSON.stringify(exConfig));
 
       initPage();
-    })
-    .catch(function (error) {
+    },
+    error: function (error) {
       console.log("加载JSON出错", error);
       haoutil.alert(error?.message, "出错了");
-    });
+    },
+  });
 });
 
 //左侧层级不包含例子，只包含分类
@@ -169,7 +164,7 @@ function createGalleryCharts(examples) {
 
 function createGalleryChart(example) {
   let _path = window.examplePath || "example/";
-  let _id = fileName2Id(example.fileName);
+  let _id = fileName2Id(example.main_es5);
 
   let editorUrl = _path + "editor.html?id=" + _id;
   if (window.autoShowCode) {
@@ -180,7 +175,7 @@ function createGalleryChart(example) {
   }
 
   let title = example.name;
-  let msg = title + " v" + (example.version || "");
+  let msg = title + " - " + (example.main_es5 || "");
 
   let chartDiv = $("<div class='col-xlg-2 col-lg-3 col-md-4 col-sm-6 col-xs-12'><a target='_blank'href='" + _path + _id + ".html'></a></div>");
   let chart = $('<div class="chart"></div>');

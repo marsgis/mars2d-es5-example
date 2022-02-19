@@ -99,13 +99,12 @@ function createSideBarSecondMenu(children) {
   return ul;
 }
 
-function fileName2Id(fileName) {
-  let value = (fileName || "").replace(".html", "");
+function fileName2Id(file) {
+  let value = (file || "").replace(".html", "");
   return value;
 }
 function id2FileName(id) {
-  let fileName = id + ".html";
-  return fileName;
+  return id + ".html";
 }
 
 //创建三级菜单
@@ -114,7 +113,7 @@ function createSideBarThirdMenu(examples) {
   let len = examples && examples.length ? examples.length : 0;
   for (let i = 0; i < len; i++) {
     let example = examples[i];
-    let _id = fileName2Id(example.fileName);
+    let _id = fileName2Id(example.main_es5);
     let li = $("<li class='menuTitle' id='bar_" + _id + "' ></li>");
     li.appendTo(ul);
     if (_id != "" && example.name) {
