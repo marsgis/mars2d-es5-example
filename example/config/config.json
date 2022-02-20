@@ -5,7 +5,7 @@
     "minZoom": 2,
     "maxZoom": 18,
     "centerAutoLevel": 15,
-    "controls": {
+    "control": {
       "scale": true,
       "locationBar": {
         "crs": "CGCS2000_GK_Zone_3",
