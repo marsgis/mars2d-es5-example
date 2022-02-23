@@ -14,6 +14,47 @@ $(document).ready(function () {
   //记录url传入参数
   let request = haoutil.system.getRequest();
 
+  // $.ajax({
+  //   type: "get",
+  //   dataType: "json",
+  //   url: "../config/example.json",
+  //   success: function (result) {
+  //     exConfig = result;
+  //     //赋值id
+  //     exConfig.forEach((item, index1) => {
+  //       if (item.children) {
+  //         item.children.forEach((item2, index2) => {
+  //           if (item2.children) {
+  //             // let arrNew = [];
+  //             item2.children.forEach((item3, index3) => {
+  //               item3.main = item3.main.replaceAll("-", "/");
+  //               // let newOptions = {
+  //               //   name: item3.name,
+  //               //   thumbnail: item3.es5_thumbnail || item3.main_es5 + ".jpg",
+  //               //   main_es5: item3.main_es5,
+  //               //   main: item3.main.replaceAll("-", "/"),
+  //               //   vuePanel: item3.vuePanel,
+  //               //   libs: item3.libs,
+  //               //   resources: item3.resources,
+  //               //   ...item3,
+  //               // };
+  //               // arrNew.push(newOptions);
+  //             });
+  //             // item2.children = arrNew;
+  //           }
+  //         });
+  //       }
+  //     });
+
+  //     // haoutil.file.downloadFile("example.json", JSON.stringify(exConfig));
+  //   },
+  //   error: function (error) {
+  //     console.log("加载JSON出错", error);
+  //     haoutil.alert(error?.message, "出错了");
+  //   },
+  // });
+  //用于测试
+
   $.ajax({
     type: "get",
     dataType: "json",
@@ -34,6 +75,8 @@ $(document).ready(function () {
           });
         }
       });
+
+      // haoutil.file.downloadFile("example.json", JSON.stringify(exConfig));
 
       haoutil.storage.add("mars2d-es5-example", JSON.stringify(exConfig));
 
@@ -181,19 +224,14 @@ function createGalleryChart(example) {
   let chart = $('<div class="chart"></div>');
   let link = $("<a class='chart-link' target='_blank' href='" + editorUrl + "'></a>");
   let chartTitle = $("<h5 class='chart-title'  title='" + msg + "' >" + title + "</h5>");
-  let thumbnail = (window.exampleIconPath || "../data/exampleIcon/") + (example.thumbnail || "");
+  let thumbnail = (window.thumbnailPath || "../config/thumbnail/") + (example.es5_thumbnail || example.main_es5 + ".jpg");
   let thumb = $("<img class='chart-area' src='" + thumbnail + "' style='display: inline'>");
 
-  if (example.plugins) {
-    msg += "\n该功能属于独立" + example.plugins + "插件功能，在额外的js中。";
+  let plugins = getPluginNameByLibs(example.libs);
+  if (plugins) {
+    msg += "\n该功能属于独立" + plugins + "插件功能，在额外的js中。";
     chartTitle = $(
-      "<h5 class='chart-title' title='" +
-        msg +
-        "'  >" +
-        title +
-        "<span style='color:rgba(0, 147, 255, 0.7)'>[" +
-        example.plugins +
-        "插件]</span></h5>"
+      "<h5 class='chart-title' title='" + msg + "'  >" + title + "<span style='color:rgba(0, 147, 255, 0.7)'>[" + plugins + "插件]</span></h5>"
     );
   }
 
@@ -206,6 +244,20 @@ function createGalleryChart(example) {
 
   return chartDiv;
 }
+
+function getPluginNameByLibs(libs) {
+  if (!libs) {
+    return false;
+  }
+  for (let index = 0; index < libs.length; index++) {
+    const element = libs[index];
+    if (element.startsWith("mars2d-")) {
+      return element;
+    }
+  }
+  return false;
+}
+
 function imgerrorfun() {
   let img = event.srcElement;
   img.src = "img/mapicon.jpg";
