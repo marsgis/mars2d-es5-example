@@ -38,7 +38,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -47,7 +47,7 @@
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
-        var latlngs = [
+        let latlngs = [
           [31.812229022640732, 117.235107421875],
           [31.704803074739214, 117.14721679687501],
           [31.53640812943961, 116.982421875],
@@ -59,7 +59,7 @@
           [30.097613277217132, 116.048583984375],
         ];
 
-        var antPolyline = L.polyline.antPath(latlngs, { delay: 1500 });
+        let antPolyline = L.polyline.antPath(latlngs, { delay: 1500 });
         antPolyline.addTo(map);
 
         map.fitBounds(antPolyline.getBounds());

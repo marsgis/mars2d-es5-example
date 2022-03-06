@@ -77,7 +77,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -126,7 +126,7 @@
           [31.870639, 117.271662],
           [31.8491, 117.247705],
         ];
-        var graphic = new mars2d.graphic.Rectangle({
+        let graphic = new mars2d.graphic.Rectangle({
           latlngs: latlngs,
           style: {
             fill: true,
@@ -150,7 +150,7 @@
           [117.167572, 31.823074, 45.53],
           [117.19775, 31.809539, 36.59],
         ]);
-        var graphic = new mars2d.graphic.Rectangle({
+        let graphic = new mars2d.graphic.Rectangle({
           latlngs: latlngs,
           style: {
             fill: true,
@@ -170,7 +170,7 @@
           [117.216386, 31.815376, 35.16],
           [117.222868, 31.821302, 34.4],
         ]);
-        var graphic = new mars2d.graphic.Rectangle({
+        let graphic = new mars2d.graphic.Rectangle({
           latlngs: latlngs,
           style: {
             fill: false,
@@ -189,7 +189,7 @@
           [31.845103, 117.196741],
         ];
 
-        var graphic = new mars2d.graphic.Rectangle({
+        let graphic = new mars2d.graphic.Rectangle({
           latlngs: latlngs,
           style: {
             fill: true,
@@ -210,7 +210,7 @@
           [31.789865, 117.261476],
           [31.804853, 117.289609],
         ];
-        var graphic = new mars2d.graphic.Rectangle({
+        let graphic = new mars2d.graphic.Rectangle({
           latlngs: latlngs,
           style: {
             fill: true,
@@ -457,7 +457,7 @@
         // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
 
         //绑定Popup
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>

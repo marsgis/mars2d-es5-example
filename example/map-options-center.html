@@ -49,11 +49,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {
+        let mapOptions = mars2d.Util.merge(options, {
           center: { lng: 117.240601, lat: 31.827107 },
         });
 
@@ -63,7 +63,7 @@
         //1可以通过右键菜单"查看当前范围"来获取center参数后，拷贝到配置中
 
         //2也可以通过下面方法获取center参数
-        var viewOpt = map.getView();
+        let viewOpt = map.getView();
         console.log(JSON.stringify(viewOpt));
 
         //可以通过centerAt切换视角

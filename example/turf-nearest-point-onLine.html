@@ -48,13 +48,13 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
-      var pointLayer;
+      let map;
+      let graphicLayer;
+      let pointLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {});
+        let mapOptions = mars2d.Util.merge(options, {});
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
@@ -109,11 +109,11 @@
           return;
         }
 
-        var line = lineLayer[0].toGeoJSON();
-        var pt = point[0].toGeoJSON();
+        let line = lineLayer[0].toGeoJSON();
+        let pt = point[0].toGeoJSON();
 
-        var snapped = turf.nearestPointOnLine(line, pt, { units: "miles" });
-        var position = snapped.geometry.coordinates;
+        let snapped = turf.nearestPointOnLine(line, pt, { units: "miles" });
+        let position = snapped.geometry.coordinates;
 
         //最近点（图标点）
         let primitive = new mars2d.graphic.Marker({

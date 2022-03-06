@@ -30,7 +30,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -54,10 +54,10 @@
       }
 
       function showMapVLayer(rs) {
-        var data1 = [];
-        var data2 = [];
-        var data3 = [];
-        var data4 = [];
+        let data1 = [];
+        let data2 = [];
+        let data3 = [];
+        let data4 = [];
         for (let i = 0; i < rs[0].length; i++) {
           let geoCoord = rs[0][i].geoCoord;
           data1.push({
@@ -89,8 +89,8 @@
           });
         }
 
-        var dataSet = new mapv.DataSet(data1);
-        var options = {
+        let dataSet = new mapv.DataSet(data1);
+        let options = {
           fillStyle: "rgba(200, 200, 0, 0.8)",
           bigData: "Point",
           size: 0.7,
@@ -99,8 +99,8 @@
         let mapVLayer = new mars2d.layer.MapVLayer(options, dataSet);
         map.addLayer(mapVLayer);
 
-        var dataSet4 = new mapv.DataSet(data2);
-        var options4 = {
+        let dataSet4 = new mapv.DataSet(data2);
+        let options4 = {
           fillStyle: "rgba(255, 250, 0, 0.8)",
           size: 0.7,
           bigData: "Point",
@@ -109,8 +109,8 @@
         let mapVLayer2 = new mars2d.layer.MapVLayer(options4, dataSet4);
         map.addLayer(mapVLayer2);
 
-        var dataSet2 = new mapv.DataSet(data3);
-        var options2 = {
+        let dataSet2 = new mapv.DataSet(data3);
+        let options2 = {
           fillStyle: "rgba(255, 250, 250, 0.6)",
           size: 0.7,
           bigData: "Point",
@@ -119,8 +119,8 @@
         let mapVLayer3 = new mars2d.layer.MapVLayer(options2, dataSet2);
         map.addLayer(mapVLayer3);
 
-        var dataSet3 = new mapv.DataSet(data2);
-        var options3 = {
+        let dataSet3 = new mapv.DataSet(data2);
+        let options3 = {
           fillStyle: "rgba(255, 250, 250, 0.9)",
           size: 1.1,
           draw: "simple",

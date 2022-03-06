@@ -35,7 +35,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -55,10 +55,10 @@
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
         //分屏对比
-        var gaodeLayer = new mars2d.layer.GaodeLayer({ layer: "img_d" });
+        let gaodeLayer = new mars2d.layer.GaodeLayer({ layer: "img_d" });
         map.addLayer(gaodeLayer);
 
-        var osmLayer = new mars2d.layer.OsmLayer();
+        let osmLayer = new mars2d.layer.OsmLayer();
         map.addLayer(osmLayer);
 
         L.control.sideBySide(gaodeLayer, osmLayer).addTo(map);

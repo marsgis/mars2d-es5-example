@@ -32,7 +32,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -47,11 +47,12 @@
 
       function showMapVLayer() {
         // 构造数据
-        var latlngs = [];
-        var data = [];
-        var randomCount = 699;
+        let latlngs = [];
+        let data = [];
+        let randomCount = 699;
         while (randomCount--) {
-          var point = randomLatLng(); //js/randomLatLng.js
+          // eslint-disable-next-line no-undef
+          let point = randomLatLng(); //js/randomLatLng.js
           latlngs.push(point);
 
           data.push({
@@ -61,7 +62,7 @@
         }
         map.fitBounds(latlngs);
 
-        var options = {
+        let options = {
           fillStyle: "rgba(55, 50, 250, 0.8)",
           shadowColor: "rgba(255, 250, 50, 1)",
           shadowBlur: 20,
@@ -75,7 +76,7 @@
           gradient: { 0.25: "rgb(0,0,255)", 0.55: "rgb(0,255,0)", 0.85: "yellow", 1.0: "rgb(255,0,0)" },
           draw: "honeycomb",
         };
-        var dataSet = new mapv.DataSet(data);
+        let dataSet = new mapv.DataSet(data);
 
         //创建MapV图层
         let mapVLayer = new mars2d.layer.MapVLayer(options, dataSet);

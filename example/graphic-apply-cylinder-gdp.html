@@ -105,13 +105,13 @@
   <script type="text/javascript">
     "use script"; //开发环境建议开启严格模式
 
-    var map;
-    var graphicLayer;
-    var barColors = ["#00fdcf", "#63AEFF", "#FFB861", "#FF6D5D"];
+    let map;
+    let graphicLayer;
+    let barColors = ["#00fdcf", "#63AEFF", "#FFB861", "#FF6D5D"];
 
     function initMap(options) {
       //合并属性参数，可覆盖config.json中的对应配置
-      var mapOptions = mars2d.Util.merge(options, {
+      let mapOptions = mars2d.Util.merge(options, {
         zoom: 8,
         center: { lng: 117.339478, lat: 34.966999 },
       });
@@ -195,13 +195,13 @@
                         <span style="color:#FFB861">第二产业：${num2}</span><br/>
                         <span style="color:#FF6D5D">第三产业：${num3}</span>`;
 
-        var p1 = L.latLng(jwd[1], jwd[0]);
+        let p1 = L.latLng(jwd[1], jwd[0]);
 
         // 添加图标点
         createZT(p1, html);
 
         // 添加文字
-        var primitive = new mars2d.graphic.Label({
+        let primitive = new mars2d.graphic.Label({
           latlng: L.latLng(jwd[1], jwd[0]),
           style: {
             text: numall,
@@ -222,7 +222,7 @@
 
     /**  创建图标点 */
     function createZT(latlng, html) {
-      var graphic = new mars2d.graphic.DivGraphic({
+      let graphic = new mars2d.graphic.DivGraphic({
         latlng: latlng,
         style: {
           html: `<i class="fa fa-bar-chart-o" style="color:#00ff00;font-size:20px;"></i>`,
@@ -237,7 +237,7 @@
       return graphic;
     }
 
-    var cityPosition = [
+    let cityPosition = [
       { name: "亳州", jwd: [116.203602, 33.496075] },
       { name: "商丘", jwd: [115.871509, 34.297084] },
       { name: "淮北", jwd: [116.688413, 33.689214] },
@@ -294,7 +294,7 @@
     }
 
     function bindHaihuaiPopup() {
-      var layerHuaihai = map.getLayer(1987, "id"); // 获取config.json中对应图层
+      let layerHuaihai = map.getLayer(1987, "id"); // 获取config.json中对应图层
 
       //在layer上绑定Popup单击弹窗
       layerHuaihai.bindPopup(
@@ -344,7 +344,7 @@
         arrData[b] = [b, 0, arrGDPvalues[b]];
       }
 
-      var option = {
+      let option = {
         visualMap: {
           max: 4500,
           show: false,

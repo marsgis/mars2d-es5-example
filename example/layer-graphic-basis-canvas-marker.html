@@ -45,8 +45,8 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var canvasMarkerLayer;
+      let map;
+      let canvasMarkerLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -73,30 +73,30 @@
         });
         $("#btnShowData").click(function () {
           haoutil.loading.show();
-          var startTime = new Date().getTime();
+          let startTime = new Date().getTime();
 
-          var numPoints = Number($("#txtCount").val()) * 10000;
+          let numPoints = Number($("#txtCount").val()) * 10000;
           addMarkers(numPoints);
 
           haoutil.loading.close();
-          var endTime = new Date().getTime();
+          let endTime = new Date().getTime();
           // 两个时间戳相差的毫秒数
-          var usedTime = (endTime - startTime) / 1000;
+          let usedTime = (endTime - startTime) / 1000;
           console.log(usedTime);
 
           haoutil.msg("共耗时" + usedTime.toFixed(2) + "秒");
         });
         $("#btnShowData2").click(function () {
           haoutil.loading.show();
-          var startTime = new Date().getTime();
+          let startTime = new Date().getTime();
 
-          var numPoints = Number($("#txtCount").val()) * 10000;
+          let numPoints = Number($("#txtCount").val()) * 10000;
           addCustomDrawMarkers(numPoints);
 
           haoutil.loading.close();
-          var endTime = new Date().getTime();
+          let endTime = new Date().getTime();
           // 两个时间戳相差的毫秒数
-          var usedTime = (endTime - startTime) / 1000;
+          let usedTime = (endTime - startTime) / 1000;
           console.log(usedTime);
 
           haoutil.msg("共耗时" + usedTime.toFixed(2) + "秒");
@@ -107,10 +107,10 @@
       function addMarkers(numPoints) {
         canvasMarkerLayer.clear();
 
-        for (var i = 0; i < numPoints; i++) {
-          var latlng = getRandomLatLng();
+        for (let i = 0; i < numPoints; i++) {
+          let latlng = getRandomLatLng();
 
-          var graphic = new mars2d.graphic.Marker({
+          let graphic = new mars2d.graphic.Marker({
             latlng: latlng,
             style: {
               image: "img/marker/mark1.png",
@@ -128,10 +128,10 @@
       function addCustomDrawMarkers(numPoints) {
         canvasMarkerLayer.clear();
 
-        for (var i = 0; i < numPoints; i++) {
-          var latlng = getRandomLatLng();
+        for (let i = 0; i < numPoints; i++) {
+          let latlng = getRandomLatLng();
 
-          var graphic = new mars2d.graphic.Marker({
+          let graphic = new mars2d.graphic.Marker({
             latlng: latlng,
             style: {
               width: 40,
@@ -167,7 +167,7 @@
       }
 
       function getRandomLatLng() {
-        var bounds = map.getBounds().pad(0.5),
+        let bounds = map.getBounds().pad(0.5),
           southWest = bounds.getSouthWest(),
           northEast = bounds.getNorthEast(),
           lngSpan = northEast.lng - southWest.lng,

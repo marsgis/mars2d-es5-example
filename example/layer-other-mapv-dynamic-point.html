@@ -30,7 +30,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -54,9 +54,9 @@
       }
 
       function showMapVLayer(rs) {
-        var data = [];
-        for (var i = 0; i < rs[0].length; i++) {
-          var geoCoord = rs[0][i].geoCoord;
+        let data = [];
+        for (let i = 0; i < rs[0].length; i++) {
+          let geoCoord = rs[0][i].geoCoord;
           data.push({
             geometry: {
               type: "Point",
@@ -66,8 +66,8 @@
           });
         }
 
-        var dataSet = new mapv.DataSet(data);
-        var options = {
+        let dataSet = new mapv.DataSet(data);
+        let options = {
           fillStyle: "rgba(255, 250, 50, 0.6)",
           //shadowColor: 'rgba(255, 250, 50, 0.5)',
           //shadowBlur: 3,

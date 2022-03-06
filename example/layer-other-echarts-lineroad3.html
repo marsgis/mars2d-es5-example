@@ -35,7 +35,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -47,11 +47,11 @@
         map.basemap = 2017; //切换到蓝色底图
         map.setView([31.872396, 117.290191], 12);
 
-        var url = "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/33";
-        var query = L.esri.query({ url: url });
+        let url = "http://server.mars2d.cn/arcgis/rest/services/mars/hefei/MapServer/33";
+        let query = L.esri.query({ url: url });
 
         //query.where('Maj_Area >500000');
-        var that = this;
+        let that = this;
         query.run(function (error, featureCollection, response) {
           if (error != null && error.code > 0) {
             haoutil.alert(error.message, "服务访问出错");
@@ -67,14 +67,14 @@
       }
 
       function showEchartsLayer(featureCollection) {
-        var busLines = [];
+        let busLines = [];
         for (let i = 0; i < featureCollection.features.length; i++) {
-          var feature = featureCollection.features[i];
+          let feature = featureCollection.features[i];
           if (feature == null || feature.geometry == null || feature.geometry.coordinates == null || feature.geometry.coordinates.length == 0) {
             continue;
           }
 
-          var hStep = 1 / feature.geometry.coordinates.length;
+          let hStep = 1 / feature.geometry.coordinates.length;
           //console.log(i + ',' + hStep);
           busLines.push({
             coords: feature.geometry.coordinates,
@@ -86,7 +86,7 @@
           });
         }
 
-        var options = {
+        let options = {
           animation: true,
           series: [
             {

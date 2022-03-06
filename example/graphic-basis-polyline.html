@@ -77,7 +77,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -130,7 +130,7 @@
           [117.286308, 31.804112, 29.2],
           [117.28621, 31.801059, 24.6],
         ]);
-        var graphic = new mars2d.graphic.Polyline({
+        let graphic = new mars2d.graphic.Polyline({
           latlngs: latlngs,
           style: {
             color: "#ff0000",
@@ -149,7 +149,7 @@
           [117.172852, 31.862736, 33.69],
           [117.251461, 31.856011, 26.44],
         ]);
-        var graphic = new mars2d.graphic.Polyline({
+        let graphic = new mars2d.graphic.Polyline({
           latlngs: latlngs,
           style: {
             width: 3,
@@ -167,7 +167,7 @@
           [117.311934, 31.774753, 19.71],
           [117.305473, 31.800304, 23.86],
         ]);
-        var graphic = new mars2d.graphic.Polyline({
+        let graphic = new mars2d.graphic.Polyline({
           latlngs: latlngs,
           style: {
             width: 3,
@@ -178,9 +178,9 @@
       }
 
       function addGraphic_04(graphicLayer) {
-        var colors = ["rgb(255, 0, 100)", "rgb(20, 200, 100)", "rgb(0, 0, 255)"];
+        let colors = ["rgb(255, 0, 100)", "rgb(20, 200, 100)", "rgb(0, 0, 255)"];
 
-        var graphic = new mars2d.graphic.Polyline({
+        let graphic = new mars2d.graphic.Polyline({
           latlngs: [
             [31.809299, 117.163284],
             [31.777104, 117.169052],
@@ -393,7 +393,7 @@
         // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
 
         //绑定Popup
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>

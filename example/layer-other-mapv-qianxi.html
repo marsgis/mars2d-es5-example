@@ -30,7 +30,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -56,7 +56,7 @@
       function showMapVLayer(geojson) {
         map.setView([33.468108, 112.939453], 5);
 
-        var geojsonOptions = {
+        let geojsonOptions = {
           gradient: {
             0: "rgba(55, 50, 250, 0.4)",
             1: "rgba(55, 50, 250, 1)",
@@ -65,11 +65,11 @@
           draw: "intensity",
         };
 
-        var geojsonDataSet = mapv.geojson.getDataSet(geojson);
+        let geojsonDataSet = mapv.geojson.getDataSet(geojson);
 
-        var to = "北京";
+        let to = "北京";
 
-        var qianxi = new mapv.DataSet([
+        let qianxi = new mapv.DataSet([
           {
             from: "河北",
             count: 354551,
@@ -122,18 +122,18 @@
           },
         ]);
 
-        var qianxiData = qianxi.get();
+        let qianxiData = qianxi.get();
 
-        var lineData = [];
-        var pointData = [];
-        var textData = [];
-        var timeData = [];
+        let lineData = [];
+        let pointData = [];
+        let textData = [];
+        let timeData = [];
 
-        var citys = {};
+        let citys = {};
 
-        for (var i = 0; i < qianxiData.length; i++) {
-          var fromCenter = mapv.utilCityCenter.getCenterByCityName(qianxiData[i].from);
-          var toCenter = mapv.utilCityCenter.getCenterByCityName(qianxiData[i].to);
+        for (let i = 0; i < qianxiData.length; i++) {
+          let fromCenter = mapv.utilCityCenter.getCenterByCityName(qianxiData[i].from);
+          let toCenter = mapv.utilCityCenter.getCenterByCityName(qianxiData[i].to);
           if (!fromCenter || !toCenter) {
             continue;
           }
@@ -166,7 +166,7 @@
             text: qianxiData[i].to,
           });
 
-          var curve = mapv.utilCurve.getPoints([fromCenter, toCenter]);
+          let curve = mapv.utilCurve.getPoints([fromCenter, toCenter]);
 
           for (let j = 0; j < curve.length; j++) {
             timeData.push({
@@ -189,7 +189,7 @@
           });
         }
 
-        var data = geojsonDataSet.get({
+        let data = geojsonDataSet.get({
           filter: function (item) {
             if (!citys[item.name]) {
               return false;
@@ -203,9 +203,9 @@
         let mapVLayer = new mars2d.layer.MapVLayer(geojsonOptions, geojsonDataSet);
         map.addLayer(mapVLayer);
 
-        var textDataSet = new mapv.DataSet(textData);
+        let textDataSet = new mapv.DataSet(textData);
 
-        var textOptions = {
+        let textOptions = {
           draw: "text",
           font: "14px Arial",
           fillStyle: "white",
@@ -217,8 +217,8 @@
         let textmapVLayer = new mars2d.layer.MapVLayer(textOptions, textDataSet);
         map.addLayer(textmapVLayer);
 
-        var lineDataSet = new mapv.DataSet(lineData);
-        var lineOptions = {
+        let lineDataSet = new mapv.DataSet(lineData);
+        let lineOptions = {
           strokeStyle: "rgba(255, 250, 50, 0.8)",
           shadowColor: "rgba(255, 250, 50, 1)",
           shadowBlur: 20,
@@ -229,7 +229,7 @@
         let linemapVLayer = new mars2d.layer.MapVLayer(lineOptions, lineDataSet);
         map.addLayer(linemapVLayer);
 
-        var pointOptions = {
+        let pointOptions = {
           fillStyle: "rgba(254,175,3,0.7)",
           shadowColor: "rgba(55, 50, 250, 0.5)",
           shadowBlur: 10,
@@ -237,12 +237,12 @@
           zIndex: 10,
           draw: "simple",
         };
-        var pointDataSet = new mapv.DataSet(pointData);
+        let pointDataSet = new mapv.DataSet(pointData);
         let pointmapVLayer = new mars2d.layer.MapVLayer(pointOptions, pointDataSet);
         map.addLayer(pointmapVLayer);
 
-        var timeDataSet = new mapv.DataSet(timeData);
-        var timeOptions = {
+        let timeDataSet = new mapv.DataSet(timeData);
+        let timeOptions = {
           fillStyle: "rgba(255, 250, 250, 0.5)",
           zIndex: 200,
           size: 2.5,

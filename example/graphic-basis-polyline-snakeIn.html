@@ -32,7 +32,7 @@
   <script type="text/javascript">
     "use script"; //开发环境建议开启严格模式
 
-    var map;
+    let map;
 
     function initMap(options) {
       //合并属性参数，可覆盖config.json中的对应配置
@@ -59,7 +59,7 @@
       let graphicLayer = new mars2d.layer.GraphicLayer();
       map.addLayer(graphicLayer);
 
-      var graphicLine = new mars2d.graphic.Polyline({
+      let graphicLine = new mars2d.graphic.Polyline({
         latlngs: latlngs,
         style: {
           color: "#0000ff",
@@ -73,7 +73,7 @@
       graphicLine.snakeIn();
 
       //创建随着线运动的marker点
-      var marker = new mars2d.graphic.Marker({
+      let marker = new mars2d.graphic.Marker({
         latlng: latlngs[0],
         style: {
           image: "img/marker/bike.png",
@@ -84,12 +84,12 @@
       });
       graphicLayer.addGraphic(marker);
 
-      var inhtml = '<div style="width:250px;text-align: center;"><h4>木遥环天柱山骑行</h4><br/><img src="img/photo/tzs.jpg" /></div>';
+      let inhtml = '<div style="width:250px;text-align: center;"><h4>木遥环天柱山骑行</h4><br/><img src="img/photo/tzs.jpg" /></div>';
       marker.bindPopup(inhtml).openPopup();
 
       graphicLine.on("snakestart snake snakeend", function (ev) {
-        var temp = graphicLine.latlngs;
-        var currLatlng = temp[temp.length - 1];
+        let temp = graphicLine.latlngs;
+        let currLatlng = temp[temp.length - 1];
 
         marker.setLatLng(currLatlng);
 

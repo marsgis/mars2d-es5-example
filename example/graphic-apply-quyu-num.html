@@ -49,12 +49,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
 
-        var mapOptions = mars2d.Util.merge(options, {
+        let mapOptions = mars2d.Util.merge(options, {
           zoom: 9,
           center: { lng: 117.37793, lat: 31.809895 },
         });
@@ -63,7 +63,7 @@
 
         map.basemap = 2017; //蓝色底图
         // 合肥市边界墙
-        var borderWall = new mars2d.layer.GeoJsonLayer({
+        let borderWall = new mars2d.layer.GeoJsonLayer({
           name: "合肥市边界墙",
           url: "//data.mars2d.cn/file/geojson/areas/340100.json",
           mask: true, //标识为遮罩层【重点参数】
@@ -82,7 +82,7 @@
         map.addLayer(borderWall);
 
         //创建矢量数据图层
-        var graphicLayer = new mars2d.layer.GraphicLayer();
+        let graphicLayer = new mars2d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         mars2d.Util.fetchJson({
@@ -94,7 +94,7 @@
               let item = arr[i];
 
               //polygon面
-              var polygonEntity = new mars2d.graphic.Polygon({
+              let polygonEntity = new mars2d.graphic.Polygon({
                 latlngs: item.latlngs,
                 style: {
                   fill: true,
@@ -105,7 +105,7 @@
               graphicLayer.addGraphic(polygonEntity);
 
               //PolylineEntity线
-              var graphicLine = new mars2d.graphic.Polyline({
+              let graphicLine = new mars2d.graphic.Polyline({
                 latlngs: item.latlngs,
                 style: {
                   color: "rgba(255,255,255,0.5)",
@@ -115,10 +115,10 @@
               graphicLayer.addGraphic(graphicLine);
 
               //中心点
-              var center = item.attr.centroid;
+              let center = item.attr.centroid;
 
               // 扩散点
-              var graphic = new mars2d.graphic.Marker({
+              let graphic = new mars2d.graphic.Marker({
                 latlng: [center[1], center[0]],
                 style: {
                   width: 8,
@@ -129,8 +129,8 @@
               graphicLayer.addGraphic(graphic);
 
               //数字显示
-              var number = Math.floor(Math.random() * (4000 - 3000 + 1) + 3000); //随机数字 3000-4000
-              var divGraphic = new mars2d.graphic.DivGraphic({
+              let number = Math.floor(Math.random() * (4000 - 3000 + 1) + 3000); //随机数字 3000-4000
+              let divGraphic = new mars2d.graphic.DivGraphic({
                 latlng: [center[1], center[0]],
                 style: {
                   html: `  <div class="marsBlackPanel  animation-spaceInDown">

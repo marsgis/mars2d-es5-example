@@ -70,10 +70,10 @@
         background-color: #465996;
         pointer-events: none;
       }
-      .typhoon-tooltip.leaflet-tooltip-left{
+      .typhoon-tooltip.leaflet-tooltip-left {
         margin-left: -15px !important;
       }
-      .typhoon-tooltip.leaflet-tooltip-left:before{
+      .typhoon-tooltip.leaflet-tooltip-left:before {
         border-left-color: #465996 !important;
       }
       .tipBox {
@@ -198,11 +198,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {
+        let mapOptions = mars2d.Util.merge(options, {
           zoom: 4,
           center: { lng: 106.347656, lat: 31.278551 },
         });
@@ -298,6 +298,7 @@
           showPathTable(typhoon); //已有的，直接展示
         } else {
           queryTyphoonItem(row.id).then(function (newData) {
+            // eslint-disable-next-line no-undef
             let typhoon = new Typhoon({ ...row, ...newData }, map);
             typhoon.flyTo();
             showPathTable(typhoon);
@@ -349,20 +350,15 @@
             let graphic = typhoon.getPointById(row.id);
             if (graphic) {
               map.flyToGraphic(graphic, {
-      radius: 1600000,
-      complete() {
-        graphic.openTooltip()
-      }
-    })
+                radius: 1600000,
+                complete() {
+                  graphic.openTooltip();
+                },
+              });
             }
           },
         });
       }
-
-
-
-
-
 
       function getHeight() {
         return $(window).height() - 440;
@@ -372,7 +368,7 @@
       function queryTyphoonList() {
         return new Promise(function (resolve, reject) {
           function typhoon_jsons_list_default(data) {
-            var arr = [];
+            let arr = [];
             data.typhoonList.forEach((item) => {
               arr.push({
                 id: item[0],
@@ -409,7 +405,7 @@
       function queryTyphoonItem(id) {
         return new Promise(function (resolve, reject) {
           function typhoon_jsons_view(res) {
-            var newData = conversionPathData(res.typhoon); //在Typhoon.js中
+            let newData = conversionPathData(res.typhoon); //在Typhoon.js中
             // console.log('台风数据==>', newData)
             resolve(newData);
           }
@@ -435,7 +431,7 @@
 
       //转换数据,将后端接口数据转换为需要的格式
       function conversionPathData(oldData) {
-        var path = [];
+        let path = [];
         oldData[8].forEach((message) => {
           let circle7;
           let circle10;
@@ -610,7 +606,7 @@
         map.graphicLayer.addGraphic(lineWarning24);
 
         //注记文本
-        var textWarning24 = new mars2d.graphic.Label({
+        let textWarning24 = new mars2d.graphic.Label({
           latlng: [33.137551, 128.496094],
           style: {
             text: "24小时警戒线",
@@ -637,7 +633,7 @@
         map.graphicLayer.addGraphic(lineWarning48);
 
         //注记文本
-        var textWarning48 = new mars2d.graphic.Label({
+        let textWarning48 = new mars2d.graphic.Label({
           latlng: [31.372399, 131.506348],
           style: {
             text: "48小时警戒线",

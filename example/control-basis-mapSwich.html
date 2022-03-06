@@ -35,7 +35,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -45,7 +45,7 @@
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
         //地图切换
-        var mapSwich = new mars2d.control.MapSwich({
+        let mapSwich = new mars2d.control.MapSwich({
           selected: mars2d.control.MapSwich.Type.Vec,
           hasPano: true,
         });
@@ -73,7 +73,7 @@
         });
       }
 
-      var page3d = {
+      let page3d = {
         index: -1,
         show: function (id) {
           this.index = layer.open({
@@ -97,7 +97,7 @@
         },
       };
 
-      var pagePano = {
+      let pagePano = {
         index: -1,
         show: function (id) {
           this.index = layer.open({

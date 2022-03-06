@@ -142,11 +142,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {
+        let mapOptions = mars2d.Util.merge(options, {
           zoom: 3,
           center: { lng: 66.09375, lat: 32.398516 },
         });
@@ -173,7 +173,7 @@
 
       function showRoad(arr, options) {
         //创建矢量数据图层
-        var graphicLayer = new mars2d.layer.GraphicLayer();
+        let graphicLayer = new mars2d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         const arrPosition = [];
@@ -212,7 +212,7 @@
           }
         }
 
-        var primitive = new mars2d.graphic.Polyline({
+        let primitive = new mars2d.graphic.Polyline({
           latlngs: getBezierCurve(arrPosition),
           style: {
             width: 2,

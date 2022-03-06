@@ -30,7 +30,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -46,9 +46,9 @@
       }
 
       function showMapVLayer() {
-        var randomCount = 1000;
-        var data = [];
-        var citys = [
+        let randomCount = 1000;
+        let data = [];
+        let citys = [
           "北京",
           "天津",
           "上海",
@@ -84,8 +84,8 @@
 
         //自定义数据
         while (randomCount--) {
-          var cityCenter1 = mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)]);
-          var cityCenter2 = mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)]);
+          let cityCenter1 = mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)]);
+          let cityCenter2 = mapv.utilCityCenter.getCenterByCityName(citys[parseInt(Math.random() * citys.length)]);
           data.push({
             geometry: {
               type: "LineString",
@@ -98,9 +98,9 @@
           });
         }
 
-        var dataSet = new mapv.DataSet(data);
+        let dataSet = new mapv.DataSet(data);
 
-        var options = {
+        let options = {
           strokeStyle: "rgba(255, 250, 50, 0.3)",
           shadowColor: "rgba(255, 250, 50, 1)",
           shadowBlur: 20,

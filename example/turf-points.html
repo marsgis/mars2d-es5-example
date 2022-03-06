@@ -52,13 +52,13 @@
   <script type="text/javascript">
     "use script"; //开发环境建议开启严格模式
 
-    var map;
-    var graphicLayer;
-    var pointsLayer;
+    let map;
+    let graphicLayer;
+    let pointsLayer;
 
     function initMap(options) {
       //合并属性参数，可覆盖config.json中的对应配置
-      var mapOptions = mars2d.Util.merge(options, {
+      let mapOptions = mars2d.Util.merge(options, {
         zoom: 11,
         scene: {
           center: { lat: 31.880473, lng: 117.200775 },
@@ -94,13 +94,11 @@
     function randomPoints() {
       clearlayer();
 
-      var points = turf.randomPoint(50, { bbox: bbox }); //50个随机点
+      let points = turf.randomPoint(50, { bbox: bbox }); //50个随机点
 
       points.features.forEach((e, index) => {
         let position = e.geometry.coordinates;
-        let latlngs = mars2d.PointTrans.coords2latlngs([
-          position
-        ]);
+        let latlngs = mars2d.PointTrans.coords2latlngs([position]);
         let primitive = new mars2d.graphic.Marker({
           latlng: latlngs[0],
           style: {
@@ -121,20 +119,18 @@
 
       let points = pointsLayer.toGeoJSON();
 
-      var hull = turf.convex(points);
+      let hull = turf.convex(points);
 
       if (!hull) {
         haoutil.msg("请先创建原始数据");
       }
 
-      var convexPoints = hull.geometry.coordinates;
+      let convexPoints = hull.geometry.coordinates;
 
-      let latlngs = mars2d.PointTrans.coords2latlngs(
-        convexPoints[0]
-      );
+      let latlngs = mars2d.PointTrans.coords2latlngs(convexPoints[0]);
 
       // 外包围面;
-      var polygonGraphic = new mars2d.graphic.Polygon({
+      let polygonGraphic = new mars2d.graphic.Polygon({
         latlngs: latlngs,
         style: {
           fillColor: "#00ffff",
@@ -150,20 +146,16 @@
 
       let points = pointsLayer.toGeoJSON();
 
-      var options = {
+      let options = {
         bbox: bbox,
       };
 
-      var voronoiPolygons = turf.voronoi(points, options);
+      let voronoiPolygons = turf.voronoi(points, options);
 
       voronoiPolygons.features.forEach((e, index) => {
-
         let position = e.geometry.coordinates;
 
-        let latlngs = mars2d.PointTrans.coords2latlngs(
-          position[0]
-        );
-
+        let latlngs = mars2d.PointTrans.coords2latlngs(position[0]);
 
         let voronoiPolygon = new mars2d.graphic.Polygon({
           latlngs: latlngs,
@@ -182,17 +174,15 @@
       graphicLayer.clear();
 
       let points = pointsLayer.toGeoJSON();
-      for (var i = 0; i < points.features.length; i++) {
+      for (let i = 0; i < points.features.length; i++) {
         points.features[i].properties.z = ~~(Math.random() * 9);
       }
-      var tin = turf.tin(points, "z");
+      let tin = turf.tin(points, "z");
 
       tin.features.forEach((e, index) => {
         let position = e.geometry.coordinates;
 
-        let latlngs = mars2d.PointTrans.coords2latlngs(
-          position[0]
-        );
+        let latlngs = mars2d.PointTrans.coords2latlngs(position[0]);
 
         // TIN多边形
         let tinPolygon = new mars2d.graphic.Polygon({

@@ -30,7 +30,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -47,15 +47,15 @@
         })
           .then((weiboData) => {
             weiboData = weiboData.map(function (serieData, idx) {
-              var px = serieData[0] / 1000;
-              var py = serieData[1] / 1000;
-              var res = [[px, py]];
+              let px = serieData[0] / 1000;
+              let py = serieData[1] / 1000;
+              let res = [[px, py]];
 
-              for (var i = 2; i < serieData.length; i += 2) {
-                var dx = serieData[i] / 1000;
-                var dy = serieData[i + 1] / 1000;
-                var x = px + dx;
-                var y = py + dy;
+              for (let i = 2; i < serieData.length; i += 2) {
+                let dx = serieData[i] / 1000;
+                let dy = serieData[i + 1] / 1000;
+                let x = px + dx;
+                let y = py + dy;
                 res.push([x.toFixed(2), y.toFixed(2), 1]);
 
                 px = x;

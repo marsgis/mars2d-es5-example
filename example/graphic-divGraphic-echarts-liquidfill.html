@@ -41,12 +41,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {
+        let mapOptions = mars2d.Util.merge(options, {
           zoom: 9,
           center: { lng: 116.976929, lat: 39.240763 },
         });
@@ -66,7 +66,7 @@
       }
 
       function addGraphic(latlng, attr) {
-        var graphic = new mars2d.graphic.DivGraphic({
+        let graphic = new mars2d.graphic.DivGraphic({
           latlng: latlng,
           style: {
             html: `<div style="width: 80px;height:80px;"></div>`,

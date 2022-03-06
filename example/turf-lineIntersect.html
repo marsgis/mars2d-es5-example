@@ -48,13 +48,13 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var lineLayer;
-      var pointLayer;
+      let map;
+      let lineLayer;
+      let pointLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {});
+        let mapOptions = mars2d.Util.merge(options, {});
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
@@ -113,7 +113,7 @@
             let line2 = geojson.features[j];
 
             //计算相交点
-            var intersects = turf.lineIntersect(line1, line2);
+            let intersects = turf.lineIntersect(line1, line2);
 
             if (intersects.features.length > 0) {
               let intersectsPointGrahic = mars2d.Util.geoJsonToGraphics(intersects.features, {
@@ -137,10 +137,10 @@
       }
 
       //颜色
-      var index = 0;
-      var colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#00FF"];
+      let index = 0;
+      let colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#00FF"];
       function getColor() {
-        var i = index++ % colors.length;
+        let i = index++ % colors.length;
         return colors[i];
       }
     </script>

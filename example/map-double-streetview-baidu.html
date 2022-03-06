@@ -46,12 +46,12 @@
 
     <!--页面js-->
     <script>
-      var panorama;
+      let panorama;
 
       $(document).ready(function () {
-        var request = haoutil.system.getRequest();
-        var baiduMpt = new BMap.Point(request.lng, request.lat);
-        var map = new BMap.Map("streetscapeMap");
+        let request = haoutil.system.getRequest();
+        let baiduMpt = new BMap.Point(request.lng, request.lat);
+        let map = new BMap.Map("streetscapeMap");
         map.centerAndZoom(baiduMpt, 15);
         map.addTileLayer(new BMap.PanoramaCoverageLayer());
 
@@ -60,7 +60,7 @@
         panorama.setPov({ heading: -40, pitch: 6 });
         panorama.addEventListener("position_changed", function (e) {
           //全景图位置改变后，普通地图中心点也随之改变
-          var pos = panorama.getPosition(); //街景变换返回触发的回调函数
+          let pos = panorama.getPosition(); //街景变换返回触发的回调函数
           if (parent) {
             pos = parent.mars2d.PointTrans.bd2wgs([pos.lng, pos.lat]);
             parent.updateMarker({ lng: pos[0], lat: pos[1] });

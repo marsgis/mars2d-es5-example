@@ -44,10 +44,10 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
-        var mapOptions = mars2d.Util.merge(options, {
+        let mapOptions = mars2d.Util.merge(options, {
           zoom: 7,
           center: { lng: 117.228088, lat: 31.98811 },
           // control: {
@@ -61,7 +61,7 @@
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
         //安徽省卫星底图
-        var tileLayer = new mars2d.layer.TileLayer({
+        let tileLayer = new mars2d.layer.TileLayer({
           name: "安徽省卫星",
           url: "//data.mars3d.cn/tile/anhui/{z}/{x}/{y}.png",
           minZoom: 1,

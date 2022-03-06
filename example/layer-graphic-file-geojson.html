@@ -46,7 +46,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -61,7 +61,7 @@
         showPointDemo();
       }
 
-      var geoJsonLayer;
+      let geoJsonLayer;
 
       function removeLayer() {
         if (geoJsonLayer) {
@@ -216,7 +216,7 @@
 
         //下面代码演示如果再config.json中配置的图层，如何绑定额外事件方法
         // 绑定config.json中对应图层配置的"id"值图层的单击事件（比如下面是id:1987对应图层）
-        var layerTest = map.getLayer(1987, "id");
+        let layerTest = map.getLayer(1987, "id");
 
         //绑定事件
         layerTest.on(mars2d.EventType.load, function (event) {
@@ -233,7 +233,7 @@
       function showAnhuiDemo() {
         removeLayer();
 
-        var colors = ["#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"];
+        let colors = ["#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"];
 
         geoJsonLayer = new mars2d.layer.GeoJsonLayer({
           name: "安徽各市",
@@ -267,12 +267,12 @@
 
         //绑定事件
         geoJsonLayer.on(mars2d.EventType.click, function (event) {
-          var graphic = event.layer;
+          let graphic = event.layer;
           map.fitBounds(graphic.getBounds());
         });
 
         geoJsonLayer.on(mars2d.EventType.mouseover, function (event) {
-          var graphic = event.layer;
+          let graphic = event.layer;
           graphic.setStyle({
             outlineColor: "#666",
             outlineWidth: 3,
@@ -282,7 +282,7 @@
         });
 
         geoJsonLayer.on(mars2d.EventType.mouseout, function (event) {
-          var graphic = event.layer;
+          let graphic = event.layer;
           graphic.setStyle({
             outlineColor: "white",
             outlineWidth: 2,
@@ -323,12 +323,12 @@
 
         //绑定事件
         geoJsonLayer.on(mars2d.EventType.click, function (event) {
-          var item = event.layer.attr;
+          let item = event.layer.attr;
           haoutil.msg("你单击了：" + item.name + "," + item.name_cn);
         });
 
         geoJsonLayer.on(mars2d.EventType.mouseover, function (event) {
-          var graphic = event.layer;
+          let graphic = event.layer;
           graphic.setStyle({
             fillOpacity: 0.5,
             outlineWidth: 2,
@@ -337,7 +337,7 @@
         });
 
         geoJsonLayer.on(mars2d.EventType.mouseout, function (event) {
-          var graphic = event.layer;
+          let graphic = event.layer;
           graphic.setStyle({
             fillOpacity: 0.01,
             outlineWidth: 0,

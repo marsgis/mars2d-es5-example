@@ -43,7 +43,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -60,7 +60,7 @@
         map.addControl(control);
       }
 
-      var geolocation;
+      let geolocation;
       //使用百度地图库进行定位
       function onGoLocate(e) {
         if (!geolocation) {
@@ -70,14 +70,15 @@
         L.DomUtil.removeClasses(this.btnLocation, this._iconLocation);
         L.DomUtil.addClasses(this.btnLocation, this._iconLocationLoading);
 
-        var that = this;
+        let that = this;
         geolocation.getCurrentPosition(
           function (r) {
             L.DomUtil.removeClasses(that.btnLocation, that._iconLocationLoading);
             L.DomUtil.addClasses(that.btnLocation, that._iconLocation);
 
+            // eslint-disable-next-line no-undef
             if (this.getStatus() == BMAP_STATUS_SUCCESS) {
-              var wgsPoint = mars2d.PointTrans.bd2wgs([r.point.lng, r.point.lat]);
+              let wgsPoint = mars2d.PointTrans.bd2wgs([r.point.lng, r.point.lat]);
 
               that.onLocationFound({
                 accuracy: 3000,

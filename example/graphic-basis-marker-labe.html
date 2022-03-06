@@ -42,11 +42,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {
+        let mapOptions = mars2d.Util.merge(options, {
           zoom: 7,
           center: { lng: 119.4104, lat: 30.845647 },
         });
@@ -55,7 +55,7 @@
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
         //创建矢量数据图层
-        var clusterLayer = new mars2d.layer.ClusterLayer({
+        let clusterLayer = new mars2d.layer.ClusterLayer({
           chunkedLoading: true, //间隔添加数据，以便页面不冻结。
           showCoverageOnHover: false, //是否显示聚合标记的边界。
           disableClusteringAtZoom: 18, //此级别下不聚合
@@ -65,7 +65,7 @@
           url: "//data.mars2d.cn/file/apidemo/mudi.json",
         })
           .then((res) => {
-            var arrData = res.data;
+            let arrData = res.data;
             addFeature(clusterLayer, arrData);
           })
           .catch((error) => {
@@ -74,9 +74,9 @@
       }
 
       function addFeature(graphicLayer, arr) {
-        for (var i = 0, len = arr.length; i < len; i++) {
-          var item = arr[i];
-          var graphic = new mars2d.graphic.Marker({
+        for (let i = 0, len = arr.length; i < len; i++) {
+          let item = arr[i];
+          let graphic = new mars2d.graphic.Marker({
             latlng: [item.lat, item.lng],
             style: {
               image: "img/marker/mark3.png",
@@ -93,7 +93,7 @@
               if (!item) {
                 return false;
               }
-              var inthtml = `
+              let inthtml = `
           <table style="width:350px;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">${item.text} </th>

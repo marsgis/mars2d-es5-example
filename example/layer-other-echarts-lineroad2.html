@@ -30,7 +30,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -54,24 +54,24 @@
       }
 
       function showEchartsLayer(data) {
-        var hStep = 300 / (data.length - 1);
-        var busLines = [].concat.apply(
+        let hStep = 300 / (data.length - 1);
+        let busLines = [].concat.apply(
           [],
           data.map(function (busLine, idx) {
-            var prevPt;
-            var points = [];
-            for (var i = 0; i < busLine.length; i += 2) {
-              var pt = [busLine[i], busLine[i + 1]];
+            let prevPt;
+            let points = [];
+            for (let i = 0; i < busLine.length; i += 2) {
+              let pt = [busLine[i], busLine[i + 1]];
               if (i > 0) {
                 pt = [prevPt[0] + pt[0], prevPt[1] + pt[1]];
               }
               prevPt = pt;
 
-              var jd = pt[0] / 1e4;
-              var wd = pt[1] / 1e4;
+              let jd = pt[0] / 1e4;
+              let wd = pt[1] / 1e4;
 
               //百度坐标转高德坐标
-              var point = mars2d.PointTrans.bd2wgs([jd, wd]);
+              let point = mars2d.PointTrans.bd2wgs([jd, wd]);
               jd = point[0];
               wd = point[1];
 

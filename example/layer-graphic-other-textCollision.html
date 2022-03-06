@@ -40,7 +40,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
       let labelTextCollision;
 
       function initMap(options) {
@@ -62,7 +62,7 @@
         map.addLayer(graphicLayer);
 
         //线
-        var graphicLine = new mars2d.graphic.Polyline({
+        let graphicLine = new mars2d.graphic.Polyline({
           latlngs: [
             [31.748022, 117.068253],
             [31.756488, 117.419901],
@@ -83,9 +83,9 @@
         graphicLayer.addGraphic(graphicLine);
 
         //点 添加随机数据演示
-        for (var i = 0; i < 1000; i++) {
-          var latlng = getRandomLatLng();
-          var graphic = new mars2d.graphic.Point({
+        for (let i = 0; i < 1000; i++) {
+          let latlng = getRandomLatLng();
+          let graphic = new mars2d.graphic.Point({
             latlng: latlng,
             style: {
               pixelSize: 2,
@@ -103,7 +103,7 @@
           });
           graphicLayer.addGraphic(graphic);
 
-          graphic.bindPopup('火星科技 mars2d.cn');
+          graphic.bindPopup("火星科技 mars2d.cn");
         }
       }
 
@@ -113,7 +113,7 @@
       }
 
       function getRandomLatLng() {
-        var bounds = map.getBounds(),
+        let bounds = map.getBounds(),
           southWest = bounds.getSouthWest(),
           northEast = bounds.getNorthEast(),
           lngSpan = northEast.lng - southWest.lng,

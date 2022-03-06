@@ -30,7 +30,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -46,7 +46,7 @@
       }
 
       function showEchartsLayer() {
-        var geoCoordMap = {
+        let geoCoordMap = {
           上海: [121.4648, 31.2891],
           东莞: [113.8953, 22.901],
           东营: [118.7073, 37.5513],
@@ -166,7 +166,7 @@
           韶关: [113.7964, 24.7028],
         };
 
-        var BJData = [
+        let BJData = [
           [{ name: "北京", value: 100 }, { name: "无锡" }],
           [{ name: "上海", value: 30 }, { name: "无锡" }],
           [{ name: "广州", value: 20 }, { name: "无锡" }],
@@ -189,12 +189,12 @@
 
         //var planePath = 'path://M1705.06,1318.313v-89.254l-319.9-221.799l0.073-208.063c0.521-84.662-26.629-121.796-63.961-121.491c-37.332-0.305-64.482,36.829-63.961,121.491l0.073,208.063l-319.9,221.799v89.254l330.343-157.288l12.238,241.308l-134.449,92.931l0.531,42.034l175.125-42.917l175.125,42.917l0.531-42.034l-134.449-92.931l12.238-241.308L1705.06,1318.313z';
 
-        var convertData = function (data) {
-          var res = [];
-          for (var i = 0; i < data.length; i++) {
-            var dataItem = data[i];
-            var fromCoord = geoCoordMap[dataItem[0].name];
-            var toCoord = geoCoordMap[dataItem[1].name];
+        let convertData = function (data) {
+          let res = [];
+          for (let i = 0; i < data.length; i++) {
+            let dataItem = data[i];
+            let fromCoord = geoCoordMap[dataItem[0].name];
+            let toCoord = geoCoordMap[dataItem[1].name];
             if (fromCoord && toCoord) {
               res.push({
                 fromName: dataItem[0].name,
@@ -206,9 +206,9 @@
           return res;
         };
 
-        var covertColor = function (data) {
-          var value = data[1].value;
-          var result = "aqua";
+        let covertColor = function (data) {
+          let value = data[1].value;
+          let result = "aqua";
           if (value > 80) {
             result = "#ff3333";
           } else if (value > 60) {
@@ -221,8 +221,8 @@
           return result;
         };
 
-        var color = ["#56e88c", "#ffa022", "#46bee9"];
-        var series = [];
+        let color = ["#56e88c", "#ffa022", "#46bee9"];
+        let series = [];
         [["北京", BJData]].forEach(function (item, i) {
           series.push(
             {

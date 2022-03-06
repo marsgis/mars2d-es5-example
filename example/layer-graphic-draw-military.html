@@ -151,7 +151,7 @@
             window.layer.msg("当前没有标注任何数据，无需保存！");
             return;
           }
-          var strResult = toKML();
+          let strResult = toKML();
           haoutil.file.downloadFile("我的标注.kml", strResult);
         });
 
@@ -160,7 +160,7 @@
             window.layer.msg("当前没有标注任何数据，无需保存！");
             return;
           }
-          var strResult = toWKT();
+          let strResult = toWKT();
           haoutil.file.downloadFile("我的标注wkt.txt", JSON.stringify(strResult));
         });
       }
@@ -184,14 +184,14 @@
       }
 
       function toKML() {
-        var geojsonObject = graphicLayer.toGeoJSON();
+        let geojsonObject = graphicLayer.toGeoJSON();
         if (geojsonObject == null) {
           return null;
         }
 
         geojsonObject = haoutil.system.clone(geojsonObject);
 
-        var kml = kgUtil.toKml(geojsonObject, {
+        let kml = kgUtil.toKml(geojsonObject, {
           name: "Mars2D标绘数据",
           documentName: "Mars2D标绘数据文件",
           documentDescription: "标绘数据 by mars2d.cn",
@@ -202,19 +202,19 @@
       }
 
       function toWKT() {
-        var geojsonObject = graphicLayer.toGeoJSON();
+        let geojsonObject = graphicLayer.toGeoJSON();
         if (geojsonObject == null) {
           return null;
         }
         geojsonObject = haoutil.system.clone(geojsonObject);
 
-        var arrWKT = [];
-        var index = 0;
+        let arrWKT = [];
+        let index = 0;
         geojsonObject.features.forEach((feature) => {
-          var attr = feature.properties;
-          var style = feature.properties.style;
+          let attr = feature.properties;
+          let style = feature.properties.style;
 
-          var wkt = Terraformer.WKT.convert(feature.geometry); //geojson转换WKT格式 ,terraformer库
+          let wkt = Terraformer.WKT.convert(feature.geometry); //geojson转换WKT格式 ,terraformer库
           arrWKT.push({
             id: ++index,
             name: attr.name || "",
@@ -444,12 +444,12 @@
       }
 
       //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
-      var timeTik;
+      let timeTik;
 
       function startEditing(graphic) {
         clearTimeout(timeTik);
 
-        var plotAttr = mars2d.widget.getClass("widgets/plotAttr/widget.js");
+        let plotAttr = mars2d.widget.getClass("widgets/plotAttr/widget.js");
         if (plotAttr && plotAttr.isActivate) {
           plotAttr.startEditing(graphic, graphic.coordinates);
         } else {

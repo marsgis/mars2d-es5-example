@@ -81,7 +81,7 @@ class Typhoon {
 
   addNameGraphic(firstItem) {
     //[起点]绘制台风起点名字
-    var nameGraphic = new mars2d.graphic.Label({
+    let nameGraphic = new mars2d.graphic.Label({
       latlng: [firstItem.lat - 0.5, firstItem.lon + 0.7],
       style: {
         text: this.options.name_cn,
@@ -103,14 +103,14 @@ class Typhoon {
     let endItem = arr[arr.length - 1];
 
     let lastType;
-    var arrPoint = [];
+    let arrPoint = [];
     //路径点
     for (let i = 0, len = arr.length; i < len; i++) {
       let item = arr[i];
       let point = [item.lat, item.lon];
       //在图层上绘画出所有的点
 
-      var pointEntity = new mars2d.graphic.Point({
+      let pointEntity = new mars2d.graphic.Point({
         id: item.id,
         latlng: point,
         style: {

@@ -45,7 +45,7 @@
         //添加控件有2种方式:
 
         //方式1：在创建地图前的传参中配置control参数
-        var map = new mars2d.Map("mars2dContainer", {
+        let map = new mars2d.Map("mars2dContainer", {
           zoom: 5,
           center: { lng: 110.522461, lat: 37.509726 },
           control: {
@@ -90,7 +90,7 @@
         });
 
         //方式2：在创建地图后按需调用addControl添加(直接new对应type类型的控件)
-        var overviewMap = new mars2d.control.OverviewMap({
+        let overviewMap = new mars2d.control.OverviewMap({
           position: "topright",
           mapOptions: {
             basemaps: [

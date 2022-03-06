@@ -37,7 +37,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -53,8 +53,8 @@
           url: "http://data.mars2d.cn/file/geojson/urban.json",
         })
           .then((geojson) => {
-            for (var i = 0; i < geojson.features.length; i++) {
-              var feature = geojson.features[i];
+            for (let i = 0; i < geojson.features.length; i++) {
+              let feature = geojson.features[i];
               if (feature.properties.area_sqkm > 1000) {
                 feature.properties.Color = "rgba(100, 224, 60,.8)";
               } else {
@@ -70,17 +70,17 @@
       }
 
       function showData(geojsonData) {
-        var canvasLayer = new L.CanvasGeojsonLayer({
+        let canvasLayer = new L.CanvasGeojsonLayer({
           style: {},
           onClick: function (features, latlng) {
             if (features.length == 0) {
               return;
             }
 
-            var inhtml = "<table>";
-            var attr = features[0].geojson.properties;
-            for (var col in attr) {
-              var showval = $.trim(attr[col]);
+            let inhtml = "<table>";
+            let attr = features[0].geojson.properties;
+            for (let col in attr) {
+              let showval = $.trim(attr[col]);
               if (showval == null || showval == "" || showval == "Null" || showval == "Unknown" || showval == "0" || showval.length == 0) {
                 continue;
               }
@@ -89,7 +89,7 @@
             }
             inhtml += "</table>";
 
-            var popup = L.popup().setLatLng(latlng).setContent(inhtml).openOn(map);
+            let popup = L.popup().setLatLng(latlng).setContent(inhtml).openOn(map);
           },
           onMouseOver: function (features, latlng) {
             // handle mouseover events
@@ -97,8 +97,8 @@
               return;
             }
 
-            for (var i = 0; i < features.length; i++) {
-              var properties = features[i].geojson.properties;
+            for (let i = 0; i < features.length; i++) {
+              let properties = features[i].geojson.properties;
               if (!properties.Color_Old) {
                 properties.Color_Old = properties.Color;
               }
@@ -111,8 +111,8 @@
               return;
             }
 
-            for (var i = 0; i < features.length; i++) {
-              var properties = features[i].geojson.properties;
+            for (let i = 0; i < features.length; i++) {
+              let properties = features[i].geojson.properties;
               properties.Color = properties.Color_Old;
             }
             canvasLayer.render();

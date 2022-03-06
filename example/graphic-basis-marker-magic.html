@@ -37,7 +37,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -54,7 +54,7 @@
         map.addLayer(graphicLayer);
 
         //增加magic动画点
-        var graphic = new mars2d.graphic.Marker({
+        let graphic = new mars2d.graphic.Marker({
           latlng: [31.829316, 117.258796],
           style: {
             image: "img/marker/mark3.png",
@@ -65,7 +65,7 @@
         graphicLayer.addGraphic(graphic);
 
         //增加magic动画点列表
-        var magicArr = [
+        let magicArr = [
           "twisterInDown",
           "twisterInUp",
           "swap",
@@ -95,10 +95,10 @@
           "spaceInDown",
           "spaceInLeft",
         ];
-        var i = 0;
-        var showMagicMarker = setInterval(function () {
+        let i = 0;
+        let showMagicMarker = setInterval(function () {
           if (i < 28) {
-            var magicType = magicArr[i];
+            let magicType = magicArr[i];
 
             let latlng;
             if (i < 14) {
@@ -106,7 +106,7 @@
             } else {
               latlng = [31.747188, 116.999784 + (i - 14) * 0.04];
             }
-            var graphic = new mars2d.graphic.Marker({
+            let graphic = new mars2d.graphic.Marker({
               latlng: latlng,
               style: {
                 image: "img/marker/mark1.png",

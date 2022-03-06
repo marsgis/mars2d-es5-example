@@ -135,30 +135,30 @@
   <script>
     "use script"; //开发环境建议开启严格模式
 
-    var map;
+    let map;
     //全局中间变量
     let currJD;
     let currWD;
 
     function initMap(options) {
       //合并属性参数，可覆盖config.json中的对应配置
-      var mapOptions = mars2d.Util.merge(options, {
+      let mapOptions = mars2d.Util.merge(options, {
         zoom: 13,
-        center: { lng: 117.238884, lat: 31.84417 }
+        center: { lng: 117.238884, lat: 31.84417 },
       });
 
       //创建地图
       map = new mars2d.Map("mars2dContainer", mapOptions);
 
       //默认显示地图中心点坐标
-      var point = map.getCenter();
+      let point = map.getCenter();
       point.format();
       currJD = point.lng;
       currWD = point.lat;
       updateTen();
 
       $('input:radio[name="rdoType"]').change(function () {
-        var selectType = $(this).val();
+        let selectType = $(this).val();
 
         switch (selectType) {
           default:
@@ -185,7 +185,7 @@
       });
 
       $('input:radio[name="rdoGkType"]').change(function () {
-        var selectType2 = $(this).val();
+        let selectType2 = $(this).val();
         switch (selectType2) {
           default:
             $(".viewGk3").show();
@@ -210,7 +210,6 @@
     function updateTen() {
       $("#txtLngTen").val(mars2d.Util.formatNum(currJD, 6));
       $("#txtLatTen").val(mars2d.Util.formatNum(currWD, 6));
-
     }
 
     //修改了：度分秒
@@ -224,7 +223,6 @@
       let wd_fen = Number($("#txtLatMinute").val() || 0);
       let wd_miao = Number($("#txtLatSecond").val() || 0);
       currWD = mars2d.PointTrans.dms2degree(wd_du, wd_fen, wd_miao);
-
     }
     //更新：度分秒
     function updataDfm() {
@@ -237,7 +235,6 @@
       $("#txtLatDegree").val(tenWD.degree);
       $("#txtLatMinute").val(tenWD.minute);
       $("#txtLatSecond").val(tenWD.second);
-
     }
 
     //修改了：2000平面坐标三分度
@@ -245,14 +242,13 @@
       let jd = Number($("#txtGk3X").val()); //获取
       let wd = Number($("#txtGk3Y").val());
 
-      var gk3 = mars2d.PointTrans.proj4Trans([jd, wd], mars2d.CRS.CGCS2000_GK_Zone_3, mars2d.CRS.EPSG4326);
+      let gk3 = mars2d.PointTrans.proj4Trans([jd, wd], mars2d.CRS.CGCS2000_GK_Zone_3, mars2d.CRS.EPSG4326);
       currJD = gk3[0];
       currWD = gk3[1];
-
     }
     //更新：2000平面坐标三分度
     function updata3GKZone() {
-      var zone3 = mars2d.PointTrans.proj4Trans([currJD, currWD], mars2d.CRS.EPSG4326, mars2d.CRS.CGCS2000_GK_Zone_3); //十进制转2000平面三分度
+      let zone3 = mars2d.PointTrans.proj4Trans([currJD, currWD], mars2d.CRS.EPSG4326, mars2d.CRS.CGCS2000_GK_Zone_3); //十进制转2000平面三分度
       $("#txtGk3X").val(mars2d.Util.formatNum(zone3[0], 1));
       $("#txtGk3Y").val(mars2d.Util.formatNum(zone3[1], 1));
     }
@@ -261,15 +257,14 @@
     function change6GKZone() {
       let jd = Number($("#txtGk6X").val()); //获取
       let wd = Number($("#txtGk6Y").val());
-      var gk6 = mars2d.PointTrans.proj4Trans([jd, wd], mars2d.CRS.CGCS2000_GK_Zone_6, mars2d.CRS.EPSG4326);
+      let gk6 = mars2d.PointTrans.proj4Trans([jd, wd], mars2d.CRS.CGCS2000_GK_Zone_6, mars2d.CRS.EPSG4326);
 
       currJD = gk6[0];
       currWD = gk6[1];
-
     }
     //更新：2000平面坐标六分度
     function updata6GKZone() {
-      var zoon6 = mars2d.PointTrans.proj4Trans([currJD, currWD], mars2d.CRS.EPSG4326, mars2d.CRS.CGCS2000_GK_Zone_6); //十进制转2000平面六分度
+      let zoon6 = mars2d.PointTrans.proj4Trans([currJD, currWD], mars2d.CRS.EPSG4326, mars2d.CRS.CGCS2000_GK_Zone_6); //十进制转2000平面六分度
       $("#txtGk6X").val(mars2d.Util.formatNum(zoon6[0], 1));
       $("#txtGk6Y").val(mars2d.Util.formatNum(zoon6[1], 1));
     }
@@ -293,11 +288,13 @@
             updataDfm();
             break;
           case "3": //CGCS2000
-            let selectType2 = $('input:radio[name="rdoGkType"]:checked').val();
-            if (selectType2 == "2") {
-              updata6GKZone();
-            } else {
-              updata3GKZone();
+            {
+              let selectType2 = $('input:radio[name="rdoGkType"]:checked').val();
+              if (selectType2 == "2") {
+                updata6GKZone();
+              } else {
+                updata3GKZone();
+              }
             }
             break;
         }
@@ -318,14 +315,13 @@
 
       updateMarker(true); //更新点
       if (pointEntity) {
-        map.flyToGraphic(pointEntity)
-
+        map.flyToGraphic(pointEntity);
       }
     }
 
-    var pointEntity;
+    let pointEntity;
     function updateMarker(hasCenter) {
-      var latlng = [currWD, currJD];
+      let latlng = [currWD, currJD];
       if (pointEntity == null) {
         pointEntity = new mars2d.graphic.Marker({
           latlng: latlng,
@@ -339,7 +335,6 @@
       } else {
         pointEntity.latlng = latlng;
       }
-
     }
   </script>
 </body>

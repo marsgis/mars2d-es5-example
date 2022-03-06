@@ -38,7 +38,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -63,15 +63,15 @@
           });
       }
 
-      var colors = ["#006837", "#1a9850", "#66bd63", "#a6d96a", "#d9ef8b", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#a50026"];
-      var breaks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 99]; //等值面的级数
+      let colors = ["#006837", "#1a9850", "#66bd63", "#a6d96a", "#d9ef8b", "#ffffbf", "#fee08b", "#fdae61", "#f46d43", "#d73027", "#a50026"];
+      let breaks = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 99]; //等值面的级数
 
       //等值线面
       function showWindLine(arr) {
         // var min = arr[0].speed
         // var max = arr[0].speed
 
-        var pointGrid = [];
+        let pointGrid = [];
         for (let i = 0, len = arr.length; i < len; i++) {
           const item = arr[i];
 
@@ -91,7 +91,7 @@
         //   breaks.push(Number(i.toFixed(1)))
         // }
 
-        var points = { type: "FeatureCollection", features: pointGrid };
+        let points = { type: "FeatureCollection", features: pointGrid };
 
         //插值
         // turf.interpolate提供了基于 IDW（反距离权重）算法的将数据插值为格点的方法。
@@ -107,10 +107,10 @@
         // points.features.map((i) => (i.properties.speed = Number(i.properties.speed.toFixed(1))))
 
         //等值面
-        var geojsonPoly = turf.isobands(points, breaks, { zProperty: "speed" });
+        let geojsonPoly = turf.isobands(points, breaks, { zProperty: "speed" });
 
         //创建矢量数据图层
-        var geoJsonLayer = new mars2d.layer.GeoJsonLayer({
+        let geoJsonLayer = new mars2d.layer.GeoJsonLayer({
           name: "等值面",
           data: geojsonPoly,
           popup: "{speed}",
@@ -134,7 +134,7 @@
         map.addLayer(geoJsonLayer);
 
         //等值线
-        var geojsonLine = turf.isolines(points, breaks, { zProperty: "speed" });
+        let geojsonLine = turf.isolines(points, breaks, { zProperty: "speed" });
 
         //进行平滑处理
         // var features = geojsonLine.features;
@@ -150,7 +150,7 @@
         //     features[i].geometry.coordinates = _lCoords;
         // }
 
-        var layerDZX = new mars2d.layer.GeoJsonLayer({
+        let layerDZX = new mars2d.layer.GeoJsonLayer({
           name: "等值线",
           data: geojsonLine,
           popup: "{speed}",
@@ -190,7 +190,7 @@
       }
 
       function getColor(value) {
-        for (var i = 0; i < breaks.length; i++) {
+        for (let i = 0; i < breaks.length; i++) {
           if (breaks[i] == value) {
             return colors[i];
           }

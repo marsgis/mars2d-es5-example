@@ -58,12 +58,12 @@
   <script type="text/javascript">
     "use script"; //开发环境建议开启严格模式
 
-    var map;
-    var mapEx;
+    let map;
+    let mapEx;
 
     function initMap(options) {
       //合并属性参数，可覆盖config.json中的对应配置
-      var mapOptions = mars2d.Util.merge(options, {
+      let mapOptions = mars2d.Util.merge(options, {
         center: { lat: 30.754115, lng: 116.341283 },
         control: {
           geocoder: false,
@@ -73,14 +73,14 @@
       //创建地图
       map = new mars2d.Map("mars2dContainer", mapOptions);
 
-      var mapOptions2 = map.getOptions();
+      let mapOptions2 = map.getOptions();
 
       //用于双屏同图层，不同配置展示
       for (let i = 0, len = mapOptions2.operationallayers.length; i < len; i++) {
         let item = mapOptions2.operationallayers[i];
         if (item.compare) {
           //存在compare属性时
-          for (var key in item.compare) {
+          for (let key in item.compare) {
             item[key] = item.compare[key];
           }
         }
@@ -94,7 +94,6 @@
 
       mapEx = new mars2d.Map("cesiumContainerEx", mapOptions2);
       mapEx.basemap = "天地图卫星";
-
 
       map.on("movestart", _map_movestartHandler, this);
       mapEx.on("movestart", _mapEx_movestartHandler, this);
@@ -119,7 +118,6 @@
       mapEx.on("moveend", _mapEx_moveendHandler, this);
       map.setView(mapEx.getCenter(), mapEx.getZoom(), { animate: false, noMoveStart: true });
     }
-
   </script>
 </body>
 

@@ -41,7 +41,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -60,7 +60,7 @@
         map.addLayer(graphicLayer);
 
         //全国温度图
-        var graphic = new mars2d.graphic.CanvasImage({
+        let graphic = new mars2d.graphic.CanvasImage({
           latlngs: [
             [0, 70],
             [60, 140],
@@ -73,16 +73,16 @@
         graphicLayer.addGraphic(graphic);
 
         //显示鼠标所在位置颜色值
-        var popup = L.popup();
+        let popup = L.popup();
         map.on("mousemove", function (e) {
-          var latlng = e.latlng;
-          var rgb = graphic.getRgba(latlng);
+          let latlng = e.latlng;
+          let rgb = graphic.getRgba(latlng);
           if (rgb == "rgba(0,0,0,0)") {
             popup.remove();
             return;
           }
 
-          var inhtml = '<div style="background-color: ' + rgb + ';padding:10px;">颜色:' + rgb + "</div>";
+          let inhtml = '<div style="background-color: ' + rgb + ';padding:10px;">颜色:' + rgb + "</div>";
           popup.setLatLng(latlng).setContent(inhtml).openOn(map);
         });
       }

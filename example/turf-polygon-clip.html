@@ -44,9 +44,9 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var polygonLayer;
-      var drawLayer;
+      let map;
+      let polygonLayer;
+      let drawLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -178,7 +178,7 @@
        * geoJson数据处理模块(需要引入turf.js)
        * 输入输出数据均为标准geoJson格式
        */
-      var geoUtil = {
+      let geoUtil = {
         /**
          * 合并多边形
          */

@@ -35,7 +35,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -44,7 +44,7 @@
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
-        var overviewMap = new mars2d.control.OverviewMap({
+        let overviewMap = new mars2d.control.OverviewMap({
           position: "topright",
           toggleDisplay: true,
           minimized: false,

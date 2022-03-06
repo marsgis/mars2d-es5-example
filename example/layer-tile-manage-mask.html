@@ -38,20 +38,20 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
         let mapOptions = mars2d.Util.merge(options, {
           zoom: 9,
-          center: { lng: 117.258728, lat:31.848053 },
+          center: { lng: 117.258728, lat: 31.848053 },
           minZoom: 6,
         });
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
-        var layerWork = new mars2d.layer.GeoJsonLayer({
+        let layerWork = new mars2d.layer.GeoJsonLayer({
           url: "//data.mars2d.cn/file/geojson/areas/340100.json",
           mask: true, //标识为遮罩层【重点参数】
           symbol: {

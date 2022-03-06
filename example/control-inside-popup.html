@@ -59,14 +59,15 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
-      var geoJsonLayer;
+      let map;
+      let graphicLayer;
+      let geoJsonLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {
-          zoom: 12, center: { lng: 117.309471, lat: 31.797018 },
+        let mapOptions = mars2d.Util.merge(options, {
+          zoom: 12,
+    center: { lng: 117.309471, lat: 31.797018 },
         });
 
         //创建地图
@@ -184,7 +185,7 @@
 
         function getInnerHtml(event) {
           // let attr = event.attr
-          var inthtml = `<table style="width:280px;">
+          let inthtml = `<table style="width:280px;">
                 <tr><th scope="col" colspan="4"  style="text-align:center;font-size:15px;">graphic.bindPopup</th></tr>
                 <tr><td >说明：</td><td >Popup鼠标单击信息弹窗 </td></tr>
                 <tr><td >方式：</td><td >可以绑定任意html </td></tr>
@@ -211,7 +212,7 @@
       function bindGraphicDemo2() {
         removeDemoLayer();
 
-        var graphic = new mars2d.graphic.Marker({
+        let graphic = new mars2d.graphic.Marker({
           latlng: [31.854628, 117.245425],
           style: {
             image: "img/marker/mark1.png",
@@ -233,7 +234,7 @@
           clearInterval(timeTik);
           timeTik = setInterval(() => {
             if (tdTime) {
-              var date = new Date().format("yyyy-MM-dd HH:mm:ss S");
+              let date = new Date().format("yyyy-MM-dd HH:mm:ss S");
               tdTime.innerHTML = date;
             }
           }, 500);

@@ -57,13 +57,13 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
-      var pointAndLine;
+      let map;
+      let graphicLayer;
+      let pointAndLine;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {});
+        let mapOptions = mars2d.Util.merge(options, {});
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
@@ -142,16 +142,16 @@
           haoutil.msg("请绘起点和终点");
           return;
         }
-        var polygon = polygonLayer[0].toGeoJSON(); //障碍面
-        var startPoint = allPoint[0].toGeoJSON(); //起点
-        var endPoint = allPoint[1].toGeoJSON(); //终点
+        let polygon = polygonLayer[0].toGeoJSON(); //障碍面
+        let startPoint = allPoint[0].toGeoJSON(); //起点
+        let endPoint = allPoint[1].toGeoJSON(); //终点
 
-        var options = {
+        let options = {
           obstacles: polygon,
         };
-        var path = turf.shortestPath(startPoint, endPoint, options);
+        let path = turf.shortestPath(startPoint, endPoint, options);
 
-        var positions = path.geometry.coordinates;
+        let positions = path.geometry.coordinates;
 
   let latlngs = mars2d.PointTrans.coords2latlngs([positions]);
 

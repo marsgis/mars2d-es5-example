@@ -35,7 +35,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -71,7 +71,7 @@
           [31.873184, 117.22086],
           [31.875663, 117.21365],
         ];
-        var movingMarker = new mars2d.graphic.MovingMarker({
+        let movingMarker = new mars2d.graphic.MovingMarker({
           latlngs: latlngs,
           durations: [3000, 9000, 9000, 4000, 4000, 4000, 4000, 4000, 4000, 4000],
           style: {
@@ -83,7 +83,7 @@
         graphicLayer.addGraphic(movingMarker);
 
         //放个线参考
-        var graphic = new mars2d.graphic.Polyline({
+        let graphic = new mars2d.graphic.Polyline({
           latlngs: latlngs,
           style: {
             color: "#0000ff",
@@ -99,7 +99,7 @@
 
       //每个点停顿一会
       function addGraphic_02(graphicLayer) {
-        var graphic = new mars2d.graphic.MovingMarker({
+        let graphic = new mars2d.graphic.MovingMarker({
           latlngs: [
             [31.829441, 117.113914],
             [31.830607, 117.133656],
@@ -129,7 +129,7 @@
 
       //单击后图上开始运动
       function addGraphic_03(graphicLayer) {
-        var graphic = new mars2d.graphic.MovingMarker({
+        let graphic = new mars2d.graphic.MovingMarker({
           latlngs: [
             [31.817418, 117.282074],
             [31.806472, 117.163788],

@@ -37,9 +37,9 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var pointLayer;
-      var graphicLayer;
+      let map;
+      let pointLayer;
+      let graphicLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -76,7 +76,7 @@
         map.on(mars2d.EventType.click, mapOnClickListener);
       }
 
-      var bounds = L.latLngBounds(L.latLng(90, 180), L.latLng(-90, -180));
+      let bounds = L.latLngBounds(L.latLng(90, 180), L.latLng(-90, -180));
       function mapOnClickListener(e) {
         if (!bounds.contains(e.latlng)) {
           haoutil.msg("超出分析范围");
@@ -91,7 +91,7 @@
         graphicLayer.clear();
 
         // 生成查询点
-        var queryPoint = new mars2d.graphic.Marker({
+        let queryPoint = new mars2d.graphic.Marker({
           latlng: e.latlng,
           style: {
             image: "./img/marker/fx1.png",
@@ -104,9 +104,9 @@
         graphicLayer.addGraphic(queryPoint);
 
         //turf分析
-        var targetPoint = queryPoint.toGeoJSON();
-        var points = pointLayer.toGeoJSON();
-        var nearest = turf.nearestPoint(targetPoint, points);
+        let targetPoint = queryPoint.toGeoJSON();
+        let points = pointLayer.toGeoJSON();
+        let nearest = turf.nearestPoint(targetPoint, points);
         if (!nearest) {
           return;
         }
@@ -125,7 +125,7 @@
         graphicLayer.addGraphic(polyline);
 
         //终点
-        var endPoint = new mars2d.graphic.Marker({
+        let endPoint = new mars2d.graphic.Marker({
           latlng: nearestPoint.latlng,
           style: {
             image: "./img/marker/airportRed.png",

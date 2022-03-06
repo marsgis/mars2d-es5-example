@@ -113,7 +113,7 @@
     updateAttr2map(attr) {
       console.log("更新属性", attr);
 
-      var graphic = this.config.graphic; //当前编辑的graphic
+      let graphic = this.config.graphic; //当前编辑的graphic
       if (attr.style) {
         graphic.style = attr.style;
       }
@@ -125,7 +125,7 @@
     updatePoints2map(points) {
       console.log("更新坐标", points);
 
-      var graphic = this.config.graphic;
+      let graphic = this.config.graphic;
       graphic.latlngs = mars2d.PointTrans.coords2latlngs(points);
     }
     centerCurrentEntity() {

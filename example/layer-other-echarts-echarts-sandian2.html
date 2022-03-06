@@ -35,7 +35,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -51,7 +51,7 @@
       }
 
       function showEchartsLayer() {
-        var geoCoordMap = {
+        let geoCoordMap = {
           海门: [121.15, 31.89],
           鄂尔多斯: [109.781327, 39.608266],
           招远: [120.38, 37.35],
@@ -244,7 +244,7 @@
           大庆: [125.03, 46.58],
         };
 
-        var datapoint = [
+        let datapoint = [
           { name: "海门", value: 9 },
           { name: "鄂尔多斯", value: 12 },
           { name: "招远", value: 12 },
@@ -437,10 +437,10 @@
           { name: "大庆", value: 279 },
         ];
 
-        var convertData = function (data) {
-          var res = [];
-          for (var i = 0; i < data.length; i++) {
-            var geoCoord = geoCoordMap[data[i].name];
+        let convertData = function (data) {
+          let res = [];
+          for (let i = 0; i < data.length; i++) {
+            let geoCoord = geoCoordMap[data[i].name];
             if (geoCoord) {
               res.push({
                 name: data[i].name,
@@ -451,7 +451,7 @@
           return res;
         };
 
-        var options = {
+        let options = {
           backgroundColor: "rgba(17, 19, 42, 0.4)",
           title: {
             text: "全国主要城市空气质量",

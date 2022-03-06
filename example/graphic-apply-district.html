@@ -91,11 +91,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {
+        let mapOptions = mars2d.Util.merge(options, {
           zoom: 7,
           center: { lng: 117.322998, lat: 32.194209 },
           control: {
@@ -109,7 +109,7 @@
         map.basemap = 2017; //蓝色底图
 
         // 添加矢量图层
-        var graphicLayer = new mars2d.layer.GraphicLayer();
+        let graphicLayer = new mars2d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //添加对象
@@ -122,7 +122,7 @@
       //添加安徽省底图和墙
       function addAnhui(graphicLayer) {
         //安徽省卫星底图
-        var tileLayer = new mars2d.layer.TileLayer({
+        let tileLayer = new mars2d.layer.TileLayer({
           url: "//data.mars3d.cn/tile/anhui/{z}/{x}/{y}.png",
           minZoom: 1,
           maxZoom: 12,
@@ -131,7 +131,7 @@
         map.addLayer(tileLayer);
 
         // 安徽省边界线墙
-        var anhuiWall = new mars2d.layer.GeoJsonLayer({
+        let anhuiWall = new mars2d.layer.GeoJsonLayer({
           name: "安徽省边界墙",
           url: "//data.mars2d.cn/file/geojson/areas/340000.json",
           mask: true, //标识为遮罩层【重点参数】
@@ -150,7 +150,7 @@
         map.addLayer(anhuiWall);
 
         //安徽各市边界线和名称
-        var shiLayer = new mars2d.layer.GeoJsonLayer({
+        let shiLayer = new mars2d.layer.GeoJsonLayer({
           name: "安徽各市边界线",
           url: "//data.mars2d.cn/file/geojson/areas/340000_full.json",
           symbol: {
@@ -173,7 +173,7 @@
       function addCenterCity(graphicLayer) {
         let latlng = [31.94284, 117.410889];
         // divgraphic标注
-        var divgraphic = new mars2d.graphic.DivGraphic({
+        let divgraphic = new mars2d.graphic.DivGraphic({
           latlng: latlng,
           style: {
             html: `<div class="marsBlackPanel  animation-spaceInDown">
@@ -186,7 +186,7 @@
         graphicLayer.addGraphic(divgraphic);
 
         // 扩散点
-        var graphic = new mars2d.graphic.Marker({
+        let graphic = new mars2d.graphic.Marker({
           latlng: latlng,
           style: {
             width: 8,

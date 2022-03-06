@@ -31,7 +31,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -45,15 +45,15 @@
           url: "http://data.mars2d.cn/file/apidemo/heat.json",
         })
           .then((data) => {
-            var mpts = [];
-            var arrdata = data.Data;
-            for (var i = 0; i < arrdata.length; i++) {
-              var item = arrdata[i];
+            let mpts = [];
+            let arrdata = data.Data;
+            for (let i = 0; i < arrdata.length; i++) {
+              let item = arrdata[i];
               mpts.push([item.Y, item.X, item.Count]);
             }
 
             //热点图
-            var layerWork = new mars2d.layer.HeatLayer(mpts, {
+            let layerWork = new mars2d.layer.HeatLayer(mpts, {
               //radius: 20,
               //blur: 10,
               minOpacity: 0.3,

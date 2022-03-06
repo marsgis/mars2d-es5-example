@@ -77,7 +77,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -120,7 +120,7 @@
       }
 
       function addGraphic_01(graphicLayer) {
-        var graphic = new mars2d.graphic.Circle({
+        let graphic = new mars2d.graphic.Circle({
           latlng: [31.854628, 117.245425],
           style: {
             radius: 1500, //单位：米
@@ -140,7 +140,7 @@
       }
 
       function addGraphic_02(graphicLayer) {
-        var graphic = new mars2d.graphic.Circle({
+        let graphic = new mars2d.graphic.Circle({
           latlng: L.latLng(31.810858, 117.21),
           style: {
             radius: 2000, //单位：米
@@ -155,7 +155,7 @@
       }
 
       function addGraphic_03(graphicLayer) {
-        var graphic = new mars2d.graphic.Circle({
+        let graphic = new mars2d.graphic.Circle({
           latlng: L.latLng(31.818606, 117.296904),
           style: {
             radius: 2500, //单位：米
@@ -385,7 +385,7 @@
         // graphic.bindTooltip('我是graphic上绑定的Tooltip') //.openTooltip()
 
         //绑定Popup
-        var inthtml = `<table style="width: auto;">
+        let inthtml = `<table style="width: auto;">
             <tr>
               <th scope="col" colspan="2" style="text-align:center;font-size:15px;">我是graphic上绑定的Popup </th>
             </tr>

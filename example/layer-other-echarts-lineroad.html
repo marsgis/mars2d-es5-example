@@ -30,7 +30,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -45,7 +45,7 @@
       }
 
       function showEchartsLayer() {
-        var data = [
+        let data = [
           {
             value: 18,
             coords: [
@@ -10578,7 +10578,7 @@
           },
         ];
 
-        var options = {
+        let options = {
           visualMap: {
             type: "piecewise",
             left: "right",

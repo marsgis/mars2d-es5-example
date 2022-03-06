@@ -47,12 +47,12 @@
   <script type="text/javascript">
     "use script"; //开发环境建议开启严格模式
 
-    var map;
-    var graphicLayer;
+    let map;
+    let graphicLayer;
 
     function initMap(options) {
       //合并属性参数，可覆盖config.json中的对应配置
-      var mapOptions = mars2d.Util.merge(options, {
+      let mapOptions = mars2d.Util.merge(options, {
         zoom: 12,
         center: { lng: 117.219658, lat: 31.87056 },
       });
@@ -64,7 +64,7 @@
       graphicLayer = new mars2d.layer.GraphicLayer();
       map.addLayer(graphicLayer);
 
-      var extent = map.getExtent();
+      let extent = map.getExtent();
 
       mars2d.Util.fetchJson({
         url: "//server.mars3d.cn/server/pointRandom/",
@@ -84,12 +84,12 @@
         });
     }
 
-    var selectGraphic = [];
+    let selectGraphic = [];
 
     function addData(arr) {
-      for (var i = 0, len = arr.length; i < len; i++) {
-        var item = arr[i];
-        var graphic = new mars2d.graphic.Marker({
+      for (let i = 0, len = arr.length; i < len; i++) {
+        let item = arr[i];
+        let graphic = new mars2d.graphic.Marker({
           latlng: [item.y, item.x],
           style: {
             image: "img/marker/mark3.png",
@@ -112,9 +112,9 @@
       }
 
       graphicLayer.eachGraphic((graphic) => {
-        var latlng = graphic.latlng;
+        let latlng = graphic.latlng;
 
-        var isInArea = drawGraphic.isInPoly(latlng);
+        let isInArea = drawGraphic.isInPoly(latlng);
         if (isInArea) {
           graphic.setStyle({
             image: "img/marker/mark2.png",
@@ -127,7 +127,7 @@
     function removeAll() {
       map.graphicLayer.clear();
 
-      for (var i = 0; i < selectGraphic.length; i++) {
+      for (let i = 0; i < selectGraphic.length; i++) {
         selectGraphic[i].setStyle({
           image: "img/marker/mark3.png",
         });

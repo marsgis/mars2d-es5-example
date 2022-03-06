@@ -40,11 +40,11 @@
   <script type="text/javascript">
     "use script"; //开发环境建议开启严格模式
 
-    var map;
+    let map;
 
     function initMap(options) {
       //合并属性参数，可覆盖config.json中的对应配置
-      var mapOptions = mars2d.Util.merge(options, {
+      let mapOptions = mars2d.Util.merge(options, {
         scene: {
           center: { lat: 31.623553, lng: 117.322405, alt: 123536, heading: 359, pitch: -81 },
         },
@@ -60,12 +60,12 @@
     }
 
     //===========================树控件处理============================
-    var layers = [];
-    var layersObj = {};
+    let layers = [];
+    let layersObj = {};
 
     function initTree() {
       //初始化树
-      var setting = {
+      let setting = {
         check: {
           enable: true,
         },
@@ -80,15 +80,15 @@
         },
       };
 
-      var zNodes = [];
+      let zNodes = [];
       layers = map.getLayers({
         basemaps: true, //是否取config.json中的basempas
         layers: true, //是否取config.json中的layers
       });
 
       //遍历出config.json中所有的basempas和layers
-      for (var i = layers.length - 1; i >= 0; i--) {
-        var node = _getNodeConfig(layers[i]);
+      for (let i = layers.length - 1; i >= 0; i--) {
+        let node = _getNodeConfig(layers[i]);
         if (node) {
           zNodes.push(node);
         }
@@ -103,13 +103,13 @@
         return;
       }
 
-      var item = layer.options;
+      let item = layer.options;
 
       if (!item.name) {
         return;
       }
 
-      var node = {
+      let node = {
         id: layer.id,
         pId: layer.pid,
         name: layer.name,
@@ -138,14 +138,14 @@
     }
 
     function treeOverlays_onCheck(e, treeId, chktreeNode) {
-      var treeObj = $.fn.zTree.getZTreeObj(treeId);
+      let treeObj = $.fn.zTree.getZTreeObj(treeId);
       //获得所有改变check状态的节点
-      var changedNodes = treeObj.getChangeCheckedNodes();
+      let changedNodes = treeObj.getChangeCheckedNodes();
 
-      for (var i = changedNodes.length - 1; i >= 0; i--) {
-        var treeNode = changedNodes[i];
+      for (let i = changedNodes.length - 1; i >= 0; i--) {
+        let treeNode = changedNodes[i];
         treeNode.checkedOld = treeNode.checked;
-        var layer = layersObj[treeNode.uuid];
+        let layer = layersObj[treeNode.uuid];
         if (layer == null) {
           continue;
         }
@@ -159,28 +159,28 @@
 
         //特殊处理同目录下的单选的互斥的节点，可在config对应图层节点中配置"radio":true即可
         if (layer.options.radio && treeNode.checked) {
-          var nodes = treeObj.getNodesByFilter(
+          let nodes = treeObj.getNodesByFilter(
             function (node) {
-              var item = layersObj[node.uuid];
+              let item = layersObj[node.uuid];
               return item.options.radio && item.pid == layer.pid && node.uuid != treeNode.uuid;
             },
             false,
             treeNode.getParentNode()
           );
-          for (var nidx = 0; nidx < nodes.length; nidx++) {
+          for (let nidx = 0; nidx < nodes.length; nidx++) {
             nodes[nidx].checkedOld = false;
             treeObj.checkNode(nodes[nidx], false, true);
 
             $("#" + nodes[nidx].tId + "_range").hide();
 
-            var layertmp = layersObj[nodes[nidx].uuid];
+            let layertmp = layersObj[nodes[nidx].uuid];
             layertmp.show = false;
           }
         }
 
         //处理图层显示隐藏
         if (treeNode._parentId) {
-          var parentLayer = layersObj[treeNode._parentId];
+          let parentLayer = layersObj[treeNode._parentId];
           if (parentLayer) {
             updateLayerShow(parentLayer, treeNode.checked);
           }
@@ -203,7 +203,7 @@
       if (treeNode == null || treeNode.uuid == null) {
         return;
       }
-      var layer = layersObj[treeNode.uuid];
+      let layer = layersObj[treeNode.uuid];
       if (layer && layer.isAdded) {
         layer.flyTo();
       }

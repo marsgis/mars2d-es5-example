@@ -35,7 +35,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -56,7 +56,7 @@
 
       function addGraphic_01(graphicLayer) {
         //增加pulsate动画点
-        var graphic = new mars2d.graphic.Marker({
+        let graphic = new mars2d.graphic.Marker({
           latlng: [31.854628, 117.245425],
           style: {
             width: 20,
@@ -68,7 +68,7 @@
       }
 
       function addGraphic_02(graphicLayer) {
-        var graphic = new mars2d.graphic.Marker({
+        let graphic = new mars2d.graphic.Marker({
           latlng: L.latLng(31.810858, 117.21),
           style: {
             width: 15,
@@ -80,7 +80,7 @@
       }
 
       function addGraphic_03(graphicLayer) {
-        var graphic = new mars2d.graphic.Marker({
+        let graphic = new mars2d.graphic.Marker({
           latlng: L.latLng(31.818606, 117.296904),
           style: {
             width: 15,

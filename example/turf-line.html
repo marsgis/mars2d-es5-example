@@ -71,13 +71,13 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
-      var lineLayer;
+      let map;
+      let graphicLayer;
+      let lineLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {});
+        let mapOptions = mars2d.Util.merge(options, {});
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
@@ -123,12 +123,12 @@
         }
         line = line[0].toGeoJSON();
 
-        var curved = turf.bezierSpline(line);
-        var positions = curved.geometry.coordinates;
+        let curved = turf.bezierSpline(line);
+        let positions = curved.geometry.coordinates;
 
         let latlngs = mars2d.PointTrans.coords2latlngs([positions]);
 
-        var graphic = new mars2d.graphic.Polyline({
+        let graphic = new mars2d.graphic.Polyline({
           latlngs: latlngs,
           style: {
             width: 4,
@@ -149,14 +149,14 @@
 
         graphicLayer.clear();
 
-        var distance = $("#distanceValue").val(); //距离参数
-        var offsetLine = turf.lineOffset(line, distance, { units: "miles" });
+        let distance = $("#distanceValue").val(); //距离参数
+        let offsetLine = turf.lineOffset(line, distance, { units: "miles" });
 
-        var positions = offsetLine.geometry.coordinates;
+        let positions = offsetLine.geometry.coordinates;
 
         let latlngs = mars2d.PointTrans.coords2latlngs([positions]);
 
-        var graphic = new mars2d.graphic.Polyline({
+        let graphic = new mars2d.graphic.Polyline({
           latlngs: latlngs,
           style: {
             width: 4,

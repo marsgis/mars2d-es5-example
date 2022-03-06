@@ -35,7 +35,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -56,7 +56,7 @@
       }
 
       function addGraphic_01(graphicLayer) {
-        var coords = [
+        let coords = [
           [31.853069, 117.154857],
           [31.848546, 117.15404],
           [31.846285, 117.153482],
@@ -68,7 +68,7 @@
           [31.833051, 117.155461],
         ];
 
-        var middleLine = new mars2d.graphic.Polyline({
+        let middleLine = new mars2d.graphic.Polyline({
           latlngs: coords,
           style: {
             width: 1,
@@ -79,7 +79,7 @@
         });
         graphicLayer.addGraphic(middleLine);
 
-        var leftLine = new mars2d.graphic.Polyline({
+        let leftLine = new mars2d.graphic.Polyline({
           latlngs: coords,
           style: {
             color: "#f00",
@@ -89,7 +89,7 @@
         });
         graphicLayer.addGraphic(leftLine);
 
-        var rightLine = new mars2d.graphic.Polyline({
+        let rightLine = new mars2d.graphic.Polyline({
           latlngs: coords,
           style: {
             color: "#080",

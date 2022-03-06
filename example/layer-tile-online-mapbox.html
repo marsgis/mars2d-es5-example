@@ -45,7 +45,7 @@
 
       //mapbox的styleId申请，参考：https://docs.mapbox.com/api/maps/#request-embeddable-html
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -104,7 +104,7 @@
       }
 
       //叠加的图层
-      var tileLayer;
+      let tileLayer;
 
       function addLayer() {
         removeLayer();
@@ -115,7 +115,7 @@
           username: "marsgis",
           styleId: "cki0a92b123qo1aluk0e5v7sb",
           token: mars2d.Token.mapbox,
-          zIndex:999
+          zIndex: 999,
         });
         map.addLayer(tileLayer);
       }

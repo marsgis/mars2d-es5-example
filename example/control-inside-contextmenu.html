@@ -35,7 +35,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -64,8 +64,8 @@
         ]);
 
         //对矢量数据绑定右键菜单
-        var latlng = map.getCenter();
-        var marker = L.marker(latlng).addTo(map);
+        let latlng = map.getCenter();
+        let marker = L.marker(latlng).addTo(map);
 
         marker.name = "火星科技";
         marker.bindContextMenu([
@@ -73,7 +73,7 @@
             text: "显示名称",
             iconCls: "fa fa-info",
             callback: function (e) {
-              var marker = e.relatedTarget;
+              let marker = e.relatedTarget;
               haoutil.msg(marker.name);
             },
           },

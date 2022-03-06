@@ -59,12 +59,12 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
+      let map;
+      let graphicLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {
+        let mapOptions = mars2d.Util.merge(options, {
           zoom: 10,
         });
 
@@ -76,33 +76,33 @@
         graphicLayer = new mars2d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
-        var turfOptions = { units: "kilometers" };
+        let turfOptions = { units: "kilometers" };
 
         $("#btn_cellular").click(function () {
           let cellSide = $("#stepVlaue").val();
 
-          var geojson = turf.hexGrid(bbox, cellSide, turfOptions);
+          let geojson = turf.hexGrid(bbox, cellSide, turfOptions);
           drawPolyon(geojson);
         });
 
         $("#btn_points").click(function () {
           let cellSide = $("#stepVlaue").val();
 
-          var geojson = turf.pointGrid(bbox, cellSide, turfOptions);
+          let geojson = turf.pointGrid(bbox, cellSide, turfOptions);
           drawPoint(geojson);
         });
 
         $("#btn_square").click(function () {
           let cellSide = $("#stepVlaue").val();
 
-          var geojson = turf.squareGrid(bbox, cellSide, turfOptions);
+          let geojson = turf.squareGrid(bbox, cellSide, turfOptions);
           drawPolyon(geojson);
         });
 
         $("#btn_triangle").click(function () {
           let cellSide = $("#stepVlaue").val();
 
-          var geojson = turf.triangleGrid(bbox, cellSide, turfOptions);
+          let geojson = turf.triangleGrid(bbox, cellSide, turfOptions);
           drawPolyon(geojson);
         });
       }
@@ -112,8 +112,8 @@
         graphicLayer.clear();
         let polygons = mars2d.Util.geoJsonToGraphics(geojson); //解析geojson
 
-        for (var i = 0; i < polygons.length; i++) {
-          var item = polygons[i];
+        for (let i = 0; i < polygons.length; i++) {
+          let item = polygons[i];
           let graphic = new mars2d.graphic.Polygon({
             latlngs: item.latlngs,
             style: {
@@ -138,8 +138,8 @@
 
         let points = mars2d.Util.geoJsonToGraphics(geojson); //解析geojson
 
-        for (var i = 0; i < points.length; i++) {
-          var item = points[i];
+        for (let i = 0; i < points.length; i++) {
+          let item = points[i];
 
           let graphic = new mars2d.graphic.Point({
             latlng: item.latlng,

@@ -45,7 +45,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
       let graphicLayer;
 
       function initMap(options) {
@@ -58,7 +58,7 @@
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
-        var arrPath = [
+        let arrPath = [
           { name: "汇展园社区", jd: 117.144985, wd: 31.851898 },
           { name: "丰北社区", jd: 117.186699, wd: 31.852336 },
           { name: "桂林路社区", jd: 117.214336, wd: 31.857147 },
@@ -81,18 +81,18 @@
         map.addLayer(graphicLayer);
 
         //记录历史值，判断是否重叠路线
-        var arrPathKey = {};
+        let arrPathKey = {};
 
-        for (var i = 0; i < arrPath.length; i++) {
-          var endItem = arrPath[i];
-          var endMpt = [endItem.wd, endItem.jd];
+        for (let i = 0; i < arrPath.length; i++) {
+          let endItem = arrPath[i];
+          let endMpt = [endItem.wd, endItem.jd];
 
           if (i != 0) {
-            var startItem = arrPath[i - 1];
-            var startMpt = [startItem.wd, startItem.jd];
+            let startItem = arrPath[i - 1];
+            let startMpt = [startItem.wd, startItem.jd];
 
             //计算重叠次数
-            var _key = startItem.name + endItem.name;
+            let _key = startItem.name + endItem.name;
             if (arrPathKey.hasOwnProperty(_key)) {
               arrPathKey[_key] = arrPathKey[_key] + 1;
             } else {
@@ -105,9 +105,9 @@
             }
 
             //var latlngs = [startMpt, endMpt]; //不做任何处理时
-            var latlngs = getBezierPoints(startMpt, endMpt, arrPathKey[_key]);
+            let latlngs = getBezierPoints(startMpt, endMpt, arrPathKey[_key]);
 
-            var graphic = new mars2d.graphic.Polyline({
+            let graphic = new mars2d.graphic.Polyline({
               latlngs: latlngs,
               style: {
                 color: "#0000ff",
@@ -118,7 +118,7 @@
           }
 
           let num = i + 1;
-          var marker = new mars2d.graphic.DivGraphic({
+          let marker = new mars2d.graphic.DivGraphic({
             latlng: endMpt,
             style: {
               html: `<div style="width: 50px; height: 50px;">
@@ -149,20 +149,20 @@
         startMpt = L.latLng(startMpt);
         endMpt = L.latLng(endMpt);
 
-        var start = turf.point([startMpt.lng, startMpt.lat]);
-        var end = turf.point([endMpt.lng, endMpt.lat]);
-        var midpoint = turf.midpoint(start, end);
+        let start = turf.point([startMpt.lng, startMpt.lat]);
+        let end = turf.point([endMpt.lng, endMpt.lat]);
+        let midpoint = turf.midpoint(start, end);
 
-        var distance = startMpt.distanceTo(endMpt) / (1000 * 20);
+        let distance = startMpt.distanceTo(endMpt) / (1000 * 20);
         distance = distance * count;
 
-        var bearing = turf.bearing(start, end) + 90;
-        var destination = turf.destination(midpoint, distance, bearing, { units: "kilometers" });
+        let bearing = turf.bearing(start, end) + 90;
+        let destination = turf.destination(midpoint, distance, bearing, { units: "kilometers" });
 
-        var line = turf.lineString([start.geometry.coordinates, destination.geometry.coordinates, end.geometry.coordinates]);
-        var greatCircle = turf.bezier(line);
+        let line = turf.lineString([start.geometry.coordinates, destination.geometry.coordinates, end.geometry.coordinates]);
+        let greatCircle = turf.bezier(line);
 
-        var latlngs = L.GeoJSON.coordsToLatLngs(greatCircle.geometry.coordinates);
+        let latlngs = L.GeoJSON.coordsToLatLngs(greatCircle.geometry.coordinates);
         return latlngs;
       }
     </script>

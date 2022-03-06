@@ -77,7 +77,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -130,7 +130,7 @@
       //示例1：{startAngle: x, stopAngle: y}
       function addGraphic_01(graphicLayer) {
         for (let i = 0; i <= 12; i++) {
-          var graphic = new mars2d.graphic.Circle({
+          let graphic = new mars2d.graphic.Circle({
             latlng: [31, 115 + i * 0.1],
             style: {
               radius: 4000, //单位：米
@@ -156,7 +156,7 @@
       //固定的张角
       function addGraphic_02(graphicLayer) {
         for (let i = 0; i <= 12; i++) {
-          var graphic = new mars2d.graphic.Circle({
+          let graphic = new mars2d.graphic.Circle({
             latlng: [30.5, 115 + i * 0.1],
             style: {
               radius: 4000, //单位：米
@@ -181,7 +181,7 @@
 
       //示例3：吃豆豆
       function addGraphic_03(graphicLayer) {
-        var graphic = new mars2d.graphic.Circle({
+        let graphic = new mars2d.graphic.Circle({
           latlng: [30.7, 115.2],
           style: {
             radius: 5000, //单位：米
@@ -200,8 +200,8 @@
         });
         graphicLayer.addGraphic(graphic);
 
-        var open;
-        var counter = 1;
+        let open;
+        let counter = 1;
         setInterval(function () {
           counter += 0.5;
           open = 358 - (1 + Math.sin(counter)) * 45;
@@ -214,8 +214,8 @@
       //组合：雷达线扇形
       function addGraphic_04(graphicLayer) {
         let interval = 1000;
-        for (var i = 1; i <= 8; i++) {
-          var graphic = new mars2d.graphic.Circle({
+        for (let i = 1; i <= 8; i++) {
+          let graphic = new mars2d.graphic.Circle({
             latlng: [30.7, 115.5],
             style: {
               radius: i * interval,
@@ -239,7 +239,7 @@
         let latlng = [30.7, 115.8];
         let radius = 5000;
 
-        var graphic = new mars2d.graphic.Circle({
+        let graphic = new mars2d.graphic.Circle({
           latlng: latlng,
           style: {
             radius: radius,
@@ -251,7 +251,7 @@
           },
         }).addTo(graphicLayer);
 
-        var graphic1 = new mars2d.graphic.Circle({
+        let graphic1 = new mars2d.graphic.Circle({
           latlng: latlng,
           style: {
             radius: radius,
@@ -264,7 +264,7 @@
           },
         }).addTo(graphicLayer);
 
-        var graphic2 = new mars2d.graphic.Circle({
+        let graphic2 = new mars2d.graphic.Circle({
           latlng: latlng,
           style: {
             radius: radius,
@@ -277,7 +277,7 @@
           },
         }).addTo(graphicLayer);
 
-        var graphic3 = new mars2d.graphic.Circle({
+        let graphic3 = new mars2d.graphic.Circle({
           latlng: latlng,
           style: {
             radius: radius,

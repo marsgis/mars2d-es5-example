@@ -1,3 +1,4 @@
+/* eslint-disable no-var */
 let thisWidget;
 
 //当前页面业务
@@ -165,7 +166,7 @@ var plotEdit = {
       let edit = attrcfg[idx];
       tempKyes[edit.name] = true;
     }
-    for (var key in graphicOptions.attr) {
+    for (let key in graphicOptions.attr) {
       let attrVal = graphicOptions.attr[key];
       if (tempKyes[key]) {
         continue;

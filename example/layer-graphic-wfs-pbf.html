@@ -36,7 +36,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -45,11 +45,11 @@
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
-        var mapboxPbfLayer = new mars2d.layer.PbfLayer({
+        let mapboxPbfLayer = new mars2d.layer.PbfLayer({
           url: "http://server.mars2d.cn/geoserver/gwc/service/tms/1.0.0/mars%3Ahfgh3857@EPSG%3A3857@pbf/{z}/{x}/{-y}.pbf",
           interactive: true, //是否允许鼠标交互，比如触发单击事件
           style: function (properties, level) {
-            var styleDef = {
+            let styleDef = {
               color: "rgba(110, 110, 110, 255)", //线颜色
               opacity: 1,
               weight: 1,
@@ -57,8 +57,8 @@
               fillColor: "rgba(205, 233, 247, 255)", //填充颜色
               fillOpacity: 1,
             };
-            var style = styleForType[properties["用地编号"]]; //根据属性取对应样式
-            for (var key in style) {
+            let style = styleForType[properties["用地编号"]]; //根据属性取对应样式
+            for (let key in style) {
               styleDef[key] = style[key];
             }
             return styleDef;
@@ -70,7 +70,7 @@
       }
 
       //规划 配色
-      var styleForType = {
+      let styleForType = {
         A1: {
           // 行政办公用地
           fillColor: "rgba(255,127,159,255)",

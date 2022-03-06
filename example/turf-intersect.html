@@ -42,13 +42,13 @@
   <script type="text/javascript">
     "use script"; //开发环境建议开启严格模式
 
-    var map;
+    let map;
 
     function initMap(options) {
       //合并属性参数，可覆盖config.json中的对应配置
-      var mapOptions = mars2d.Util.merge(options, {
+      let mapOptions = mars2d.Util.merge(options, {
         zoom: 13,
-        center: { lng: 117.216396, lat: 31.839795 }
+        center: { lng: 117.216396, lat: 31.839795 },
       });
 
       //创建地图
@@ -78,11 +78,11 @@
       //面2
       let graphic2 = new mars2d.graphic.Polygon({
         latlngs: [
-          [31.842971,117.267046 ],
-          [ 31.840323,117.20963],
-          [31.787122,117.230646 ],
-          [31.799624,117.28833 ],
-          [31.842971,117.267046],
+          [31.842971, 117.267046],
+          [31.840323, 117.20963],
+          [31.787122, 117.230646],
+          [31.799624, 117.28833],
+          [31.842971, 117.267046],
         ],
         style: {
           fillColor: "#0000FF",

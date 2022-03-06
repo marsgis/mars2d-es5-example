@@ -45,10 +45,10 @@
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {});
+        let mapOptions = mars2d.Util.merge(options, {});
 
         //创建地图
-        var map = new mars2d.Map("mars2dContainer", mapOptions);
+        let map = new mars2d.Map("mars2dContainer", mapOptions);
 
         //on绑定事件
         map.on(mars2d.EventType.move, this.map_cameraChangedHandler, this);
@@ -59,8 +59,8 @@
         // map.off(mars2d.EventType.move, this.map_cameraChangedHandler, this);
       }
 
-      var clickTimeId; //双击会触发两次单击事件的解决
-      var mapMoveNum;
+      let clickTimeId; //双击会触发两次单击事件的解决
+      let mapMoveNum;
 
       function map_clickHandler(event) {
         clearTimeout(clickTimeId);

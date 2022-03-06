@@ -84,13 +84,13 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var graphicLayer;
-      var polygonsLayer;
+      let map;
+      let graphicLayer;
+      let polygonsLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {});
+        let mapOptions = mars2d.Util.merge(options, {});
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
@@ -160,7 +160,7 @@
         let CenterPoint = [point.lng, point.lat];
 
         // truf旋转操作
-        var rotatedPoly = turf.transformRotate(poly, angle, { pivot: CenterPoint });
+        let rotatedPoly = turf.transformRotate(poly, angle, { pivot: CenterPoint });
 
         let spinGraphic = mars2d.Util.geoJsonToGraphics(rotatedPoly, {
           style: {
@@ -192,7 +192,7 @@
         let poly = graphic.toGeoJSON({ closure: true });
 
         // truf平移操作
-        var rotatedPoly = turf.transformTranslate(poly, offset, 10);
+        let rotatedPoly = turf.transformTranslate(poly, offset, 10);
 
         let spinGraphic = mars2d.Util.geoJsonToGraphics(rotatedPoly, {
           style: {
@@ -227,7 +227,7 @@
         let poly = graphic.toGeoJSON({ closure: true });
 
         // truf缩放操作
-        var rotatedPoly = turf.transformScale(poly, scale);
+        let rotatedPoly = turf.transformScale(poly, scale);
 
         let spinGraphic = mars2d.Util.geoJsonToGraphics(rotatedPoly, {
           style: {
@@ -242,10 +242,10 @@
       }
 
       //颜色
-      var index = 0;
-      var colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"];
+      let index = 0;
+      let colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"];
       function getColor() {
-        var i = index++ % colors.length;
+        let i = index++ % colors.length;
         return colors[i];
       }
     </script>

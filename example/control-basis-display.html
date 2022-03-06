@@ -83,11 +83,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {
+        let mapOptions = mars2d.Util.merge(options, {
           control: {
             // 面板
             scale: true,
@@ -107,45 +107,43 @@
 
         // 显示视角复位
         $("#showGoHome").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.controls.toolBar.btnGoHome.style.display = show ? "block" : "none";
         });
 
         // 显示定位本身
         $("#showLocation").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.controls.toolBar.btnLocation.style.display = show ? "block" : "none";
         });
 
         // 显示全屏
         $("#showFullscreen").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.controls.toolBar.btnFullscreen.style.display = show ? "block" : "none";
         });
 
         //显示放大
         $("#showZoomIn").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.controls.zoom._zoomInButton.style.display = show ? "block" : "none";
         });
 
         //显示缩小
         $("#showZoomOut").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.controls.zoom._zoomOutButton.style.display = show ? "block" : "none";
         });
 
-
-
         // 显示比列尺
         $("#showScale").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.controls.scale._container.style.display = show ? "block" : "none";
         });
 
         // 显示鼠标提示信息
         $("#showLocationBar").change(function () {
-          var show = $(this).is(":checked");
+          let show = $(this).is(":checked");
           map.controls.locationBar._container.style.display = show ? "block" : "none";
         });
       }

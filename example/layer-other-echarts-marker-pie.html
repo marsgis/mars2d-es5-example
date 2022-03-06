@@ -30,7 +30,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -42,7 +42,7 @@
         workEcharts.activate(map);
       }
 
-      var workEcharts = {
+      let workEcharts = {
         _arr_charts: [],
         configEchars: {
           DeepUsedLength: { name: "县道", color: "#ff8da3" },
@@ -58,7 +58,7 @@
           this.layerWork = L.featureGroup();
           this.map.addLayer(this.layerWork);
 
-          var that = this;
+          let that = this;
           mars2d.Util.fetchJson({
             url: "http://data.mars2d.cn/file/apidemo/echarspoint.json",
           })
@@ -77,8 +77,8 @@
         showData: function (arrdata) {
           this.clearLayers();
 
-          for (var i = 0; i < arrdata.length; i++) {
-            var item = arrdata[i];
+          for (let i = 0; i < arrdata.length; i++) {
+            let item = arrdata[i];
             item._index = i;
             if (item.TotalLength == 0) {
               continue;
@@ -91,12 +91,12 @@
           this.map.fitBounds(this.layerWork.getBounds());
         },
         addmarker: function (item) {
-          var divid = "port_" + item._index;
+          let divid = "port_" + item._index;
 
-          var minval = 60; //最小值
-          var maxval = 200; //最大值
+          let minval = 60; //最小值
+          let maxval = 200; //最大值
 
-          var size = Math.log(item.TotalLength) * 9;
+          let size = Math.log(item.TotalLength) * 9;
           if (size > maxval) {
             size = maxval;
           }
@@ -118,7 +118,7 @@
             }),
           }).addTo(this.layerWork);
 
-          var pictures = L.marker([item.Y, item.X], {
+          let pictures = L.marker([item.Y, item.X], {
             icon: L.divIcon({
               className: "leaflet-echart-icon",
               iconSize: [size, size],
@@ -127,10 +127,10 @@
             }),
           }).addTo(this.layerWork);
 
-          var fontsize = (size * 0.7) / String(item.TotalLength).length - 1;
+          let fontsize = (size * 0.7) / String(item.TotalLength).length - 1;
 
           // 基于准备好的dom，初始化echarts实例
-          var myChart = echarts.init(document.getElementById(divid));
+          let myChart = echarts.init(document.getElementById(divid));
 
           this._arr_charts.push(myChart);
 
@@ -183,11 +183,10 @@
           myChart.setOption(option);
         },
         updateStyle: function (_style) {
-          for (var i = 0; i < this._arr_charts.length; i++) {
-            var myChart = this._arr_charts[i];
+          for (let i = 0; i < this._arr_charts.length; i++) {
+            let myChart = this._arr_charts[i];
 
-            var option;
-
+            let option;
             if (_style == 1) {
               option = {
                 series: [
@@ -209,8 +208,8 @@
           }
         },
         clearLayers: function () {
-          for (var i = 0; i < this._arr_charts.length; i++) {
-            var myChart = this._arr_charts[i];
+          for (let i = 0; i < this._arr_charts.length; i++) {
+            let myChart = this._arr_charts[i];
             myChart.dispose();
           }
           this._arr_charts = [];

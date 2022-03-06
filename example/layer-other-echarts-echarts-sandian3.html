@@ -30,7 +30,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -46,7 +46,7 @@
       }
 
       function showEchartsLayer() {
-        var data = [
+        let data = [
           { name: "上海", value: 19780 },
           { name: "珠海", value: 2186 },
           { name: "三亚", value: 1135 },
@@ -85,7 +85,7 @@
           { name: "昆明", value: 4633 },
         ];
 
-        var geoCoordMap = {
+        let geoCoordMap = {
           上海: [121.48, 31.22],
           珠海: [113.52, 22.3],
           三亚: [109.31, 18.14],
@@ -124,10 +124,10 @@
           昆明: [102.73, 25.04],
         };
 
-        var convertData = function (data) {
-          var res = [];
-          for (var i = 0; i < data.length; i++) {
-            var geoCoord = geoCoordMap[data[i].name];
+        let convertData = function (data) {
+          let res = [];
+          for (let i = 0; i < data.length; i++) {
+            let geoCoord = geoCoordMap[data[i].name];
             if (geoCoord) {
               res.push({
                 name: data[i].name,
@@ -138,7 +138,7 @@
           return res;
         };
 
-        var convertedData = [
+        let convertedData = [
           convertData(data),
           convertData(
             data
@@ -152,13 +152,13 @@
           return a.value - b.value;
         });
 
-        var selectedItems = [];
-        var categoryData = [];
-        var barData = [];
+        let selectedItems = [];
+        let categoryData = [];
+        let barData = [];
         //   var maxBar = 30;
-        var sum = 0;
-        var count = data.length;
-        for (var i = 0; i < data.length; i++) {
+        let sum = 0;
+        let count = data.length;
+        for (let i = 0; i < data.length; i++) {
           categoryData.push(data[i].name);
           barData.push(data[i].value);
           sum += data[i].value;
@@ -253,7 +253,7 @@
               coordinateSystem: "mars2dMap",
               data: convertedData[0],
               symbolSize: function (val) {
-                var size = (val[2] / 500) * 1.5;
+                let size = (val[2] / 500) * 1.5;
                 return Math.max(size, 8);
               },
               label: {
@@ -279,7 +279,7 @@
               coordinateSystem: "mars2dMap",
               data: convertedData[0],
               symbolSize: function (val) {
-                var size = val[2] / 500;
+                let size = val[2] / 500;
                 return Math.max(size, 8);
               },
               showEffectOn: "render",

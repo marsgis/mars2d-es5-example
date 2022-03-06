@@ -37,8 +37,8 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
-      var geojson;
+      let map;
+      let geojson;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -51,6 +51,7 @@
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
         //添加建筑物图层
+        // eslint-disable-next-line no-undef
         const osmb = new OSMBuildings(map);
         osmb
           .date(new Date(2017, 5, 15, 17, 30))
@@ -74,7 +75,7 @@
       }
 
       function showPopup(evt) {
-        var name = getFeatureNameById(evt.feature);
+        let name = getFeatureNameById(evt.feature);
         name = name || "<span style='color:red'>无数据</span>";
         L.popup().setContent(name).setLatLng(L.latLng(evt.lat, evt.lon)).openOn(map);
       }
@@ -83,8 +84,8 @@
         if (!geojson || !id) {
           return null;
         }
-        var features = geojson.features;
-        for (var i = 0; i < features.length; i++) {
+        let features = geojson.features;
+        for (let i = 0; i < features.length; i++) {
           if (features[i].properties.id === id) {
             return features[i].properties.name;
           }

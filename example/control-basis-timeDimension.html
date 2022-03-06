@@ -47,7 +47,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
@@ -56,12 +56,12 @@
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
 
-        var timeDimension = new L.TimeDimension({
+        let timeDimension = new L.TimeDimension({
           period: "PT5M",
         });
         map.timeDimension = timeDimension;
 
-        var player = new L.TimeDimension.Player(
+        let player = new L.TimeDimension.Player(
           {
             transitionTime: 100,
             loop: false,
@@ -70,7 +70,7 @@
           timeDimension
         );
 
-        var timeDimensionControl = new L.Control.TimeDimension({
+        let timeDimensionControl = new L.Control.TimeDimension({
           player: player,
           timeDimension: timeDimension,
           position: "bottomleft",
@@ -87,7 +87,7 @@
           url: "http://data.mars2d.cn/file/geojson/tianzhushan.json",
         })
           .then((geojson) => {
-            var customLayer = L.geoJson(geojson, {
+            let customLayer = L.geoJson(geojson, {
               pointToLayer: function (feature, latLng) {
                 if (feature.properties.hasOwnProperty("last")) {
                   return new mars2d.graphic.Marker({
@@ -112,7 +112,7 @@
               paddingBottomRight: [40, 40],
             });
 
-            var gpxTimeLayer = L.timeDimension.layer.geoJson(customLayer, {
+            let gpxTimeLayer = L.timeDimension.layer.geoJson(customLayer, {
               updateTimeDimension: true,
               addlastPoint: true,
               waitForReady: true,

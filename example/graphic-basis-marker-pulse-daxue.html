@@ -41,11 +41,11 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      var map;
+      let map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
-        var mapOptions = mars2d.Util.merge(options, {
+        let mapOptions = mars2d.Util.merge(options, {
           zoom: 11,
           center: { lng: 118.756714, lat: 32.029035 },
         });
@@ -84,10 +84,10 @@
       }
 
       function addFeature(arr) {
-        var pointColorArr = ["#f33349", "#f79a2c", "#f2fa19", "#95e40c", "#1ffee6"];
+        let pointColorArr = ["#f33349", "#f79a2c", "#f2fa19", "#95e40c", "#1ffee6"];
 
         //创建DIV数据图层
-        var graphicLayer = new mars2d.layer.GraphicLayer();
+        let graphicLayer = new mars2d.layer.GraphicLayer();
         map.addLayer(graphicLayer);
 
         //在layer上绑定监听事件
@@ -102,7 +102,7 @@
           if (!item) {
             return false;
           }
-          var html =
+          let html =
             "高校名称：" +
             item["高校名称"] +
             "<br />所属地区：" +
@@ -116,18 +116,18 @@
           return html;
         });
 
-        for (var i = 0, len = arr.length; i < len; i++) {
-          var item = arr[i];
-          var postions = item["经纬度"].split(","); //取到经纬度坐标
+        for (let i = 0, len = arr.length; i < len; i++) {
+          let item = arr[i];
+          let postions = item["经纬度"].split(","); //取到经纬度坐标
           if (postions.length !== 2) {
             continue;
           }
 
-          var lng = Number(postions[0]);
-          var lat = Number(postions[1]);
-          var pointColor = pointColorArr[i % pointColorArr.length];
+          let lng = Number(postions[0]);
+          let lat = Number(postions[1]);
+          let pointColor = pointColorArr[i % pointColorArr.length];
 
-          var graphic = new mars2d.graphic.Marker({
+          let graphic = new mars2d.graphic.Marker({
             latlng: [lat, lng],
             style: {
               width: 6,
