@@ -60,9 +60,7 @@
       //合并属性参数，可覆盖config.json中的对应配置
       let mapOptions = mars2d.Util.merge(options, {
         zoom: 11,
-        scene: {
-          center: { lat: 31.880473, lng: 117.200775 },
-        },
+        center: { lat: 31.880473, lng: 117.200775 },
       });
       //创建地图
       map = new mars2d.Map("mars2dContainer", mapOptions);

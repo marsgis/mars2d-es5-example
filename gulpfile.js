@@ -29,6 +29,7 @@ const noCopyFileType = [".psd", ".doc", ".docx", ".txt", ".md", ".zip", ".rar"];
 const noCopyPathDef = [
   ".svn",
   ".git",
+  "dist",
   "node_modules",
   ".eslintrc",
   ".editorconfig",

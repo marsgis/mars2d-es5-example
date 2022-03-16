@@ -340,6 +340,18 @@
             "thumbnail": "control-leaflet-scale.jpg",
             "main_es5": "control-leaflet-scale",
             "main": "control/leaflet/scale"
+          },
+          {
+            "name": "zoom放大缩小",
+            "thumbnail": "control-leaflet-zoom.jpg",
+            "main_es5": "control-leaflet-zoom",
+            "main": "control/leaflet/zoom"
+          },
+          {
+            "name": "layers 图层管理",
+            "thumbnail": "control-leaflet-layers.jpg",
+            "main_es5": "control-leaflet-layers",
+            "main": "control/leaflet/layers"
           }
         ]
       },
@@ -430,6 +442,26 @@
             "main_es5": "control-basis-display",
             "main": "control/basis/display",
             "vuePanel": true
+          },
+          {
+            "name": "自定义工具栏按钮",
+            "thumbnail": "control-basis-toolButton.jpg",
+            "main_es5": "control-basis-toolButton",
+            "main": "control/basis/toolButton"
+          },
+          {
+            "name": "移动端位置定位",
+            "thumbnail": "control-basis-geolocation.jpg",
+            "main_es5": "control-basis-geolocation",
+            "main": "control/basis/geolocation",
+            "resources": ["https://webapi.amap.com/maps?v=1.4.15&key=ae29a37307840c7ae4a785ac905927e0", "Geolocation.js"]
+          },
+          {
+            "name": "POI兴趣点搜索",
+            "thumbnail": "control-basis-poiQueryButton.jpg",
+            "main_es5": "control-basis-poiQueryButton",
+            "main": "control/basis/poiQueryButton",
+            "resources": ["PoiQueryButton.css", "PoiQueryButton.js"]
           }
         ]
       }
@@ -553,6 +585,54 @@
             "thumbnail": "layer-graphic-other-graticule.jpg",
             "main_es5": "layer-graphic-other-graticule",
             "main": "layer-graphic/other/graticule"
+          }
+        ]
+      },
+      {
+        "name": "矢量服务查询",
+        "children": [
+          {
+            "name": "ArcGIS Server矢量服务查询",
+            "thumbnail": "query-arcgis.jpg",
+            "main_es5": "query-arcgis",
+            "main": "query/arcgis",
+            "vuePanel": true
+          },
+          {
+            "name": "ArcGIS Server面的查询统计分析",
+            "thumbnail": "query-arcgisPolygon.jpg",
+            "main_es5": "query-arcgisPolygon",
+            "main": "query/arcgisPolygon",
+            "vuePanel": true,
+            "libs": ["mars2d", "echarts", "turf"]
+          },
+          {
+            "name": "GeoServer矢量服务查询(OGC WFS)",
+            "thumbnail": "query-geoserver.jpg",
+            "main_es5": "query-geoserver",
+            "main": "query/geoserver",
+            "vuePanel": true
+          },
+          {
+            "name": "高德POI点查询",
+            "thumbnail": "query-gaodePOI.jpg",
+            "main_es5": "query-gaodePOI",
+            "main": "query/gaodePOI",
+            "vuePanel": true
+          },
+          {
+            "name": "高德路径规划查询",
+            "thumbnail": "query-gaodeRoute.jpg",
+            "main_es5": "query-gaodeRoute",
+            "main": "query/gaodeRoute",
+            "vuePanel": true
+          },
+          {
+            "name": "高德路径规划查询(多条)",
+            "thumbnail": "query-gaodeRouteList.jpg",
+            "main_es5": "query-gaodeRouteList",
+            "main": "query/gaodeRouteList",
+            "vuePanel": true
           }
         ]
       }

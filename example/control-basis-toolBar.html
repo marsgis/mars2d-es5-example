@@ -48,7 +48,7 @@
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
         let mapOptions = mars2d.Util.merge(options, {});
-        delete mapOptions.controls;
+        delete mapOptions.control;
 
         //创建地图
         map = new mars2d.Map("mars2dContainer", mapOptions);
