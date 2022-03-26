@@ -52,6 +52,6 @@ testem.log
 Thumbs.db
 package-lock.json
 
-# 测试
+# 本地测试
 /example-test
 package-lock.json

@@ -128,7 +128,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
       let queryMapserver;
       let drawGraphic;
       let geoJsonLayer;
@@ -279,6 +279,12 @@
           return;
         }
         let queryVal = $.trim($("#queryText").val());
+        if (!queryVal) {
+          $("#tab_check").hide();
+          haoutil.msg("请输入查询关键字！");
+          return;
+        }
+        console.log(queryVal);
         queryMapserver.query({
           column: "用地名称",
           text: queryVal,

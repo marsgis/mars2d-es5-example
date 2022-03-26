@@ -139,7 +139,8 @@
             "name": "OpenStreetMap（OSM）",
             "thumbnail": "layer-tile-online-osm.jpg",
             "main_es5": "layer-tile-online-osm",
-            "main": "layer-tile/online/osm"
+            "main": "layer-tile/online/osm",
+            "vuePanel": true
           },
           {
             "name": "谷歌(已被封)",
@@ -396,7 +397,7 @@
             "thumbnail": "control-basis-toolBar.jpg",
             "main_es5": "control-basis-toolBar",
             "main": "control/basis/toolBar",
-            "resources": ["http://api.map.baidu.com-getscript?v=2.0&ak=qObioeG8HeeQVrOVAGScPVhDzlmv6rL9&services="]
+            "resources": ["http://api.map.baidu.com/getscript?v=2.0&ak=qObioeG8HeeQVrOVAGScPVhDzlmv6rL9&services="]
           },
           {
             "name": "下侧状态栏",
@@ -866,7 +867,7 @@
             "name": "军事标绘",
             "thumbnail": "layer-graphic-draw-military.jpg",
             "main_es5": "layer-graphic-draw-military",
-            "main": "layer-graphic/draw-military",
+            "main": "layer-graphic/draw/military",
             "vuePanel": true
           },
           {

@@ -106,7 +106,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
       let poiLayer;
       let queryGaodePOI;
 
@@ -201,8 +201,6 @@
               return;
             }
 
-            // graphic.openHighlight();
-
             map.flyToGraphic(graphic);
           },
         });
@@ -270,8 +268,6 @@
               });
               break;
           }
-
-          map.flyToGraphic(graphic);
         });
 
         //框选查询 矩形
@@ -350,7 +346,6 @@
           return;
         }
         haoutil.loading.show();
-
         lastQueryOptions = {
           ...queryOptions,
           count: 25, //count 每页数量
@@ -415,15 +410,6 @@
               label: {
                 text: item.name,
                 font: "20px 楷体",
-                // color: Cesium.Color.AZURE,
-                // outline: true,
-                // outlineColor: Cesium.Color.BLACK,
-                // outlineWidth: 2,
-                // horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-                // verticalOrigin: Cesium.VerticalOrigin.BOTTOM,
-                // pixelOffset: new Cesium.Cartesian2(0, -30), //偏移量
-                // distanceDisplayCondition: new Cesium.DistanceDisplayCondition(0.0, 200000),
-                clampToGround: true, //贴地
               },
             },
             attr: item,
@@ -431,7 +417,6 @@
           poiLayer.addGraphic(graphic);
           item._graphic = graphic;
         }
-        map.flyToGraphic(graphic);
       }
     </script>
   </body>

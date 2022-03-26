@@ -31,14 +31,14 @@
     <link href="css/style.css" rel="stylesheet" />
   </head>
 
-  <body >
+  <body>
     <!--加载前进行操作提示，优化用户体验-->
     <div id="mask" class="signmask" onclick="removeMask()"></div>
 
     <div id="mars3dContainer" class="mars2d-container"></div>
 
     <!-- 面板 -->
-    <div id="toolbar" class="infoview infoview-right" style="margin-right: 50px">
+    <div id="toolbar" class="infoview">
       <table class="mars-table">
         <tbody>
           <tr>
@@ -68,16 +68,16 @@
           </tr>
 
           <tr>
-            <td>进度条：</td>
+            <td>滑动轨：</td>
             <td class="slider">
-              <input id="slider_opacity" type="text" data-slider-min="0" data-slider-max="1" data-slider-step="0.01" data-slider-value="1" />
+              <input id="slider_opacity" />
             </td>
           </tr>
 
           <tr>
-            <td>刻度进度条：</td>
+            <td>双滑轨：</td>
             <td class="slider">
-              <input id="slider_showLevel" type="text" onchange="dataUpdate()" />
+              <input id="slider_showLevel" type="text" />
             </td>
           </tr>
 
@@ -94,17 +94,17 @@
             <td>多选：</td>
             <td class="slider">
               <div class="checkbox checkbox-primary checkbox-inline">
-                <input id="showGoHome" class="styled" type="checkbox" onclick="fireStar()" />
+                <input id="showGoHome" class="styled" type="checkbox" />
                 <label for="showGoHome"> 火星 </label>
               </div>
 
               <div class="checkbox checkbox-primary checkbox-inline">
-                <input id="showSceneModePicker" class="styled" type="checkbox" onclick="earthStar()" />
+                <input id="showSceneModePicker" class="styled" type="checkbox" />
                 <label for="showSceneModePicker"> 地球 </label>
               </div>
 
               <div class="checkbox checkbox-primary checkbox-inline">
-                <input id="showBaseLayerPicker" class="styled" type="checkbox" onclick="sunStar()" />
+                <input id="showBaseLayerPicker" class="styled" type="checkbox" />
                 <label for="showBaseLayerPicker"> 太阳 </label>
               </div>
             </td>
@@ -134,8 +134,7 @@
             </td>
           </tr>
           <tr>
-            <td>弹窗：</td>
-            <td id="tdViewAdd" colspan="2" style="text-align: left">
+            <td id="tdViewAdd" colspan="2" style="text-align: center">
               <input type="button" class="btn btn-primary" value="错误信息" onclick="messageOut()" />
               <input type="button" class="btn btn-primary" value="警告信息" onclick="Warning()" />
               <input type="button" class="btn btn-primary" value="提示信息" onclick="Alert()" />
@@ -161,14 +160,14 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
       let $table;
       let tileLayer;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置
         let mapOptions = mars2d.Util.merge(options, {
-          center: { lat: 31.841977, lng: 117.141788, alt: 1043, heading: 90, pitch: -51 },
+          center: { lat: 31.841977, lng: 117.141788 },
         });
 
         //创建三维地球场景
@@ -179,29 +178,8 @@
 
         //获取台风列表
         queryTyphoonList().then(function (arr) {
-          //启动正在发送的台风
-          arr.forEach((item) => {
-            if (item.state == "start") {
-              item.show = true;
-              selectOneTyphoon(item);
-            }
-          });
           showTyphoonTable(arr);
         });
-
-        $("#slider_lodLevel")
-          .slider({
-            id: "slider-lodLevel-internal",
-            ticks: [0, 5, 10, 15, 18, 21],
-            ticks_positions: [0, 20, 40, 60, 80, 100],
-            ticks_labels: ["0", "5", "10", "15", "18", "21"],
-            range: true,
-            value: [0, 21],
-          })
-          .on("slide", function () {
-            let lodLevel = $("#slider_lodLevel").slider("getValue");
-            $("#slider_showLevel").slider("setValue", lodLevel);
-          });
 
         $("#slider_showLevel").slider({
           id: "slider-showLevel-internal",
@@ -212,15 +190,16 @@
           value: [0, 21],
         });
 
-        $("#slider_brightness")
-          .slider()
-          .on("change", function () {
-            // console.log(e);
-          });
         $("#slider_opacity")
-          .slider()
-          .on("change", function () {
-            // console.log(e);
+          .slider({
+            min: 1,
+            max: 18,
+            value: map.getZoom(),
+          })
+          .on("change", function (e) {
+            if (e && e.value) {
+              map.setOptions({ zoom: e.value.newValue });
+            }
           });
         $("#txtColor").minicolors({
           position: "bottom left",
@@ -266,7 +245,6 @@
         toastr.warning("展示警告信息！");
       }
       function initUI() {
-        // eslint-disable-next-line no-undef
         jeDate("#txtStartTime", {
           theme: {
             bgcolor: "#135b91",
@@ -294,9 +272,7 @@
             outlineColor: "#00bceb",
           },
           success: function (graphic) {
-            let rectangle = mars2d.PolyUtil.formatRectangle(graphic._rectangle_draw);
-            $("#txtRectangle").val(JSON.stringify(rectangle));
-            // dataUpdate();
+            $("#txtRectangle").val(JSON.stringify(graphic.coordinates));
           },
         });
       }
@@ -348,9 +324,6 @@
           onCheck: function (row) {
             selectOneTyphoon(row);
           },
-          onUncheck: function (row) {
-            unSelectOneTyphoon(row);
-          },
           onClickRow: function (row) {
             if (typhoonListObj[row.id] && typhoonListObj[row.id].show) {
               selectOneTyphoon(row);
@@ -359,47 +332,13 @@
         });
       }
 
-      //停止播放
-      function stopTyphoon() {
-        $("#btnPlay").html('<span class="fa fa-play" aria-hidden="true"></span> 播放');
-        if (selectTF?.playTyphoon) {
-          selectTF.playTyphoon.stop();
-          selectTF.show = true;
-        }
-      }
-
       let typhoonListObj = {};
-
-      //取消勾选台风
-      function unSelectOneTyphoon(row) {
-        let typhoon = typhoonListObj[row.id];
-        if (typhoon == selectTF) {
-          stopTyphoon();
-          $("#typhoonPath").hide();
-        }
-        if (typhoon) {
-          typhoon.show = false;
-        }
-      }
 
       //勾选了台风
       function selectOneTyphoon(row) {
         $("#lblName").html("[" + row.typnumber + "]" + "" + row.name_cn);
-        stopTyphoon();
+
         toastr.info(row.name_cn + "台风要来啦，大家要注意安全！");
-
-        if (typhoonListObj[row.id]) {
-          let typhoon = typhoonListObj[row.id];
-
-          typhoon.show = true;
-          typhoon.flyTo();
-        }
-      }
-
-      let selectTF;
-
-      function getHeight() {
-        return $(window).height() - 440;
       }
 
       //访问后端接口，取台风列表数据
@@ -437,61 +376,6 @@
         });
       }
 
-      //访问后端接口，取单个台风路径数据
-      function queryTyphoonItem(id) {
-        return new Promise(function (resolve, reject) {
-          function typhoon_jsons_view(res) {
-            let newData = conversionPathData(res.typhoon); //在Typhoon.js中
-            // console.log('台风数据==>', newData)
-            resolve(newData);
-          }
-          window["typhoon_jsons_view_" + id] = typhoon_jsons_view;
-
-          $.ajax({
-            url: "//data.mars2d.cn/file/apidemo/typhoon/view_" + id + ".json", //mock离线数据
-            dataType: "json",
-            type: "GET",
-            data: {
-              t: new Date().getTime(),
-            },
-            success: typhoon_jsons_view,
-            error: function (data) {
-              console.log("获取台风单个数据失败");
-              reject(data);
-            },
-          });
-        });
-      }
-
-      //转换数据,将后端接口数据转换为需要的格式
-      function conversionPathData(oldData) {
-        let path = [];
-        oldData[8].forEach((message) => {
-          let circle7;
-          let circle10;
-          let circle12;
-          message[10].forEach((level) => {
-            let radiusObj = {
-              speed: level[0],
-              radius1: level[1],
-              radius2: level[2],
-              radius3: level[3],
-              radius4: level[4],
-            };
-
-            if (level[0] == "30KTS") {
-              circle7 = radiusObj;
-            } else if (level[0] == "50KTS") {
-              circle10 = radiusObj;
-            } else if (level[0] == "64KTS") {
-              circle12 = radiusObj;
-            } else {
-              console.log("未处理风圈", radiusObj);
-            }
-          });
-        });
-      }
-
       //===========================树控件处理============================
       let layers = [];
       let layersObj = {};
@@ -509,7 +393,6 @@
           },
           callback: {
             onCheck: treeOverlays_onCheck,
-            onDblClick: treeOverlays_onDblClick,
           },
         };
 
@@ -551,16 +434,16 @@
 
         if (layer.hasEmptyGroup) {
           //空数组
-          node.icon = "../lib/jquery/ztree/css/mars/images/folder.png";
+          node.icon = "img/layer/folder.png";
           node.open = item.open == null ? true : item.open;
           layersObj[node.uuid] = layer;
         } else if (layer.hasChildLayer) {
           //有子节点的数组
-          node.icon = "../lib/jquery/ztree/css/mars/images/layerGroup.png";
+          node.icon = "img/layer/layerGroup.png";
           node.open = item.open == null ? true : item.open;
           layersObj[node.uuid] = layer;
         } else {
-          node.icon = "../lib/jquery/ztree/css/mars/images/layer.png";
+          node.icon = "img/layer/layer.png";
           node.checked = layer.isAdded && layer.show;
 
           if (layer.parent) {
@@ -599,15 +482,12 @@
           } else {
             $("#" + treeNode.tId + "_range").hide();
           }
-
           updateLayerShow(layer, treeNode.checked);
         }
       }
 
       //更新图层:显示隐藏状态
       function updateLayerShow(layer, show) {
-        layer.show = show;
-
         if (show) {
           if (!layer.isAdded) {
             map.addLayer(layer);
@@ -617,17 +497,6 @@
             map.removeLayer(layer);
           }
         }
-      }
-
-      function treeOverlays_onDblClick(event, treeId, treeNode) {
-        if (treeNode == null || treeNode.uuid == null) {
-          return;
-        }
-        let layer = layersObj[treeNode.uuid];
-        if (layer == null) {
-          return;
-        }
-        layer.flyTo();
       }
     </script>
   </body>

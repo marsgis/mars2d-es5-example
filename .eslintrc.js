@@ -54,6 +54,7 @@ module.exports = {
     "prefer-regex-literals": "off", // 关闭只能使用正则字面量
     "comma-dangle": "off", // 强制在对象和数组文字中一致地使用尾随逗号
     eqeqeq: "off", // 是否使用 === 替代 ==
+    "no-var": "off", // @fixable 禁止使用 var
     // mars2d-es5-example项目专用的配置(目的便于示例的开发调试) end
 
     camelcase: "off", // 强制驼峰命名规则
@@ -77,7 +78,6 @@ module.exports = {
 
     "no-debugger": "warn", // 是否允许debugger
     "no-console": "off", // 不允许出现console语句
-    "no-var": "error", // @fixable 禁止使用 var
     "no-trailing-spaces": "off", // 一行最后不允许有空格
     "no-prototype-builtins": "off", // 是否允许使用Object.prototype
     "no-template-curly-in-string": "off", // 关闭${xxx}检测

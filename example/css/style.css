@@ -97,10 +97,10 @@ img {
   box-shadow: 0 3px 14px rgba(0, 0, 0, 0.4);
   z-index: 19870101;
 }
-/* .infoview-right {
-  left: auto;
-  right: 10px;
-} */
+.infoview-left {
+   right: auto;
+   left: 10px;
+}
 
 .infoview > div {
   margin-top: 5px;
@@ -110,6 +110,12 @@ img {
   margin: 5px 10px 20px 10px;
 }
 
+.rightbottom {
+  top: auto;
+  bottom: 60px;
+  left: auto;
+  right: 10px;
+}
 .map-control-bar {
   position: absolute;
   width: 36px;

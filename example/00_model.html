@@ -25,7 +25,7 @@
       type="text/javascript"
       src="../lib/include-lib.js"
       libpath="../lib/"
-      include="jquery,font-awesome,bootstrap,layer,haoutil,mars2d"
+      include="jquery,font-awesome,bootstrap,layer,haoutil,mars2d,mars2d-widget"
     ></script>
 
     <link href="css/style.css" rel="stylesheet" />
@@ -40,7 +40,7 @@
     <script type="text/javascript">
       "use script"; //开发环境建议开启严格模式
 
-      let map;
+      var map;
 
       function initMap(options) {
         //合并属性参数，可覆盖config.json中的对应配置

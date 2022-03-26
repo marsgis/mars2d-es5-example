@@ -40,7 +40,7 @@
   <script type="text/javascript">
     "use script"; //开发环境建议开启严格模式
 
-    let map;
+    var map;
 
     function initMap(options) {
       //合并属性参数，可覆盖config.json中的对应配置
@@ -191,9 +191,9 @@
     //更新图层:显示隐藏状态
     function updateLayerShow(layer, show) {
       if (show) {
-        this.map.addLayer(layer);
+        map.addLayer(layer);
       } else {
-        this.map.removeLayer(layer);
+        map.removeLayer(layer);
       }
     }
 
