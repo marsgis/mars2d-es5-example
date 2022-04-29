@@ -24,7 +24,7 @@
       type="text/javascript"
       src="../lib/include-lib.js"
       libpath="../lib/"
-      include="jquery,font-awesome,bootstrap,layer,haoutil,mars2d,leaflet-sideBySide"
+      include="jquery,font-awesome,bootstrap,layer,haoutil,mars2d"
     ></script>
     <link href="css/style.css" rel="stylesheet" />
   </head>
@@ -61,7 +61,12 @@
         let osmLayer = new mars2d.layer.OsmLayer();
         map.addLayer(osmLayer);
 
-        L.control.sideBySide(gaodeLayer, osmLayer).addTo(map);
+        //卷帘控件
+        let control = new mars2d.control.MapSplit({
+          leftLayer: gaodeLayer,
+          rightLayer: osmLayer,
+        });
+        map.addControl(control);
       }
     </script>
   </body>
