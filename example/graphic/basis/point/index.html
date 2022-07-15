@@ -134,14 +134,16 @@
         mars2d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
       })
 
+
+
+
       $("#btnImpFile").click(function () {
+        clearSelectFile()
         $("#input_draw_file").click()
       })
-
       $("#input_draw_file").change(function (e) {
-        debugger
-        let file = this.files[0]
 
+        let file = this.files[0]
         let fileName = file.name
         let fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
         if (fileType === "json" || fileType === "geojson") {
@@ -181,6 +183,15 @@
           message.error("暂不支持 " + fileType + " 文件类型的数据！")
         }
       })
+    }
+
+
+    function clearSelectFile() {
+      if (!window.addEventListener) {
+        document.getElementById("input_draw_file").outerHTML += "" //IE
+      } else {
+        document.getElementById("input_draw_file").value = "" //FF
+      }
     }
   </script>
 </body>
