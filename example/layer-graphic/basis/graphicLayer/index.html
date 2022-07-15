@@ -1,0 +1,177 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars2d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+
+    <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS"
+    />
+
+    <link rel="shortcut icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/muyao1987/cdn/marsgis.cn/favicon/favicon.ico" />
+    <title>graphic 数据图层 | Mars2D | 地理信息平台 | 火星科技 | 合肥火星科技有限公司</title>
+
+    <!--第三方lib-->
+    <script
+      type="text/javascript"
+      src="/lib/include-lib.js"
+      libpath="/lib/"
+      include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars2d"
+    ></script>
+
+    <link href="/css/style.css" rel="stylesheet" />
+    <link href="/css/divGraphic.css" rel="stylesheet" />
+  </head>
+  <body>
+    <div id="mars2dContainer" class="mars2d-container"></div>
+
+    <div class="infoview">
+      <div>
+        图层状态：
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="chkShow" class="styled" type="checkbox" checked />
+          <label for="chkShow"> 显示隐藏 </label>
+        </div>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="chkPopup" class="styled" type="checkbox" checked />
+          <label for="chkPopup"> Popup绑定 </label>
+        </div>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="chkTooltip" class="styled" type="checkbox" />
+          <label for="chkTooltip"> Tooltip绑定 </label>
+        </div>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="chkContextMenu" class="styled" type="checkbox" checked />
+          <label for="chkContextMenu"> 右键菜单绑定 </label>
+        </div>
+      </div>
+
+      <div>
+        <span>点状(单个坐标)：</span>
+        <a href="editor-es5.html?id=graphic/basis/marker" target="_blank" class="btn btn-primary">图标点</a>
+        <a href="editor-es5.html?id=graphic/basis/movingMarker" target="_blank" class="btn btn-primary">运动点</a>
+        <a href="editor-es5.html?id=graphic/basis/point" target="_blank" class="btn btn-primary">像素点</a>
+        <a href="editor-es5.html?id=graphic/basis/label" target="_blank" class="btn btn-primary">文本</a>
+        <a href="editor-es5.html?id=graphic/divGraphic/basis" target="_blank" class="btn btn-primary">DIV点</a>
+        <a href="editor-es5.html?id=graphic/basis/circle" target="_blank" class="btn btn-primary">圆</a>
+        <a href="editor-es5.html?id=graphic/basis/ellipse" target="_blank" class="btn btn-primary">椭圆</a>
+      </div>
+      <div>
+        <span>线面状(多个坐标)：</span>
+        <a href="editor-es5.html?id=graphic/basis/polyline" target="_blank" class="btn btn-primary">线</a>
+        <a href="editor-es5.html?id=graphic/basis/polyline-offset" target="_blank" class="btn btn-primary">平行线</a>
+        <a href="editor-es5.html?id=graphic/basis/rectangle" target="_blank" class="btn btn-primary">矩形</a>
+        <a href="editor-es5.html?id=graphic/basis/image" target="_blank" class="btn btn-primary">图片</a>
+        <a href="editor-es5.html?id=graphic/basis/polygon" target="_blank" class="btn btn-primary">面</a>
+      </div>
+    </div>
+
+    <script src="/js/common.js"></script>
+    <script src="./map.js"></script>
+    <script type="text/javascript">
+      function initUI() {
+        $("#chkPopup").change(function () {
+          let val = $(this).is(":checked")
+
+          if (val) {
+            bindLayerPopup()
+          } else {
+            graphicLayer.unbindPopup()
+          }
+        })
+
+        //可在图层上绑定tooltip,对所有加到这个图层的矢量数据都生效
+        $("#chkTooltip").change(function () {
+          let val = $(this).is(":checked")
+
+          if (val) {
+            graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
+          } else {
+            graphicLayer.unbindTooltip()
+          }
+        })
+
+        //可在图层绑定右键菜单,对所有加到这个图层的矢量数据都生效
+        bindLayerContextMenu()
+        $("#chkContextMenu").change(function () {
+          let val = $(this).is(":checked")
+
+          if (val) {
+            bindLayerContextMenu()
+          } else {
+            graphicLayer.unbindContextMenu(true)
+          }
+        })
+
+        $("#chkHasEdit").change(function () {
+          let val = $(this).is(":checked")
+
+          graphicLayer.hasEdit = val //启用编辑
+        })
+
+        $("#chkShow").change(function () {
+          let val = $(this).is(":checked")
+
+          graphicLayer.show = val //显示隐藏
+        })
+
+        $("#btnClear").click(function () {
+          graphicLayer.clear()
+        })
+
+        $("#btnExpFile").click(function () {
+          if (graphicLayer.length === 0) {
+            window.layer.msg("当前没有标注任何数据，无需保存！")
+            return
+          }
+
+          let geojson = graphicLayer.toGeoJSON()
+          haoutil.file.downloadFile("我的标注.json", JSON.stringify(geojson))
+        })
+
+        $("#btnImpFile").click(function () {
+          $("#input_draw_file").click()
+        })
+
+        function clearSelectFile() {
+          if (!window.addEventListener) {
+            document.getElementById("input_draw_file").outerHTML += "" //IE
+          } else {
+            document.getElementById("input_draw_file").value = "" //FF
+          }
+        }
+
+        $("#input_draw_file").change(function (e) {
+          let file = this.files[0]
+
+          let fileName = file.name
+          let fileType = fileName.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
+
+          if (fileType == "json" || fileType == "geojson") {
+            let reader = new FileReader()
+            reader.readAsText(file, "UTF-8")
+            reader.onloadend = function (e) {
+              let json = this.result
+              graphicLayer.loadGeoJSON(json, {
+                flyTo: true
+              })
+              clearSelectFile()
+            }
+          } else {
+            window.layer.msg("暂不支持 " + fileType + " 文件类型的数据！")
+            clearSelectFile()
+          }
+        })
+      }
+    </script>
+  </body>
+</html>

@@ -17,6 +17,13 @@ module.exports = {
     defineExpose: "readonly",
     withDefaults: "readonly",
 
+    currentPath: "readonly",
+    globalMsg: "readonly",
+    globalAlert: "readonly",
+    globalNotify: "readonly",
+    showLoading: "readonly",
+    hideLoading: "readonly",
+
     Cesium: "readonly",
     mars3d: "readonly",
     L: "readonly",
@@ -45,9 +52,6 @@ module.exports = {
     jeDate: false,
     kriging: false,
   },
-  // ""0""表示忽略问题，等同于"off";
-  // ""1""表示给出警告，等同于"warn";
-  // ""2""表示直接报错，等同于"error"。
   rules: {
     // mars2d-es5-example项目专用的配置(目的便于示例的开发调试) start
     "no-unused-vars": "off", // 不允许有声明后未被使用的变量或参数
@@ -55,6 +59,7 @@ module.exports = {
     "comma-dangle": "off", // 强制在对象和数组文字中一致地使用尾随逗号
     eqeqeq: "off", // 是否使用 === 替代 ==
     "no-var": "off", // @fixable 禁止使用 var
+    "no-undef": "warn",
     // mars2d-es5-example项目专用的配置(目的便于示例的开发调试) end
 
     camelcase: "off", // 强制驼峰命名规则

@@ -1,0 +1,111 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars2d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="https://cdn.jsdelivr.net/gh/muyao1987/cdn/marsgis.cn/favicon/favicon.ico" />
+
+    <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS"
+    />
+
+    <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
+
+    <!--第三方lib-->
+    <script
+      type="text/javascript"
+      src="/lib/include-lib.js"
+      libpath="/lib/"
+      include="jquery,jquery.minicolors,font-awesome,bootstrap,layer,haoutil,mars2d"
+    ></script>
+
+    <link href="/css/style.css" rel="stylesheet" />
+    <style>
+      /* .leaflet-zoom-animated img {
+        -webkit-filter: invert(50%) grayscale(0) saturate(0.5) brightness(1.6) opacity(1) hue-rotate(334deg) sepia(10%) !important;
+        -ms-filter: invert(1) grayscale(0) saturate(0.5) brightness(1.6) opacity(1) hue-rotate(334deg) sepia(10%) !important;
+        -moz-filter: invert(1) grayscale(0) saturate(0.5) brightness(1.6) opacity(1) hue-rotate(334deg) sepia(10%) !important;
+        filter: invert(1) grayscale(0) saturate(0.5) brightness(1.6) opacity(1) hue-rotate(334deg) sepia(1%) !important;
+      } */
+    </style>
+  </head>
+
+  <body>
+    <div id="mars2dContainer" class="mars2d-container"></div>
+
+    <!-- 面板 -->
+    <div class="infoview">
+      <table class="mars-table">
+        <tr>
+          <td>rgb叠加颜色：</td>
+          <td>
+            <input type="text" id="txtColor" class="form-control" style="width: 150px" value="rgb(51, 59, 112)" />
+          </td>
+        </tr>
+      </table>
+    </div>
+
+    <script src="/js/common.js"></script>
+    <script src="./map.js"></script>
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+
+      var map
+
+      function initUI(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        let mapOptions = mars2d.Util.merge(options, {
+          renderer: L.svg()
+        })
+        delete mapOptions.basemaps
+
+        map.container.style.background = "#000000" //黑色背景
+
+        let rgbObject = { r: 51, g: 59, b: 112 }
+
+        // 添加底图
+        let tileLayer = new mars2d.layer.TileLayer({
+          type: "tile",
+          url: "https://webrd02.is.autonavi.com/appmaptile?lang=zh_cn&size=1&scale=1&style=8&x={x}&y={y}&z={z}",
+          //使用自定义颜色
+          customColor: function (oldColor) {
+            //返回自定义的着色
+            return {
+              r: (oldColor.r + rgbObject.r) % 255,
+              g: (oldColor.g + rgbObject.g) % 255,
+              b: (oldColor.b + rgbObject.b) % 255
+            }
+          }
+        })
+        map.addLayer(tileLayer)
+
+        window.tileLayer = tileLayer
+
+        //图层控制控件
+        if (map.controls && map.controls.layers) {
+          map.controls.layers.addOverlay(tileLayer, "自定义颜色图层")
+        }
+
+        $("#txtColor").minicolors({
+          position: "bottom right",
+          control: "saturation",
+          format: "rgb",
+          change: function (hex) {
+            rgbObject = $("#txtColor").minicolors("rgbObject")
+
+            tileLayer.redraw()
+          }
+        })
+      }
+    </script>
+  </body>
+</html>

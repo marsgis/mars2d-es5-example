@@ -11,9 +11,6 @@
 /node_modules
 lib/CesiumUnminified/
 mars2d-*src.*
-!mars2d-supermap-src.js*
-!mars2d-tdt-src.js*
-!mars2d-widget-src.js*
 
 # profiling files
 chrome-profiler-events*.json
@@ -53,5 +50,4 @@ Thumbs.db
 package-lock.json
 
 # 本地测试
-/example-test
-package-lock.json
+*-test

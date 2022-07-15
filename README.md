@@ -137,7 +137,7 @@ mars2d-es5-example
 为了方便切换和引入第3方lib，我们编写了一个独立的js文件[include-lib.js](http://mars2d.cn/lib/include-lib.js)来统一调用使用第3方lib,在需要的页面按下面方式引入lib：
 ```html
 <!--第三方lib-->
-<script type="text/javascript" src="../lib/include-lib.js" libpath="../lib/"
+<script type="text/javascript" src="/lib/include-lib.js" libpath="/lib/"
     include="font-awesome,mars2d"></script>
 ```
 该方式等价于（如不习惯include-lib.js，也可以改为下面演示的直接引入方式）： 
