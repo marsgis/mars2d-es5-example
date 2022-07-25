@@ -1,6 +1,6 @@
  
 <p align="center">
-<img src="https://cdn.jsdelivr.net/gh/muyao1987/cdn/mars2d.cn/logo.png" width="300px" />
+<img src="http://mars2d.cn/logo.png" width="300px" />
 </p>
 
 <p align="center">基于传统JS技术栈的 Mars2D🌎功能示例</p>
