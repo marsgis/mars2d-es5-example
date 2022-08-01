@@ -99,7 +99,7 @@
     }
 
     function _getNodeConfig(layer) {
-      if (layer == null || layer.options.noLayerManage) {
+      if (layer == null || layer.options.isPrivate) {
         return
       }
 
@@ -112,11 +112,10 @@
       let node = {
         id: layer.id,
         pId: layer.pid,
-        name: layer.name,
-        uuid: layer.uuid
+        name: layer.name
       }
 
-      // console.log(`${layer.name}:uuid-${layer.uuid}:id-${layer.id}`);
+      // console.log(`${layer.name}:id-${layer.id}:id-${layer.id}`);
 
       if (layer.hasEmptyGroup) {
         //空数组
@@ -129,11 +128,11 @@
       } else {
         node.icon = "img/layer/layer.png"
         if (layer.parent) {
-          node._parentId = layer.parent.uuid
+          node._parentId = layer.parent.id
         }
       }
       //记录图层
-      layersObj[node.uuid] = layer
+      layersObj[node.id] = layer
       return node
     }
 
@@ -145,7 +144,7 @@
       for (let i = changedNodes.length - 1; i >= 0; i--) {
         let treeNode = changedNodes[i]
         treeNode.checkedOld = treeNode.checked
-        let layer = layersObj[treeNode.uuid]
+        let layer = layersObj[treeNode.id]
         if (layer == null) {
           continue
         }
@@ -161,8 +160,8 @@
         if (layer.options.radio && treeNode.checked) {
           let nodes = treeObj.getNodesByFilter(
             function (node) {
-              let item = layersObj[node.uuid]
-              return item.options.radio && item.pid == layer.pid && node.uuid != treeNode.uuid
+              let item = layersObj[node.id]
+              return item.options.radio && item.pid == layer.pid && node.id != treeNode.id
             },
             false,
             treeNode.getParentNode()
@@ -173,7 +172,7 @@
 
             $("#" + nodes[nidx].tId + "_range").hide()
 
-            let layertmp = layersObj[nodes[nidx].uuid]
+            let layertmp = layersObj[nodes[nidx].id]
             layertmp.show = false
           }
         }
@@ -200,10 +199,10 @@
     }
 
     function treeOverlays_onDblClick(event, treeId, treeNode) {
-      if (treeNode == null || treeNode.uuid == null) {
+      if (treeNode == null || treeNode.id == null) {
         return
       }
-      let layer = layersObj[treeNode.uuid]
+      let layer = layersObj[treeNode.id]
       if (layer && layer.isAdded) {
         layer.flyTo()
       }

@@ -1,10 +1,10 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
-export let graphicLayer
+var graphicLayer
 
 // 事件对象，用于抛出事件给vue
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -12,7 +12,7 @@ export const eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
@@ -60,7 +60,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -204,7 +204,7 @@ function bindLayerContextMenu() {
   ])
 }
 
-export function onChangeImageOpacity(opacity) {
+function onChangeImageOpacity(opacity) {
   graphicLayer.eachGraphic(function (graphic) {
     if (graphic.type !== "image") {
       return
@@ -213,7 +213,7 @@ export function onChangeImageOpacity(opacity) {
   })
 }
 
-export function onClickStartDraw() {
+function onClickStartDraw() {
   graphicLayer.startDraw({
     type: "image",
     style: {
@@ -225,7 +225,7 @@ export function onClickStartDraw() {
     }
   })
 }
-export function drawDivMarker() {
+function drawDivMarker() {
   graphicLayer.startDraw({
     type: "divGraphic",
     style: {

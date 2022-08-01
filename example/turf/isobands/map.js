@@ -1,8 +1,8 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 7,
   center: { lng: 116.378174, lat: 30.537774 }
 }
@@ -13,7 +13,7 @@ export const mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加载气象
@@ -34,7 +34,7 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 

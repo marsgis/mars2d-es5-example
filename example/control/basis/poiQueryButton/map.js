@@ -1,9 +1,9 @@
-import * as mars2d from "mars2d"
-import { PoiQueryButton } from "./PoiQueryButton"
+// import * as mars2d from "mars2d"
+// import { PoiQueryButton } from "./PoiQueryButton"
 
 let map // mars2d.Map二维地图对象
 
-export const mapOptions = {
+var mapOptions = {
   center: { lng: 117.237115, lat: 31.805875 }
 }
 
@@ -13,7 +13,7 @@ export const mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   const poiQueryButton = new PoiQueryButton({
@@ -26,6 +26,6 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }

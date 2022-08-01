@@ -1,5 +1,5 @@
-import * as mars2d from "mars2d"
-const L = mars2d.L
+// import * as mars2d from "mars2d"
+
 
 let map
 let graphicLayer // 矢量数据图层
@@ -7,12 +7,12 @@ let geoJsonLayer
 let lastMaplTooltip //
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 12,
   center: { lng: 117.309471, lat: 31.797018 }
 }
 
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -20,7 +20,7 @@ export const eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance
 
   // 创建矢量数据图层
@@ -39,7 +39,7 @@ export function onMounted(mapInstance) {
   bindLayerDemo()
 }
 
-export function removeDemoLayer() {
+function removeDemoLayer() {
   // 关闭弹窗
   if (lastMaplTooltip) {
     map.closeTooltip(lastMaplTooltip)
@@ -55,7 +55,7 @@ export function removeDemoLayer() {
 }
 
 // 1.在map地图上绑定Tooltip单击弹窗
-export function bindMapDemo() {
+function bindMapDemo() {
   removeDemoLayer()
 
   if (lastMaplTooltip) {
@@ -70,7 +70,7 @@ export function bindMapDemo() {
 }
 
 // 2.在layer图层上绑定Tooltip单击弹窗
-export function bindLayerDemo() {
+function bindLayerDemo() {
   removeDemoLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -103,7 +103,7 @@ export function bindLayerDemo() {
 }
 
 // 2.在layer图层上预定义tooltip单击弹窗
-export function bindLayerDemo2() {
+function bindLayerDemo2() {
   removeDemoLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -123,7 +123,7 @@ export function bindLayerDemo2() {
 }
 
 // 3.在graphic数据上绑定Tooltip单击弹窗
-export function bindGraphicDemo1() {
+function bindGraphicDemo1() {
   removeDemoLayer()
 
   const graphic = new mars2d.graphic.Marker({
@@ -161,7 +161,7 @@ export function bindGraphicDemo1() {
 }
 
 // 3.在graphic数据上绑定Tooltip单击弹窗
-export function bindGraphicDemo2() {
+function bindGraphicDemo2() {
   removeDemoLayer()
 
   const graphic = new mars2d.graphic.Marker({
