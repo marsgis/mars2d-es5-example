@@ -36,7 +36,7 @@
     "gulp-utf8-convert": "0.0.7",
     "gulp-util": "^3.0.8",
     "http-server": "^14.1.0",
-    "mars2d": "^3.1.0",
+    "mars2d": "~3.1.0",
     "prettier": "^2.2.1",
     "uglify-js": "^3.6.0"
   },
