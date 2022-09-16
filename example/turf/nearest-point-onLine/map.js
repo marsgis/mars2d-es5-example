@@ -1,4 +1,4 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map
 let graphicLayer
@@ -10,7 +10,7 @@ let pointLayer
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -27,12 +27,12 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 绘制线
-export function drawLine() {
+function drawLine() {
   if (pointLayer) {
     pointLayer.clear()
   }
@@ -48,7 +48,7 @@ export function drawLine() {
 }
 
 // 绘制点
-export function drawPoint() {
+function drawPoint() {
   pointLayer.clear()
   pointLayer.startDraw({
     type: "marker",
@@ -93,7 +93,7 @@ function nearPoint() {
 }
 
 // 清除数据
-export function clearLayer() {
+function clearLayer() {
   graphicLayer.clear()
   pointLayer.clear()
 }
