@@ -1,227 +1,284 @@
 /* eslint-disable no-var */
-let thisWidget;
+let thisWidget
 
 //当前页面业务
 function initWidgetView(_thisWidget) {
-  thisWidget = _thisWidget;
+  thisWidget = _thisWidget
 
   //清除所有标号
   $("#btnDelete").click(function () {
-    thisWidget.deleteEntity();
-  });
+    thisWidget.deleteEntity()
+  })
 
   $("#btnCenter").click(function (e) {
-    thisWidget.centerCurrentEntity();
-  });
+    thisWidget.centerCurrentEntity()
+  })
 
   $("#btn_plot_savefile").click(function () {
-    let data = thisWidget.getGeoJson();
-    haoutil.file.downloadFile("标绘item.json", JSON.stringify(data));
-  });
+    let data = thisWidget.getGeoJson()
+    haoutil.file.downloadFile("标绘item.json", JSON.stringify(data))
+  })
 
-  plotEdit.initEvent();
-  thisWidget.startEditing();
+  plotEdit.initEvent()
+  thisWidget.startEditing()
 }
 
 //属性编辑相关
 var plotEdit = {
   hasEditSylte: true,
   initEvent: function () {
-    let that = this;
+    let that = this
     if (!this.hasEditSylte) {
-      $("#attr_style_view").hide();
+      $("#attr_style_view").hide()
     }
 
     //改变高度 - 高程全部设置为
     $("#plot_latlngs_allheight").bind("input propertychange", function () {
-      $("#plot_latlngs_addheight").val("");
+      $("#plot_latlngs_addheight").val("")
 
-      let thisval = Number($(this).val()); //高度（米）
+      let thisval = Number($(this).val()) //高度（米）
       if (isNaN(thisval)) {
-        thisval = 1;
+        thisval = 1
       }
 
-      let latlngs = [];
+      let latlngs = []
       $(".plot_latlngs").each(function () {
         if ($(this).attr("data-type") == "height") {
-          $(this).val(thisval);
-          latlngs.push(thisval);
+          $(this).val(thisval)
+          latlngs.push(thisval)
         } else {
-          latlngs.push(Number($(this).val())); //经纬度值
+          latlngs.push(Number($(this).val())) //经纬度值
         }
-      });
+      })
 
-      let arrPoint = [];
+      let arrPoint = []
       for (let i = 0; i < latlngs.length; i += 3) {
-        arrPoint.push([latlngs[i], latlngs[i + 1], latlngs[i + 2]]);
+        arrPoint.push([latlngs[i], latlngs[i + 1], latlngs[i + 2]])
       }
-      thisWidget.updatePoints2map(arrPoint);
-    });
+      thisWidget.updatePoints2map(arrPoint)
+    })
 
     //改变高度 - 在地表高程偏移
     $("#plot_latlngs_addheight").bind("input propertychange", function () {
-      $("#plot_latlngs_allheight").val("");
-      let thisval = Number($(this).val()); //高度（米）
+      $("#plot_latlngs_allheight").val("")
+      let thisval = Number($(this).val()) //高度（米）
       if (isNaN(thisval)) {
-        thisval = 1;
+        thisval = 1
       }
 
-      let latlngs = [];
+      let latlngs = []
       $(".plot_latlngs").each(function () {
         if ($(this).attr("data-type") == "height") {
-          let oldval = Number($(this).attr("oldvalue"));
-          $(this).val(oldval + thisval);
-          latlngs.push(oldval + thisval);
+          let oldval = Number($(this).attr("oldvalue"))
+          $(this).val(oldval + thisval)
+          latlngs.push(oldval + thisval)
         } else {
-          latlngs.push(Number($(this).val())); //经纬度值
+          latlngs.push(Number($(this).val())) //经纬度值
         }
-      });
+      })
 
-      let arrPoint = [];
+      let arrPoint = []
       for (let i = 0; i < latlngs.length; i += 3) {
-        arrPoint.push([latlngs[i], latlngs[i + 1], latlngs[i + 2]]);
+        arrPoint.push([latlngs[i], latlngs[i + 1], latlngs[i + 2]])
       }
-      thisWidget.updatePoints2map(arrPoint);
-    });
+      thisWidget.updatePoints2map(arrPoint)
+    })
   },
   _last_attr: null,
   //选中标号，激活属性面板
-  startEditing: function (graphicOptions, latlngs) {
-    if (!thisWidget.attrConfig) {
-      return;
+  startEditing: function (attr, latlngs) {
+    if (!window.styleConfig) {
+      return
     }
+    if (attr && attr.attr) {
+      attr = {
+        ...attr,
+        ...attr.attr
+      }
+    }
+    this._last_attr = attr
 
-    this._last_attr = graphicOptions;
-    let config = thisWidget.attrConfig[graphicOptions.edittype || graphicOptions.type] || {};
-    config.style = config.style || {};
+    let config = window.styleConfig[attr.type] || window.styleConfig[attr.styleType] || {}
+    config.style = config.style || {}
+
+    function getViewShow(cfg, styleOptions) {
+      if (typeof cfg.show === "function") {
+        return cfg.show(styleOptions, attr.style, attr.type)
+      }
+      return true
+    }
 
     if (latlngs) {
-      this.updateLatlngsHtml(latlngs);
+      this._hasHeight = true
+
+      if (attr.style.clampToGround) {
+        this._hasHeight = false
+      } else if (attr.type == "rectangle" || attr.type == "corridor") {
+        this._hasHeight = false
+      }
+
+      this.updateLatlngsHtml(latlngs)
     }
 
-    let arrFun = [];
-    let parname, inHtml;
+    let arrFun = []
+    let parname, inHtml
     //==============style==================
     if (this.hasEditSylte) {
-      parname = "plot_attr_style_";
-      inHtml = `
-      <tr><td class="nametd">标号类型：</td><td>${graphicOptions.name || config.name}</td></tr>`;
+      parname = "plot_attr_style_"
+      inHtml = `<tr><td class="nametd">所在图层：</td><td>${thisWidget.getLayerName() || "默认图层"}</td></tr>
+      <tr><td class="nametd">标号类型：</td><td>${attr.type}</td></tr>
+      <tr><td class="nametd">样式类型：</td><td>${config.type || "未配置"}</td></tr>`
 
       for (let idx = 0; idx < config.style.length; idx++) {
-        let edit = config.style[idx];
-        if (edit.type == "hidden") {
-          continue;
-        }
-        let attrName = edit.name;
-        let attrVal = graphicOptions.style[attrName] ?? edit.defval;
-        graphicOptions.style[attrName] = attrVal;
-
-        let input = this.getAttrInput(parname, attrName, attrVal, edit);
-        if (input.fun) {
-          arrFun.push({ parname: parname, name: attrName, value: attrVal, edit: edit, fun: input.fun });
+        let edit = config.style[idx]
+        if (!getViewShow(edit, attr.style)) {
+          continue
         }
 
-        inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>";
+        let attrName = edit.name
+        let attrVal = attr.style[attrName] ?? edit.defval
+
+        //材质时
+        if (edit.name === "materialType") {
+          attrVal = this._materialType_selectd || attrVal
+
+          let input = this.getAttrInput(parname, attrName, attrVal, edit)
+          if (input.fun) {
+            arrFun.push({ parname: parname, name: attrName, value: attrVal, edit: edit, fun: input.fun })
+          }
+          inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
+
+          let defStyle //style.js 材质默认值
+          edit.data.forEach((m) => {
+            if (m.value === attrVal) {
+              defStyle = m.defval || {}
+            }
+          })
+
+          const materialOptions = attr.style.materialOptions || {}
+
+          let thisMaterialConfig = window.materialConfig[attrVal.split("-")[0]]
+          thisMaterialConfig.forEach((maItem) => {
+            if (!getViewShow(maItem, materialOptions)) {
+              return
+            }
+            let parnamemat = "plot_attr_style_mat"
+            // 初始化进入默认值的取值顺序 1. 本身属性 2. style中的属性 3. style.js 材质默认值 4. material.js 的默认值
+            materialOptions[maItem.name] = materialOptions[maItem.name] ?? attr.style[maItem.name] ?? defStyle[maItem.name] ?? maItem.defval
+
+            let input = this.getAttrInput(parnamemat, maItem.name, materialOptions[maItem.name], maItem)
+            if (input.fun) {
+              arrFun.push({ parname: parnamemat, name: maItem.name, value: materialOptions[maItem.name], edit: maItem, fun: input.fun })
+            }
+            inHtml +=
+              '<tr  id="' + parnamemat + "tr_" + maItem.name + '" > <td class="nametd">' + maItem.label + "</td>  <td>" + input.html + "</td>  </tr>"
+          })
+        } else {
+          let input = this.getAttrInput(parname, attrName, attrVal, edit)
+          if (input.fun) {
+            arrFun.push({ parname: parname, name: attrName, value: attrVal, edit: edit, fun: input.fun })
+          }
+          inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
+        }
       }
-      $("#talbe_style").html(inHtml);
+      $("#talbe_style").html(inHtml)
 
       //注记属性
-      if (graphicOptions.style.label) {
-        let configLbl = thisWidget.attrConfig["label"] || {};
-        let defStyleLbl = thisWidget.getDefStyle("label"); //赋值默认样式
+      if (attr.style.label) {
+        let configLbl = window.styleConfig["label"] || {}
 
-        parname = "plot_attr_stylelabel_";
-        inHtml = "";
+        parname = "plot_attr_stylelabel_"
+        inHtml = ""
         for (let idx = 0; idx < configLbl.style.length; idx++) {
-          let edit = configLbl.style[idx];
-          if (edit.type == "hidden") {
-            continue;
+          let edit = configLbl.style[idx]
+          if (!getViewShow(edit, attr.style.label)) {
+            continue
           }
 
-          let attrName = edit.name;
-          let attrVal = graphicOptions.style.label[attrName] ?? defStyleLbl[attrName];
-          graphicOptions.style.label[attrName] = attrVal;
+          let attrName = edit.name
+          let attrVal = attr.style.label[attrName] ?? edit.defval
+          attr.style.label[attrName] = attrVal
 
-          let input = this.getAttrInput(parname, attrName, attrVal, edit);
+          let input = this.getAttrInput(parname, attrName, attrVal, edit)
           if (input.fun) {
-            arrFun.push({ parname: parname, name: attrName, value: attrVal, edit: edit, fun: input.fun });
+            arrFun.push({ parname: parname, name: attrName, value: attrVal, edit: edit, fun: input.fun })
           }
 
-          inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>";
+          inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
         }
-        $("#talbe_stylelabel").html(inHtml);
-        $("#attr_stylelabel_view").show();
+        $("#talbe_stylelabel").html(inHtml)
+        $("#attr_stylelabel_view").show()
       } else {
-        $("#attr_stylelabel_view").hide();
+        $("#attr_stylelabel_view").hide()
       }
     }
     //==============attr==================
-    parname = "plot_attr_attr_";
-    inHtml = "";
-    graphicOptions.attr = graphicOptions.attr || {};
+    parname = "plot_attr_attr_"
+    inHtml = ""
+    attr.attr = attr.attr || {}
 
-    let attrcfg = thisWidget.getAttrList();
-    let tempKyes = {};
+    let attrcfg = thisWidget.getAttrList()
+    let tempKyes = {}
     for (let idx = 0; idx < attrcfg.length; idx++) {
-      let edit = attrcfg[idx];
-      tempKyes[edit.name] = true;
+      let edit = attrcfg[idx]
+      tempKyes[edit.name] = true
     }
-    for (let key in graphicOptions.attr) {
-      let attrVal = graphicOptions.attr[key];
+    for (let key in attr.attr) {
+      let attrVal = attr.attr[key]
       if (tempKyes[key]) {
-        continue;
+        continue
       }
 
       if (haoutil.isutil.isString(attrVal)) {
-        attrcfg.push({ name: key, label: key, type: "text", defval: "" });
+        attrcfg.push({ name: key, label: key, type: "text", defval: "" })
       } else if (haoutil.isutil.isNumber(attrVal)) {
-        attrcfg.push({ name: key, label: key, type: "number", defval: 0.0 });
-      } else if (typeof attrVal == "boolean") {
-        attrcfg.push({ name: key, label: key, type: "radio", defval: false });
+        attrcfg.push({ name: key, label: key, type: "number", defval: 0.0 })
+      } else if (typeof attrVal === "boolean") {
+        attrcfg.push({ name: key, label: key, type: "radio", defval: false })
       }
     }
 
     for (let idx = 0; idx < attrcfg.length; idx++) {
-      let edit = attrcfg[idx];
+      let edit = attrcfg[idx]
       if (edit.type == "hidden") {
-        continue;
+        continue
       }
 
-      let attrName = edit.name;
-      let attrVal = graphicOptions.attr[attrName] ?? edit.defval ?? "";
+      let attrName = edit.name
+      let attrVal = attr.attr[attrName] ?? edit.defval ?? ""
 
-      let input = this.getAttrInput(parname, attrName, attrVal, edit);
+      let input = this.getAttrInput(parname, attrName, attrVal, edit)
       if (input.fun) {
-        arrFun.push({ parname: parname, name: attrName, value: attrVal, edit: edit, fun: input.fun });
+        arrFun.push({ parname: parname, name: attrName, value: attrVal, edit: edit, fun: input.fun })
       }
 
-      inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>";
+      inHtml += '<tr  id="' + parname + "tr_" + attrName + '" > <td class="nametd">' + edit.label + "</td>  <td>" + input.html + "</td>  </tr>"
     }
 
-    $("#talbe_attr").html(inHtml);
+    $("#talbe_attr").html(inHtml)
 
     //执行各方法
     for (let idx = 0; idx < arrFun.length; idx++) {
-      let item = arrFun[idx];
-      item.fun(item.parname, item.name, item.value, item.edit);
+      let item = arrFun[idx]
+      item.fun(item.parname, item.name, item.value, item.edit)
     }
 
-    window.tab2attr(); //切换面板
+    window.tab2attr() //切换面板
   },
   updateLatlngsHtml: function (latlngs) {
-    $("#plot_latlngs_addheight").val("");
-    $("#plot_latlngs_allheight").val("");
-    $("#view_updateheight").hide();
+    $("#plot_latlngs_addheight").val("")
+    $("#plot_latlngs_allheight").val("")
+    $("#view_updateheight").hide()
 
     //显示坐标信息
-    let inHtml = "";
+    let inHtml = ""
     if (!latlngs || latlngs.length == 0) {
       //
     } else if (latlngs.length == 1) {
-      let latlng = latlngs[0];
-      let jd = latlng[0];
-      let wd = latlng[1];
-      let height = latlng.length == 3 ? latlng[2] : 0;
+      let latlng = latlngs[0]
+      let jd = latlng[0]
+      let wd = latlng[1]
+      let height = latlng.length == 3 ? latlng[2] : 0
 
       inHtml +=
         ' <div class="mp_attr" style=" margin-top: 10px;"><table>' +
@@ -230,37 +287,37 @@ var plotEdit = {
         '"></td></tr>' +
         '<tr>  <td class="nametd">纬度：</td> <td><input type="number" class="mp_input plot_latlngs" data-type="wd" step="0.000001"  value="' +
         wd +
-        '"></td></tr>';
+        '"></td></tr>'
       if (this._hasHeight) {
         inHtml +=
           '<tr><td class="nametd">高程：</td> <td><input type="number" class="mp_input plot_latlngs" data-type="height" step="0.1" value="' +
           height +
           '" oldvalue="' +
           height +
-          '"></td></tr>';
+          '"></td></tr>'
       }
-      inHtml += " </table> </div>";
+      inHtml += " </table> </div>"
     } else {
       if (this._hasHeight) {
-        $("#view_updateheight").show();
+        $("#view_updateheight").show()
       }
 
-      let delhtml = "";
+      let delhtml = ""
 
       if (latlngs.length > thisWidget.getMinPointNum()) {
-        delhtml = '<i class="fa fa-trash-o latlng-del" title="删除点" ></i>';
+        delhtml = '<i class="fa fa-trash-o latlng-del" title="删除点" ></i>'
       }
 
       for (let idx = 0; idx < latlngs.length; idx++) {
-        let latlng = latlngs[idx];
+        let latlng = latlngs[idx]
 
-        let jd = latlng[0];
-        let wd = latlng[1];
-        let height = latlng.length == 3 ? latlng[2] : 0;
+        let jd = latlng[0]
+        let wd = latlng[1]
+        let height = latlng.length == 3 ? latlng[2] : 0
 
-        let addthml = "";
+        let addthml = ""
         if (latlngs.length < thisWidget.getMaxPointNum()) {
-          addthml = '<i class="fa  fa-plus-square-o latlng-install" title="插入点" data-index="' + idx + '" ></i>&nbsp;&nbsp;';
+          addthml = '<i class="fa  fa-plus-square-o latlng-install" title="插入点" data-index="' + idx + '" ></i>&nbsp;&nbsp;'
         }
 
         //
@@ -280,7 +337,7 @@ var plotEdit = {
           idx +
           '" value="' +
           wd +
-          '"></td> </tr> ';
+          '"></td> </tr> '
         if (this._hasHeight) {
           inHtml +=
             '<tr>  <td class="nametd">高程：</td> <td><input  type="number" step="0.1" class="mp_input plot_latlngs" data-type="height" data-index="' +
@@ -289,103 +346,103 @@ var plotEdit = {
             height +
             '" oldvalue="' +
             height +
-            '"></td> </tr> ';
+            '"></td> </tr> '
         }
-        inHtml += " </table> </div> </div>";
+        inHtml += " </table> </div> </div>"
       }
     }
-    $("#view_latlngs").html(inHtml);
-    $("#view_latlngs .open").click(window.changeOpenShowHide);
+    $("#view_latlngs").html(inHtml)
+    $("#view_latlngs .open").click(window.changeOpenShowHide)
 
-    let that = this;
+    let that = this
     $("#view_latlngs .latlng-del").click(function () {
-      $(this).parent().parent().remove();
+      $(this).parent().parent().remove()
 
-      let latlngs = [];
-      let withHeight = false;
+      let latlngs = []
+      let withHeight = false
       $(".plot_latlngs").each(function () {
-        latlngs.push(Number($(this).val()));
+        latlngs.push(Number($(this).val()))
         if ($(this).attr("data-type") === "height") {
-          withHeight = true;
+          withHeight = true
         }
-      });
+      })
 
       //重新修改界面
-      let arr = [];
+      let arr = []
       if (withHeight) {
         for (let i = 0; i < latlngs.length; i += 3) {
-          arr.push([latlngs[i], latlngs[i + 1], latlngs[i + 2]]);
+          arr.push([latlngs[i], latlngs[i + 1], latlngs[i + 2]])
         }
       } else {
         for (let i = 0; i < latlngs.length; i += 2) {
-          arr.push([latlngs[i], latlngs[i + 1]]);
+          arr.push([latlngs[i], latlngs[i + 1]])
         }
       }
-      that.updateLatlngsHtml(arr);
-      thisWidget.updatePoints2map(arr);
-    });
+      that.updateLatlngsHtml(arr)
+      thisWidget.updatePoints2map(arr)
+    })
     $("#view_latlngs .latlng-install").click(function () {
-      let idx = Number($(this).attr("data-index"));
+      let idx = Number($(this).attr("data-index"))
 
-      let latlngs = [];
-      let withHeight = false;
+      let latlngs = []
+      let withHeight = false
       $(".plot_latlngs").each(function () {
-        latlngs.push(Number($(this).val() || 0));
+        latlngs.push(Number($(this).val() || 0))
         if ($(this).attr("data-type") === "height") {
-          withHeight = true;
+          withHeight = true
         }
-      });
+      })
 
       //重新修改界面
-      let arr = [];
+      let arr = []
       if (withHeight) {
         for (let i = 0; i < latlngs.length; i += 3) {
-          arr.push([latlngs[i], latlngs[i + 1], latlngs[i + 2]]);
+          arr.push([latlngs[i], latlngs[i + 1], latlngs[i + 2]])
         }
       } else {
         for (let i = 0; i < latlngs.length; i += 2) {
-          arr.push([latlngs[i], latlngs[i + 1]]);
+          arr.push([latlngs[i], latlngs[i + 1]])
         }
       }
 
-      let pt1 = arr[idx];
-      let pt2 = idx == arr.length - 1 ? arr[0] : arr[idx + 1];
-      let jd = Number(((pt1[0] + pt2[0]) / 2).toFixed(6));
-      let wd = Number(((pt1[1] + pt2[1]) / 2).toFixed(6));
+      let pt1 = arr[idx]
+      let pt2 = idx == arr.length - 1 ? arr[0] : arr[idx + 1]
+      let jd = Number(((pt1[0] + pt2[0]) / 2).toFixed(6))
+      let wd = Number(((pt1[1] + pt2[1]) / 2).toFixed(6))
 
       if (withHeight) {
-        let gd = Number(((pt1[2] + pt2[2]) / 2).toFixed(1));
-        arr.splice(idx + 1, 0, [jd, wd, gd]);
+        let gd = Number(((pt1[2] + pt2[2]) / 2).toFixed(1))
+        arr.splice(idx + 1, 0, [jd, wd, gd])
       } else {
-        arr.splice(idx + 1, 0, [jd, wd]);
+        arr.splice(idx + 1, 0, [jd, wd])
       }
 
-      that.updateLatlngsHtml(arr);
-      thisWidget.updatePoints2map(arr);
-    });
+      that.updateLatlngsHtml(arr)
+      thisWidget.updatePoints2map(arr)
+    })
 
     $(".plot_latlngs").bind("input propertychange", function () {
-      let latlngs = [];
-      let withHeight = false;
+      let latlngs = []
+      let withHeight = false
       $(".plot_latlngs").each(function () {
-        latlngs.push(Number($(this).val()));
+        latlngs.push(Number($(this).val()))
         if ($(this).attr("data-type") === "height") {
-          withHeight = true;
+          withHeight = true
         }
-      });
+      })
 
-      let arrPoint = [];
+      let arrPoint = []
       if (withHeight) {
         for (let i = 0; i < latlngs.length; i += 3) {
-          arrPoint.push([latlngs[i], latlngs[i + 1], latlngs[i + 2]]);
+          arrPoint.push([latlngs[i], latlngs[i + 1], latlngs[i + 2]])
         }
       } else {
         for (let i = 0; i < latlngs.length; i += 2) {
-          arrPoint.push([latlngs[i], latlngs[i + 1]]);
+          arrPoint.push([latlngs[i], latlngs[i + 1]])
         }
       }
-      thisWidget.updatePoints2map(arrPoint);
-    });
+      thisWidget.updatePoints2map(arrPoint)
+    })
   },
   // //单击地图空白，释放属性面板
   // stopEditing: function () {
@@ -396,108 +453,135 @@ var plotEdit = {
   //获取各属性的编辑html和change方法
   getAttrInput: function (parname, attrName, attrVal, edit) {
     if (attrVal == null || attrVal == undefined) {
-      attrVal = "";
+      attrVal = ""
     }
 
-    let that = this;
+    let that = this
 
-    let inHtml = "";
-    let fun = null;
+    let inHtml = ""
+    let fun = null
     switch (edit.type) {
       default:
       case "label":
-        inHtml = attrVal;
-        break;
+        inHtml = attrVal
+        break
       case "text":
-        inHtml = '<input id="' + parname + attrName + '" type="text" value="' + attrVal + '"    class="mp_input" />';
+        inHtml = '<input id="' + parname + attrName + '" type="text" value="' + attrVal + '"    class="mp_input" />'
 
         fun = function (parname, attrName, attrVal, edit) {
           $("#" + parname + attrName).on("input propertychange", function (e) {
-            let attrVal = $(this).val();
-            that.updateAttr(parname, attrName, attrVal);
-          });
-        };
-        break;
+            let attrVal = $(this).val()
+            that.updateAttr(parname, attrName, attrVal, edit)
+          })
+        }
+        break
       case "textarea":
-        attrVal = attrVal.replace(new RegExp("<br />", "gm"), "\n");
-        inHtml = '<textarea  id="' + parname + attrName + '"     class="mp_input" style="height:50px;resize: none;" >' + attrVal + "</textarea>";
+        attrVal = attrVal.replace(new RegExp("<br />", "gm"), "\n")
+        inHtml = '<textarea  id="' + parname + attrName + '"     class="mp_input" style="height:50px;resize: none;" >' + attrVal + "</textarea>"
 
         fun = function (parname, attrName, attrVal, edit) {
           $("#" + parname + attrName).on("input propertychange", function (e) {
-            let attrVal = $(this).val();
+            let attrVal = $(this).val()
             if (attrVal.length == 0) {
-              attrVal = "";
+              attrVal = ""
             }
-            attrVal = attrVal.replace(/\n/g, "<br />");
+            attrVal = attrVal.replace(/\n/g, "<br />")
 
-            that.updateAttr(parname, attrName, attrVal);
-          });
-        };
-        break;
+            that.updateAttr(parname, attrName, attrVal, edit)
+          })
+        }
+        break
       case "number":
-        inHtml = '<input id="' + parname + attrName + '" type="number" value="' + (attrVal || 0) + '"    class="mp_input"/>';
+        inHtml = '<input id="' + parname + attrName + '" type="number" value="' + (attrVal || 0) + '"    class="mp_input"/>'
         fun = function (parname, attrName, attrVal, edit) {
           $("#" + parname + attrName).on("input propertychange", function (e) {
-            let attrVal = Number($(this).val());
+            let attrVal = Number($(this).val())
 
-            that.updateAttr(parname, attrName, attrVal);
-          });
-        };
-        break;
+            that.updateAttr(parname, attrName, attrVal, edit)
+          })
+        }
+        break
+      case "slider":
+        if (edit.max !== 1) {
+          //同"number"
+          inHtml = '<input id="' + parname + attrName + '" type="number" value="' + (attrVal || 0) + '"    class="mp_input"/>'
+          fun = function (parname, attrName, attrVal, edit) {
+            $("#" + parname + attrName).on("input propertychange", function (e) {
+              let attrVal = Number($(this).val())
+
+              that.updateAttr(parname, attrName, attrVal, edit)
+            })
+          }
+        } else {
+          inHtml = '<input id="' + parname + attrName + '"  type="text" value="' + attrVal * 100 + '"   data-value="' + attrVal + '" />'
+          fun = function (parname, attrName, attrVal, edit) {
+            let _width = $(".mp_tab_card").width() * 0.6 - 30
+            $("#" + parname + attrName).progress(_width) //绑定样式
+            $("#" + parname + attrName).change(function () {
+              let attrVal = Number($(this).val()) / 100
+
+              that.updateAttr(parname, attrName, attrVal, edit)
+            })
+          }
+        }
+
+        break
 
       case "combobox":
-        inHtml = '<select id="' + parname + attrName + '" class="mp_select"    data-value="' + attrVal + '" >';
+        inHtml = '<select id="' + parname + attrName + '" class="mp_select"    data-value="' + attrVal + '" >'
         for (let jj = 0; jj < edit.data.length; jj++) {
-          let temp = edit.data[jj];
-          inHtml += '<option value="' + temp.value + '">' + temp.text + "</option>";
+          let temp = edit.data[jj]
+          inHtml += '<option value="' + temp.value + '">' + temp.label + "</option>"
         }
-        inHtml += "</select>";
+        inHtml += "</select>"
 
         fun = function (parname, attrName, attrVal, edit) {
-          $("#" + parname + attrName).select(); //绑定样式
+          $("#" + parname + attrName).select() //绑定样式
           $("#" + parname + attrName).change(function () {
-            let attrVal = $(this).attr("data-value");
+            let attrVal = $(this).attr("data-value")
 
-            let thisSel;
+            let thisSel
             for (let jj = 0; jj < edit.data.length; jj++) {
-              let temp = edit.data[jj];
+              let temp = edit.data[jj]
               if (temp.impact == null) {
-                continue;
+                continue
               }
               if (temp.value === attrVal) {
-                thisSel = temp;
-                continue;
+                thisSel = temp
+                continue
               }
-              that.changeViewByAttr(parname, temp.impact, false);
+              that.changeViewByAttr(parname, temp.impact, false)
             }
             if (thisSel) {
-              that.changeViewByAttr(parname, thisSel.impact, true);
+              that.changeViewByAttr(parname, thisSel.impact, true)
             }
+            if (edit.valType == "number") {
+              attrVal = Number(attrVal)
+            }
+            that.updateAttr(parname, attrName, attrVal, edit)
+          })
 
-            that.updateAttr(parname, attrName, attrVal);
-          });
-
-          let thisSel;
+          let thisSel
           for (let jj = 0; jj < edit.data.length; jj++) {
-            let temp = edit.data[jj];
+            let temp = edit.data[jj]
             if (temp.impact == null) {
-              continue;
+              continue
             }
             if (temp.value === attrVal) {
-              thisSel = temp;
-              continue;
+              thisSel = temp
+              continue
             }
-            that.changeViewByAttr(parname, temp.impact, false);
+            that.changeViewByAttr(parname, temp.impact, false)
           }
           if (thisSel) {
-            that.changeViewByAttr(parname, thisSel.impact, true);
+            that.changeViewByAttr(parname, thisSel.impact, true)
           }
-        };
-        break;
+        }
+        break
 
       case "radio":
         {
-          let _name_key = parname + attrName;
+          let _name_key = parname + attrName
           inHtml = `<div class="radio radio-info radio-inline" id="${_name_key}"  data-value="${attrVal}" >
             <input type="radio" id="${_name_key}_1" value="1"  name="${_name_key}" ${attrVal ? 'checked="checked"' : ""}>
             <label for="${_name_key}_1"> 是</label>
@@ -505,47 +589,35 @@ var plotEdit = {
           <div class="radio radio-info radio-inline">
             <input type="radio" id="${_name_key}_0" value="0" name="${_name_key}" ${attrVal ? "" : 'checked="checked"'}">
             <label for="${_name_key}_0"> 否 </label>
-          </div>`;
+          </div>`
 
           fun = function (parname, attrName, attrVal, edit) {
             $('input:radio[name="' + parname + attrName + '"]').change(function () {
-              let attrVal = $(this).val() == "1";
-              let isOK = that.updateAttr(parname, attrName, attrVal);
+              let attrVal = $(this).val() == "1"
+              let isOK = that.updateAttr(parname, attrName, attrVal, edit)
               if (isOK) {
-                that.changeViewByAttr(parname, edit.impact, attrVal);
+                that.changeViewByAttr(parname, edit.impact, attrVal)
               }
-            });
-            that.changeViewByAttr(parname, edit.impact, attrVal);
-          };
+            })
+            that.changeViewByAttr(parname, edit.impact, attrVal)
+          }
         }
-        break;
+        break
       case "color":
-        inHtml = '<input id="' + parname + attrName + '"  class="mp_input" style="width: 100%;"  value="' + attrVal + '" />';
+        inHtml = '<input id="' + parname + attrName + '"  class="mp_input" style="width: 100%;"  value="' + attrVal + '" />'
 
         fun = function (parname, attrName, attrVal, edit) {
           $("#" + parname + attrName).minicolors({
             position: "bottom right",
             control: "saturation",
             change: function (hex, opacity) {
-              that.updateAttr(parname, attrName, hex);
-            },
-          });
-        };
-        break;
-      case "slider":
-        inHtml = '<input id="' + parname + attrName + '"  type="text" value="' + attrVal * 100 + '"   data-value="' + attrVal + '" />';
-        fun = function (parname, attrName, attrVal, edit) {
-          let _width = $(".mp_tab_card").width() * 0.7 - 30;
-          $("#" + parname + attrName).progress(_width); //绑定样式
-          $("#" + parname + attrName).change(function () {
-            let attrVal = Number($(this).val()) / 100;
-
-            that.updateAttr(parname, attrName, attrVal);
-          });
-        };
-        break;
+              that.updateAttr(parname, attrName, hex, edit)
+            }
+          })
+        }
+        break
       case "window":
-        inHtml = '<input id="' + parname + attrName + '" type="text" value="' + attrVal + '" readonly   class="mp_input" />';
+        inHtml = '<input id="' + parname + attrName + '" type="text" value="' + attrVal + '" readonly   class="mp_input" />'
 
         fun = function (parname, attrName, attrVal, edit) {
           $("#" + parname + attrName).on("click", function (e) {
@@ -553,54 +625,52 @@ var plotEdit = {
               data: that._last_attr,
               parname: parname,
               attrName: attrName,
-              attrVal: attrVal,
-            });
-          });
+              attrVal: attrVal
+            })
+          })
 
           $("#" + parname + attrName).on("input propertychange", function (e) {
-            let attrVal = $(this).val();
-            that.updateAttr(parname, attrName, attrVal);
-          });
-        };
-        break;
+            let attrVal = $(this).val()
+            that.updateAttr(parname, attrName, attrVal, edit)
+          })
+        }
+        break
     }
-    return { html: inHtml, fun: fun };
+    return { html: inHtml, fun: fun }
   },
   //联动属性控制
   changeViewByAttr: function (parname, arrimpact, show) {
     if (arrimpact && arrimpact.length > 0) {
       for (let jj = 0; jj < arrimpact.length; jj++) {
-        let attrName = arrimpact[jj];
+        let attrName = arrimpact[jj]
         if (show) {
-          $("#" + parname + "tr_" + attrName).show();
+          $("#" + parname + "tr_" + attrName).show()
 
-          let attrVal = $("#" + parname + attrName).attr("data-value");
+          let attrVal = $("#" + parname + attrName).attr("data-value")
           if (!attrVal) {
-            attrVal = $("#" + parname + attrName).val();
+            attrVal = $("#" + parname + attrName).val()
           }
           // if (attrVal !== null && attrVal !== undefined) {
           //   this._last_attr.style[attrName] = attrVal;
           // }
         } else {
           // delete this._last_attr.style[attrName];
-          $("#" + parname + "tr_" + attrName).hide();
+          $("#" + parname + "tr_" + attrName).hide()
         }
       }
     }
   },
   //属性面板值修改后触发此方法
-  updateAttr: function (parname, attrName, attrVal) {
-    let newAttr = {};
+  updateAttr: function (parname, attrName, attrVal, edit) {
     switch (parname) {
       default:
-        break;
+        break
       case "plot_attr_style_": {
-        newAttr.style = {};
-        newAttr.style[attrName] = attrVal;
+        let newStyle = {}
+        newStyle[attrName] = attrVal
+        this._last_attr.style[attrName] = attrVal
 
-        this._last_attr.style[attrName] = attrVal;
-
-        let type = this._last_attr.edittype || this._last_attr.type;
+        let type = this._last_attr.styleType || this._last_attr.type
         if (
           (attrName == "fill" || attrName == "outline") &&
           attrVal === false &&
@@ -616,33 +686,83 @@ var plotEdit = {
             type == "rectangle" ||
             type == "polygon")
         ) {
-          if (!this._last_attr.style["fill"] && !this._last_attr.style["outline"]) {
-            this._last_attr.style[attrName] = true;
-            $("input[name='" + parname + attrName + "']:eq(0)").attr("checked", "checked");
-            $("input[name='" + parname + attrName + "']:eq(0)").click();
-            haoutil.msg("填充和边框不能同时为否，需要至少开启一个！");
-            return false;
+          if (!(this._last_attr.style["fill"] ?? true) && !this._last_attr.style["outline"]) {
+            this._last_attr.style[attrName] = true
+            $("input[name='" + parname + attrName + "']:eq(0)").attr("checked", "checked")
+            $("input[name='" + parname + attrName + "']:eq(0)").click()
+            haoutil.msg("填充和边框不能同时为否，需要至少开启一个！")
+            return false
           }
         }
 
-        break;
+        // 材质类型 materialType 改变时的特殊处理
+        if (attrName === "materialType") {
+          newStyle.materialOptions = {}
+
+          let defStyle //style.js 材质默认值
+          edit.data.forEach((m) => {
+            if (m.value === attrVal) {
+              defStyle = m.defval || {}
+            }
+          })
+          this._materialType_selectd = attrVal
+
+          attrVal = attrVal.split("-")[0]
+          window.materialConfig[attrVal].forEach((p) => {
+            // 更新时的默认值的取值顺序 1. style.js 材质默认值 2. material.json 的默认值
+            newStyle.materialOptions[p.name] = defStyle[p.name] ?? p.defval
+          })
+          this._last_attr.style.materialOptions = newStyle.materialOptions
+
+          newStyle[attrName] = attrVal
+          this._last_attr.style[attrName] = attrVal
+
+          this.startEditing(this._last_attr)
+        } else if (edit.type == "radio") {
+          this.startEditing(this._last_attr)
+        }
+
+        thisWidget.updateStyle2map(newStyle)
+        break
       }
-      case "plot_attr_stylelabel_":
-        this._last_attr.style.label = this._last_attr.style.label || {};
-        this._last_attr.style.label[attrName] = attrVal;
+      case "plot_attr_style_mat": {
+        let newStyle = {}
+        newStyle[attrName] = attrVal
 
-        newAttr.style = { label: {} };
-        newAttr.style.label[attrName] = attrVal;
-        break;
-      case "plot_attr_attr_":
-        this._last_attr.attr[attrName] = attrVal;
-        //this.startEditing(this._last_attr);
+        this._last_attr.style.materialOptions = this._last_attr.style.materialOptions || {}
+        this._last_attr.style.materialOptions[attrName] = attrVal
 
-        newAttr.attr = {};
-        newAttr.attr[attrName] = attrVal;
-        break;
+        this.startEditing(this._last_attr)
+
+        thisWidget.updateStyle2map({ materialOptions: newStyle })
+        break
+      }
+
+      case "plot_attr_stylelabel_": {
+        let newStyle = {}
+        newStyle[attrName] = attrVal
+
+        this._last_attr.style.label = this._last_attr.style.label || {}
+        this._last_attr.style.label[attrName] = attrVal
+
+        if (edit.type == "radio") {
+          this.startEditing(this._last_attr)
+        }
+
+        thisWidget.updateStyle2map({ label: newStyle })
+
+        break
+      }
+      case "plot_attr_attr_": {
+        this._last_attr.attr[attrName] = attrVal
+
+        let newAttr = {}
+        newAttr[attrName] = attrVal
+        thisWidget.updateAttr2map(newAttr)
+        break
+      }
     }
-    thisWidget.updateAttr2map(newAttr);
-    return true;
-  },
-};
+
+    return true
+  }
+}

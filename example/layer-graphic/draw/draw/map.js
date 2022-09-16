@@ -1,10 +1,10 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
-var graphicLayer
+export let graphicLayer
 
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -12,7 +12,7 @@ var eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   graphicLayer = new mars2d.layer.GraphicLayer({
@@ -59,11 +59,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function drawPoint() {
+export function drawPoint() {
   graphicLayer.startDraw({
     type: "point",
     style: {
@@ -73,7 +73,7 @@ function drawPoint() {
   })
 }
 
-function drawMarker() {
+export function drawMarker() {
   graphicLayer.startDraw({
     type: "marker",
     style: {
@@ -84,7 +84,7 @@ function drawMarker() {
   })
 }
 
-function drawLabel() {
+export function drawLabel() {
   graphicLayer.startDraw({
     type: "label",
     style: {
@@ -96,7 +96,7 @@ function drawLabel() {
   })
 }
 
-function drawDivMarker() {
+export function drawDivMarker() {
   graphicLayer.startDraw({
     type: "divGraphic",
     style: {
@@ -150,7 +150,7 @@ function drawDivMarker() {
   })
 }
 
-function drawPolyline() {
+export function drawPolyline() {
   graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -160,7 +160,7 @@ function drawPolyline() {
   })
 }
 
-function drawCurveLine() {
+export function drawCurveLine() {
   graphicLayer.startDraw({
     type: "brushLine",
     style: {
@@ -170,7 +170,7 @@ function drawCurveLine() {
   })
 }
 
-function drawPolygon() {
+export function drawPolygon() {
   graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -185,7 +185,7 @@ function drawPolygon() {
   })
 }
 
-function drawRectangle() {
+export function drawRectangle() {
   graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -200,7 +200,7 @@ function drawRectangle() {
   })
 }
 
-function drawImage() {
+export function drawImage() {
   graphicLayer.startDraw({
     type: "image",
     style: {
@@ -210,7 +210,7 @@ function drawImage() {
   })
 }
 
-function drawCircle() {
+export function drawCircle() {
   graphicLayer.startDraw({
     type: "circle",
     style: {
@@ -225,7 +225,7 @@ function drawCircle() {
   })
 }
 
-function onClickSaveKml() {
+export function onClickSaveKml() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -247,7 +247,7 @@ function onClickSaveKml() {
   mars2d.Util.downloadFile("我的标注.kml", kml)
 }
 
-function onClickSaveWKT() {
+export function onClickSaveWKT() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -277,3 +277,6 @@ function onClickSaveWKT() {
 
   mars2d.Util.downloadFile("我的标注wkt.txt", JSON.stringify(arrWKT))
 }
+
+
+

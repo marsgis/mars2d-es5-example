@@ -1,10 +1,10 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
-var graphicLayer
+export let graphicLayer
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -12,7 +12,7 @@ var graphicLayer
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   graphicLayer = new mars2d.layer.GraphicLayer({
@@ -20,18 +20,19 @@ function onMounted(mapInstance) {
     isAutoEditing: true // 绘制完成后是否自动激活编辑
   })
   map.addLayer(graphicLayer)
+
 }
 
 /**
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 绘制
-function drawPolygon(type) {
+export function drawPolygon(type) {
   console.log("开始标绘：" + type)
 
   graphicLayer.startDraw({

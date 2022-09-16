@@ -1,4 +1,4 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 function initMap() {
   // 在创建地球前的传参中配置basemaps参数
@@ -125,4 +125,6 @@ function initMap() {
 
   // 根据config配置的id或name属性，更新显示指定的地图底图
   // map.basemap = '离线地图'
+
+
 }

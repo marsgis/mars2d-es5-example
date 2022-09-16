@@ -1,10 +1,9 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map
-var eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
-
+export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 13,
   center: { lng: 117.238884, lat: 31.84417 }
 }
@@ -14,7 +13,7 @@ var mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 默认显示地图中心点坐标
@@ -28,20 +27,20 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 坐标转化的三种方法
-function marsUtilFormtNum(item, num) {
+export function marsUtilFormtNum(item, num) {
   return mars2d.Util.formatNum(item, num)
 }
 
-function marsPointTrans(item) {
+export function marsPointTrans(item) {
   return mars2d.PointTrans.degree2dms(item)
 }
 
-function marsProj4Trans(JD, WD, radio) {
+export function marsProj4Trans(JD, WD, radio) {
   if (radio === "2") {
     return mars2d.PointTrans.proj4Trans([JD, WD], mars2d.CRS.EPSG4326, mars2d.CRS.CGCS2000_GK_Zone_6)
   } else {
@@ -50,7 +49,7 @@ function marsProj4Trans(JD, WD, radio) {
 }
 
 let pointEntity
-function updateMarker(hasCenter, jd, wd) {
+export function updateMarker(hasCenter, jd, wd) {
   const latlng = [wd, jd]
 
   if (pointEntity == null) {
@@ -73,7 +72,7 @@ function updateMarker(hasCenter, jd, wd) {
 }
 
 // 地图选点
-function bindMourseClick() {
+export function bindMourseClick() {
   map.once(mars2d.EventType.click, function (event) {
     const coordinate = event.latlng
     eventTarget.fire("clickMap", { coordinate })

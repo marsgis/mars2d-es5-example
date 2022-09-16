@@ -1,11 +1,11 @@
-// import * as mars2d from "mars2d"
-
+import * as mars2d from "mars2d"
+const L = mars2d.L
 let map
 let graphicLayer
 let pointLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 5,
   center: { lng: 112.166014, lat: 33.548525 }
 }
@@ -16,7 +16,7 @@ var mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   pointLayer = new mars2d.layer.GeoJsonLayer({
@@ -49,7 +49,7 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -117,6 +117,6 @@ function mapOnClickListener(e) {
   endPoint.bindPopup("离该点最近的机场为:<br />" + nearestPoint.attr.NAME).openPopup()
 }
 
-function clearlayer() {
+export function clearlayer() {
   graphicLayer.clear()
 }

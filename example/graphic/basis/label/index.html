@@ -17,13 +17,12 @@
   <meta name="description"
     content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS" />
 
-  <link rel="shortcut icon" type="image/x-icon"
-    href="/img/favicon/favicon.ico" />
+  <link rel="shortcut icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
   <title>功能示例 | Mars2D | 地理信息平台 | 火星科技 | 合肥火星科技有限公司</title>
 
   <!--第三方lib-->
   <script type="text/javascript" src="/lib/include-lib.js" libpath="/lib/"
-    include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars2d"></script>
+    include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars2d,mars2d-widget"></script>
 
   <link href="/css/style.css" rel="stylesheet" />
 </head>
@@ -61,6 +60,13 @@
       </div>
     </div>
     <div>
+      数据测试：
+      <input id="count" type="number" value="100" min="1" max="1000000" step="1" class="form-control"
+        style="width: 152px" />条
+
+      <input id="addRandomGraphicByCount" type="button" class="btn btn-primary" value="生成" />
+    </div>
+    <div>
       数据管理：
       <input id="btnClear" type="button" class="btn btn-danger" value="清除" />
       <input id="btnExpFile" type="button" class="btn btn-primary" value="保存GeoJSON" title="保存为GeoJSON文件" />
@@ -79,11 +85,21 @@
     var map
 
     function initUI() {
+      bindAttributePannel()
       //新增绘制
       $("#btnStartDraw").click(function () {
-        //开始绘制
-        onClickStartDraw()
+        //开始绘制(调用map.js里面的方法)
+        startDrawGraphic()
       })
+      $("#addRandomGraphicByCount").click(function () {
+        //大数据加载(调用map.js里面的方法)
+        addRandomGraphicByCount($("#count").val())
+        graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
+
+        const graphics = graphicLayer.getGraphics()
+        editorGraphic = graphics[graphics.length - 1]
+      })
+
       $("#chkPopup").change(function () {
         let val = $(this).is(":checked")
 
@@ -187,6 +203,54 @@
         }
       })
     }
+    //  ***************************** 属性面板 ***********************  //
+    // 绑定事件，激活属性面板
+    function bindAttributePannel() {
+      graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
+        let val = $("#hasEdit").is(":checked")
+        if (val) {
+          showEditor(e)
+        }
+      })
+      // 修改了矢量数据
+      graphicLayer.on("editStart editMovePoint editStyle editRemovePoint", function (e) {
+        showEditor(e.graphic)
+      })
+      // 停止编辑
+      graphicLayer.on("editStop removeGraphic", function (e) {
+        setTimeout(() => {
+          if (!graphicLayer.isEditing) {
+            stopEditing()
+          }
+        }, 100)
+      })
+    }
+
+    //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
+    let timeTik
+    function showEditor(graphic) {
+      clearTimeout(timeTik)
+
+      let plotAttr = mars2d.widget.getClass("widgets/plotAttr/widget.js")
+      if (plotAttr && plotAttr.isActivate) {
+        plotAttr.startEditing(graphic, graphic.coordinates)
+      } else {
+        mars2d.widget.activate({
+          map: map,
+          uri: "widgets/plotAttr/widget.js",
+          name: "属性编辑",
+          graphic: graphic,
+          lonlats: graphic.coordinates
+        })
+      }
+    }
+
+    function stopEditing() {
+      timeTik = setTimeout(function () {
+        mars2d.widget.disable("widgets/plotAttr/widget.js")
+      }, 200)
+    }
+  //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
   </script>
 </body>
 

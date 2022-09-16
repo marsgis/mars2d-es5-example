@@ -1,8 +1,8 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map
 
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance
 
   // smallTooltip是一种简易的tooltip，目前标绘中用到的就是smallTooltip
@@ -26,10 +26,10 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function enabledSmallTooltip(enabled) {
+export function enabledSmallTooltip(enabled) {
   map.smallTooltip.enabled = enabled
 }

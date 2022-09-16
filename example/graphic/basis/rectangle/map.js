@@ -1,10 +1,10 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
-var graphicLayer
+export let map // mars2d.Map三维地图对象
+export let graphicLayer
 
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -12,45 +12,12 @@ var eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
   graphicLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
-
-  // 绑定标绘相关事件监听(可以自行加相关代码实现业务需求，此处主要做示例)
-  graphicLayer.on(mars2d.EventType.drawStart, function (e) {
-    console.log("开始绘制", e)
-  })
-  graphicLayer.on(mars2d.EventType.drawAddPoint, function (e) {
-    console.log("绘制过程中增加了点", e)
-  })
-  graphicLayer.on(mars2d.EventType.drawRemovePoint, function (e) {
-    console.log("绘制过程中删除了点", e)
-  })
-
-  graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
-    console.log("创建完成", e)
-  })
-
-  graphicLayer.on(mars2d.EventType.editStart, function (e) {
-    console.log("开始编辑", e)
-    eventTarget.fire("graphicEditor-start", e)
-    // startEditing(e.graphic)
-  })
-
-  graphicLayer.on(mars2d.EventType.editMovePoint, function (e) {
-    console.log("编辑修改了点", e)
-    // startEditing(e.graphic)
-    eventTarget.fire("graphicEditor-start", e)
-  })
-  graphicLayer.on(mars2d.EventType.editRemovePoint, function (e) {
-    console.log("编辑删除了点", e)
-
-    // startEditing(e.graphic)
-    eventTarget.fire("graphicEditor-start", e)
-  })
 
   // 图层管理的相关处理，
   initLayerManager(graphicLayer)
@@ -67,7 +34,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -107,7 +74,7 @@ function bindLayerPopup() {
 // 绑定右键菜单
 function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-    {
+        {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
       show: function (e) {
@@ -119,9 +86,7 @@ function bindLayerContextMenu() {
       },
       callback: function (e) {
         const graphic = e.graphic
-        if (graphic && graphic.editing) {
-          graphic.editing.enable()
-        }
+        graphicLayer.startEditing(graphic)
       }
     },
     {
@@ -136,9 +101,7 @@ function bindLayerContextMenu() {
       },
       callback: function (e) {
         const graphic = e.graphic
-        if (graphic && graphic.editing) {
-          graphic.editing.disable()
-        }
+        graphicLayer.stopEditing()
       }
     },
     {
@@ -248,7 +211,7 @@ function initGraphicManager(graphic) {
   ])
 }
 
-function onClickStartDraw() {
+export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -264,6 +227,40 @@ function onClickStartDraw() {
       console.log("标绘完成", graphic)
     }
   })
+}
+
+// 生成演示数据(测试数据量)
+export function addRandomGraphicByCount(count) {
+  graphicLayer.clear()
+
+  const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
+  const result = mars2d.PolyUtil.getGridPoints(bbox, count)
+  console.log("生成的测试网格坐标", result)
+
+  for (let j = 0; j < result.points.length; ++j) {
+    const latlng = result.points[j]
+    const index = j + 1
+
+    const pt1 = mars2d.PointUtil.getPointByDistanceAngle(latlng, result.radius, 90)
+    const pt2 = mars2d.PointUtil.getPointByDistanceAngle(latlng, result.radius, 200)
+
+    const graphic = new mars2d.graphic.Rectangle({
+      latlngs: [pt1, pt2],
+      style: {
+        fill: true,
+        fillColor: "#3388ff",
+        fillOpacity: 0.3,
+        outline: true,
+        outlineWidth: 2,
+        outlineColor: "#0000FF",
+        outlineOpacity: 0.5
+      },
+      attr: { index: index }
+    })
+    graphicLayer.addGraphic(graphic)
+  }
+
+  return count.length
 }
 
 function addDemoGraphic1() {
@@ -375,7 +372,7 @@ function addDemoGraphic5() {
   })
   graphicLayer.addGraphic(graphic)
 }
-function drawDivMarker() {
+export function drawDivMarker() {
   graphicLayer.startDraw({
     type: "divGraphic",
     style: {

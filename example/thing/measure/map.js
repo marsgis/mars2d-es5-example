@@ -1,4 +1,4 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 let map
 let measure
 /**
@@ -7,7 +7,7 @@ let measure
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   measure = new mars2d.thing.Measure()
@@ -19,18 +19,18 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function distance() {
+export function distance() {
   measure.distance()
 }
 
-function area() {
+export function area() {
   measure.area()
 }
 
-function clear() {
+export function clear() {
   measure.clear()
 }

@@ -1,9 +1,9 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   minZoom: 0,
   maxZoom: 13
 }
@@ -14,11 +14,11 @@ var mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 }
 
-function setMapOptions(name, value) {
+export function setMapOptions(name, value) {
   const options = {}
   options[name] = value
 
@@ -28,7 +28,7 @@ function setMapOptions(name, value) {
 }
 
 // 是否显示底图
-function showBaseMap(enabled) {
+export function showBaseMap(enabled) {
   if (enabled) {
     map.basemap = 2021
   } else {

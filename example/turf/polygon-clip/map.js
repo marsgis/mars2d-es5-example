@@ -1,9 +1,9 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 let map
 let drawLayer
 let polygonLayer
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 11,
   center: { lng: 117.29501, lat: 31.841349 }
 }
@@ -14,7 +14,7 @@ var mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加载面数据
@@ -29,11 +29,11 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function drawLine() {
+export function drawLine() {
   drawLayer.clear()
   drawLayer.startDraw({
     type: "polyline",
@@ -115,7 +115,7 @@ function loadPolygon() {
 }
 
 // 清除
-function clear() {
+export function clear() {
   drawLayer.clear()
 }
 
@@ -144,10 +144,10 @@ function clipAllPolygon(clipLine) {
 }
 
 /**
- * geoJson数据处理模块(需要引入turf.js)
- * 输入输出数据均为标准geoJson格式
- */
-const geoUtil = {
+       * geoJson数据处理模块(需要引入turf.js)
+       * 输入输出数据均为标准geoJson格式
+       */
+ const geoUtil = {
   /**
    * 合并多边形
    */
@@ -266,7 +266,7 @@ const geoUtil = {
   _multiPolygonClip: function (polyLine, clipLine) {
     // 将环 多边形分割成 内部逆时针多边形+外部多边形
     let outPolyline
-    const insidePolylineList = []
+      const insidePolylineList = []
     for (let i = 0; i < polyLine.geometry.coordinates.length; i++) {
       const splitPolyline = turf.lineString(polyLine.geometry.coordinates[i])
       if (turf.booleanClockwise(splitPolyline)) {

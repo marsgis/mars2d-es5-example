@@ -21,41 +21,7 @@
     }
 
     //初始化[仅执行1次]
-    create() {
-      let that = this
-      mars2d.Util.fetchJson({
-        url: this.path + "config/attr.json"
-      })
-        .then((data) => {
-          that.attrConfig = data
-          that.setDefaultVal()
-
-          // that.attrConfig["curve"] = that.attrConfig["polyline"];
-          that.startEditing()
-        })
-        .catch((error) => {
-          console.log("请求出错了", error)
-        })
-    }
-    //获取所有可配置属性的默认值
-    setDefaultVal() {
-      let data = this.attrConfig
-
-      //标号默认样式
-      let attrDefConfig = {}
-      for (let i in data) {
-        let defstyle = {}
-        for (let idx = 0; idx < data[i].style.length; idx++) {
-          let item = data[i].style[idx]
-          defstyle[item.name] = item.defval
-        }
-        attrDefConfig[i] = defstyle
-      }
-      this.attrDefConfig = attrDefConfig
-
-      // let logInfo = JSON.stringify(attrDefConfig);
-      // console.log("标号默认样式", logInfo);
-    }
+    create() {}
 
     //每个窗口创建完成后调用
     winCreateOK(opt, result) {
@@ -65,10 +31,6 @@
     activate() {}
     //释放插件
     disable() {}
-    getDefStyle(type) {
-      let defStyle = this.attrDefConfig[type] || {}
-      return mars2d.Util.clone(defStyle)
-    }
     getMinPointNum() {
       let graphic = this.config.graphic
       if (graphic && graphic._minPointNum) {
@@ -93,6 +55,11 @@
     getAttrList() {
       return this.config.attrList || this.defaultAttrList
     }
+    getLayerName() {
+      let graphic = this.config.graphic
+      return graphic?._layer?.name || ""
+    }
+
     startEditing(graphic, lonlats) {
       if (graphic) {
         this.config.graphic = graphic
@@ -107,19 +74,18 @@
 
       graphic = this.config.graphic
       lonlats = this.config.lonlats
-      this.viewWindow.plotEdit.startEditing(graphic.marsOptions, lonlats)
-    }
-    //更新图上的属性
-    updateAttr2map(attr) {
-      console.log("更新属性", attr)
 
-      let graphic = this.config.graphic //当前编辑的graphic
-      if (attr.style) {
-        graphic.style = attr.style
-      }
-      if (attr.attr) {
-        graphic.attr = attr.attr
-      }
+      let config = { type: graphic.type, ...graphic.marsOptions }
+      console.log("开始编辑属性", config)
+
+      this.viewWindow.plotEdit.startEditing(config, lonlats)
+    }
+
+    //更新样式
+    updateStyle2map(style) {
+      console.log("更新style样式", style)
+      let graphic = this.config.graphic
+      graphic.style = style
     }
     //更新坐标
     updatePoints2map(points) {
@@ -128,12 +94,20 @@
       let graphic = this.config.graphic
       graphic.latlngs = mars2d.PointTrans.coords2latlngs(points)
     }
+    //更新属性
+    updateAttr2map(attr) {
+      let graphic = this.config.graphic
+      graphic.attr = attr
+    }
     centerCurrentEntity() {
       let graphic = this.config.graphic
       this.map.flyToGraphic(graphic)
     }
     deleteEntity() {
       let graphic = this.config.graphic
+      if (graphic.stopEditing) {
+        graphic.stopEditing()
+      }
       graphic.remove()
 
       this.disableBase()

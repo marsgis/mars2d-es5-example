@@ -1,10 +1,10 @@
-// import * as mars2d from "mars2d"
-// // import mapv from "mars2d-mapv"
+import * as mars2d from "mars2d"
+// import mapv from "mars2d-mapv"
 
 let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {}
+export const mapOptions = {}
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -12,7 +12,7 @@ var mapOptions = {}
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.basemap = 2017 // 切换到蓝色底图
@@ -26,7 +26,7 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
