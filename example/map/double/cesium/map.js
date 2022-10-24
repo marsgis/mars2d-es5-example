@@ -2,7 +2,7 @@
 
 let map2d
 let map3d
-// 
+
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
   center: { lat: 30.754115, lng: 116.341283 },

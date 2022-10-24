@@ -61,7 +61,7 @@ function _getNodeConfig(layer) {
     id: layer.id,
     pId: layer.pid || -1,
     name: layer.name,
-    checked: layer.isAdded && layer.show
+    checked: layer.isAdded && (layer.show ?? true)
   }
 
   // console.log(`${layer.name}:id-${layer.id}:id-${layer.id}`);

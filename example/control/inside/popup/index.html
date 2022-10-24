@@ -1,60 +1,91 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
-    <meta name="author" content="火星科技 http://mars2d.cn " />
-    <meta name="apple-touch-fullscreen" content="yes" />
-    <meta name="apple-mobile-web-app-capable" content="yes" />
-    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-    <meta name="format-detection" content="telephone=no" />
-    <meta name="x5-fullscreen" content="true" />
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
-    <!-- 标题及搜索关键字 -->
-    <meta name="keywords" content="火星科技,cesium,3D,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
-    <meta
-      name="description"
-      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 cesium cesium开发 cesium框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS"
-    />
 
-    <link rel="shortcut icon" type="image/x-icon" href="//mars2d.cn/favicon.ico" />
-    <title>Popup鼠标单击信息窗 | Mars2D | 地理信息平台 | 火星科技 | 合肥火星科技有限公司</title>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+  <meta name="author" content="火星科技 http://mars2d.cn " />
+  <meta name="apple-touch-fullscreen" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta name="x5-fullscreen" content="true" />
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+  <!-- 标题及搜索关键字 -->
+  <meta name="keywords" content="火星科技,cesium,3D,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+  <meta name="description"
+    content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 cesium cesium开发 cesium框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS" />
 
-    <!--第三方lib-->
-    <script
-      type="text/javascript"
-      src="/lib/include-lib.js"
-      libpath="/lib/"
-      include="jquery,font-awesome,bootstrap,layer,haoutil,turf,mars2d"
-    ></script>
+  <link rel="shortcut icon" type="image/x-icon" href="//mars2d.cn/favicon.ico" />
+  <title>Popup鼠标单击信息窗 | Mars2D | 地理信息平台 | 火星科技 | 合肥火星科技有限公司</title>
 
-    <link href="/css/divGraphic.css" rel="stylesheet" />
-    <link href="/css/style.css" rel="stylesheet" />
-  </head>
+  <!--第三方lib-->
+  <script type="text/javascript" src="/lib/include-lib.js" libpath="/lib/"
+    include="jquery,font-awesome,bootstrap,layer,haoutil,turf,mars2d"></script>
 
-  <body>
+  <link href="/css/divGraphic.css" rel="stylesheet" />
+  <link href="/css/style.css" rel="stylesheet" />
+  <style>
+    .message {
+      position: absolute;
+      display: none;
+      top: 15%;
+      left: 20%;
+      width: 800px;
+      height: 600px;
+      z-index: 99999;
+    }
 
+    .message-ifram {
+      width: 100%;
+      height: 100%;
+    }
+  </style>
+</head>
 
-    <div id="mars2dContainer" class="mars2d-container"></div>
+<body>
+  <div class="message" id="message">
+    <input type="button" class="btn btn-primary" value="关闭" id="close-btn" />
+    <iframe class="message-ifram" src="http://marsgis.cn/" frameborder="0"></iframe>
+  </div>
+  <div id="mars2dContainer" class="mars2d-container">
 
-    <!-- 面板 -->
-    <div class="infoview">
-      <div>
-        <button id="btnGetCenter" class="btn btn-primary" onclick="bindMapDemo()">Map上直接弹出</button>
-        <button id="btnGetCenter" class="btn btn-primary" onclick="bindLayerDemo()">图层上绑定</button>
-        <button id="btnGetCenter" class="btn btn-primary" onclick="bindLayerDemo2()">图层上预定义配置</button>
-      </div>
-      <div>
-        <button id="btnGetCenter" class="btn btn-primary" onclick="bindGraphicDemo1()">Graphic上绑定</button>
-        <button id="btnGetCenter" class="btn btn-primary" onclick="bindGraphicDemo2()">Graphic上局部刷新</button>
-      </div>
+  </div>
 
-      <!--
-      <span>其他应用示例：</span>
-      <a href="editor-es5.html#f40_cylinder_gdp" target="_blank" class="btn btn-default">自定义模版</a> -->
+  <!-- 面板 -->
+  <div class="infoview">
+    <div>
+      <button id="btnGetCenter" class="btn btn-primary" onclick="bindMapDemo()">Map上直接弹出</button>
+      <button id="btnGetCenter" class="btn btn-primary" onclick="bindLayerDemo()">图层上绑定</button>
+      <button id="btnGetCenter" class="btn btn-primary" onclick="bindLayerDemo2()">图层上预定义配置</button>
+    </div>
+    <div>
+      <button id="btnGetCenter" class="btn btn-primary" onclick="bindGraphicDemo1()">Graphic上绑定</button>
+      <button id="btnGetCenter" class="btn btn-primary" onclick="bindGraphicDemo2()">Graphic上局部刷新</button>
     </div>
 
-    <script src="/js/common.js"></script>
-    <script src="./map.js"></script>
-  </body>
+    <!--
+      <span>其他应用示例：</span>
+      <a href="editor-es5.html#f40_cylinder_gdp" target="_blank" class="btn btn-default">自定义模版</a> -->
+  </div>
+
+  <script src="/js/common.js"></script>
+  <script src="./map.js"></script>
+  <script type="text/javascript">
+    "use script" //开发环境建议开启严格模式
+
+    $("#close-btn").click(function () {
+      $("#message").css({ "display": "none" })
+    })
+
+    eventTarget.on("showWebsite", function (event) {
+      $("#message").css({ "display": "block" })
+    })
+
+
+  </script>
+
+</body>
+
 </html>
