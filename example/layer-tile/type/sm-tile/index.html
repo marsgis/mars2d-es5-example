@@ -23,69 +23,17 @@
     <script type="text/javascript" src="/lib/include-lib.js" libpath="/lib/" include="jquery,font-awesome,bootstrap,layer,haoutil,mars2d"></script>
     <link href="/css/style.css" rel="stylesheet" />
   </head>
-
   <body>
     <div id="mars2dContainer" class="mars2d-container"></div>
 
     <script src="/js/common.js"></script>
+    <script src="./map.js"></script>
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
 
       var map
 
-      function initUI(options) {
-        //合并属性参数，可覆盖config.json中的对应配置
-        let mapOptions = mars2d.Util.merge(options, {
-          chinaCRS: mars2d.ChinaCRS.WGS84,
-          basemaps: [
-            {
-              id: 10,
-              name: "地图底图",
-              type: "group"
-            },
-            {
-              id: 2021,
-              pid: 10,
-              name: "天地图电子",
-              type: "group",
-              layers: [
-                {
-                  name: "底图",
-                  type: "tdt",
-                  layer: "vec_d"
-                },
-                {
-                  name: "注记",
-                  type: "tdt",
-                  layer: "vec_z"
-                }
-              ],
-              show: true
-            },
-            // {
-            //   pid: 10,
-            //   name: "OSM地图(已被封)",
-            //   type: "xyz",
-            //   url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-            //   subdomains: "abc"
-            // },
-            {
-              pid: 10,
-              name: "高德地图",
-              type: "gaode",
-              layer: "vec"
-            },
-            {
-              id: 2017,
-              pid: 10,
-              name: "蓝色地图",
-              type: "arcgis",
-              url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-              chinaCRS: "GCJ02"
-            }
-          ]
-        })
-      }
+      function initUI(options) {}
     </script>
   </body>
 </html>

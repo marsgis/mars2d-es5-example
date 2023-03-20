@@ -1,18 +1,18 @@
-/* 
- * Leaflet TimeDimension v1.1.1 - 2019-11-05 
- * 
- * Copyright 2019 Biel Frontera (ICTS SOCIB) 
- * datacenter@socib.es 
- * http://www.socib.es/ 
- * 
- * Licensed under the MIT license. 
- * 
- * Demos: 
- * http://apps.socib.es/Leaflet.TimeDimension/ 
- * 
- * Source: 
- * git://github.com/socib/Leaflet.TimeDimension.git 
- * 
+/*
+ * Leaflet TimeDimension v1.1.1 - 2019-11-05
+ *
+ * Copyright 2019 Biel Frontera (ICTS SOCIB)
+ * datacenter@socib.es
+ * http://www.socib.es/
+ *
+ * Licensed under the MIT license.
+ *
+ * Demos:
+ * http://apps.socib.es/Leaflet.TimeDimension/
+ *
+ * Source:
+ * git://github.com/socib/Leaflet.TimeDimension.git
+ *
  */
 @font-face {
     font-family: 'Glyphicons Halflings';
@@ -140,7 +140,7 @@
     left: -7px;
    /* opacity: 0.5;
     background: red;*/
-    
+
 }
 .timecontrol-slider .knob.upper,
 .timecontrol-slider .knob.lower {
@@ -226,7 +226,7 @@
 .timecontrol-forward:before,
 .timecontrol-stop:before,
 .timecontrol-play:before,
-.timecontrol-loop:before {    
+.timecontrol-loop:before {
     width: 100%;
     text-align: center;
 }
