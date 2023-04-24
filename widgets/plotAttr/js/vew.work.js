@@ -756,8 +756,8 @@ var plotEdit = {
       case "plot_attr_attr_": {
         this._last_attr.attr[attrName] = attrVal
 
-        let newAttr = {}
-        newAttr[attrName] = attrVal
+        let newAttr = this._last_attr?.attr || {}
+
         thisWidget.updateAttr2map(newAttr)
         break
       }

@@ -1,16 +1,16 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 12,
   center: { lng: 117.238609, lat: 31.824373 }
 }
 
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -18,7 +18,7 @@ var eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
@@ -30,11 +30,14 @@ function onMounted(mapInstance) {
     latlng: [31.829316, 117.258796],
     style: {
       image: "img/marker/mark3.png",
-      magic: "vanishIn",
-      popupAnchor: [-6, -8]
+      horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+      verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
+      magic: "vanishIn"
     }
   })
   graphicLayer.addGraphic(graphic)
+
+  graphic.bindPopup(`magic: "vanishIn"`)
 
   // 增加magic动画点列表
   const magicArr = [
@@ -82,8 +85,9 @@ function onMounted(mapInstance) {
         latlng: latlng,
         style: {
           image: "img/marker/mark1.png",
-          magic: magicType,
-          popupAnchor: [-6, -8]
+          horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+          verticalOrigin: mars2d.VerticalOrigin.BOTTOM,
+          magic: magicType
         }
       })
         .addTo(graphicLayer)
@@ -100,6 +104,6 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
