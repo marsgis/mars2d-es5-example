@@ -1,10 +1,10 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 let tileLayer // 叠加的图层
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   // 方式1：在创建地图前的参数中配置
   basemaps: [
     {
@@ -52,7 +52,7 @@ var mapOptions = {
 }
 
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -60,7 +60,7 @@ var eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 }
 
@@ -68,12 +68,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
   removeLayer()
 }
 
-function addLayer() {
+export function addLayer() {
   removeLayer()
 
   // 方式2：在创建地图后调用addLayer添加图层(直接new对应type类型的图层类)
@@ -87,7 +87,7 @@ function addLayer() {
   map.addLayer(tileLayer)
 }
 
-function removeLayer() {
+export function removeLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null
