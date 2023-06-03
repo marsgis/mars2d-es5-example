@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.15
- * 编译日期：2023-05-23 19:38:23
+ * 版本信息：v3.1.16
+ * 编译日期：2023-06-03 14:01:46
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -2718,6 +2718,7 @@ declare namespace Image {
      * @property [opacity = 1] - 瓦片的不透明度。
      * @property [interactive = true] - 是否触发鼠标事件，如果false，该层不会发出鼠标事件，并且将作为底层地图的一部分。
      * @property [crossOrigin = false] - 如果为true，则所有图块将其crossOrigin属性设置为“*”。如果要访问像素数据，则需要这样做。
+     * @property [zIndex] - css的叠加顺序
      * @property [highlight] - 【预留功能，待后续版本开发】鼠标移入或单击(type:'click')后的对应高亮的部分样式，创建Graphic后也可以openHighlight、closeHighlight方法来手动调用
      * @property [label] - 【预留功能，待后续版本开发】支持附带文字的显示
      */
@@ -2726,6 +2727,7 @@ declare namespace Image {
         opacity?: number;
         interactive?: boolean;
         crossOrigin?: boolean;
+        zIndex?: number;
         highlight?: Image.StyleOptions;
         label?: Label.StyleOptions;
     };
@@ -7663,6 +7665,7 @@ declare namespace ImageLayer {
  * @param [options.opacity = 1] - 瓦片的不透明度。
  * @param [options.interactive = false] - 如果true，当点击或悬停时，图像叠加层将发出鼠标事件mouse events 。
  * @param [options.crossOrigin = false] - 如果为true，则所有图块将其crossOrigin属性设置为“*”。如果要访问像素数据，则需要这样做。
+ * @param [options.zIndex] - css的叠加顺序
  * @param [options.id = createGuid()] - 图层id标识
  * @param [options.pid = -1] - 图层父级的id，一般图层管理中使用
  * @param [options.name = ''] - 图层名称
@@ -7684,6 +7687,7 @@ declare class ImageLayer extends L.ImageOverlay {
         opacity?: number;
         interactive?: boolean;
         crossOrigin?: boolean;
+        zIndex?: number;
         id?: string | number;
         pid?: string | number;
         name?: string;
@@ -9082,9 +9086,9 @@ declare namespace Map {
         defaultContextMenu?: boolean;
         contextmenuItems?: any;
         control?: Map.controlOptions;
-        basemaps: Map.basemapOptions[];
-        operationallayers?: Map.layerOptions[];
-        layers?: L.Layer[];
+        basemaps: Map.basemapOptions[] | any;
+        operationallayers?: Map.layerOptions[] | any;
+        layers?: L.Layer[] | any;
     };
     /**
      * 底图图层配置,只支持{@link TileLayer}等瓦片图层
