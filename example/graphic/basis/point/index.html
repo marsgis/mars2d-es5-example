@@ -22,7 +22,7 @@
 
   <!--第三方lib-->
   <script type="text/javascript" src="/lib/include-lib.js" libpath="/lib/"
-    include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars2d,mars2d-widget"></script>
+    include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars2d,es5-widget"></script>
 
   <link href="/css/style.css" rel="stylesheet" />
 </head>
@@ -149,16 +149,11 @@
         const geojson = graphicLayer.toGeoJSON()
         mars2d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
       })
-
-
-
-
       $("#btnImpFile").click(function () {
         clearSelectFile()
         $("#input_draw_file").click()
       })
       $("#input_draw_file").change(function (e) {
-
         let file = this.files[0]
         let fileName = file.name
         let fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
@@ -200,7 +195,6 @@
         }
       })
     }
-
 
     function clearSelectFile() {
       if (!window.addEventListener) {
@@ -257,7 +251,7 @@
         mars2d.widget.disable("widgets/plotAttr/widget.js")
       }, 200)
     }
-  //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
+//附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
   </script>
 </body>
 

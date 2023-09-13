@@ -21,7 +21,7 @@
   <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
 
   <script type="text/javascript" src="/lib/include-lib.js" libpath="/lib/"
-    include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars2d,mars2d-widget"></script>
+    include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars2d,es5-widget"></script>
   <link href="/css/style.css" rel="stylesheet" />
 </head>
 
@@ -94,7 +94,6 @@
         const graphics = graphicLayer.getGraphics()
         editorGraphic = graphics[graphics.length - 1]
       })
-
 
       $("#chkPopup").change(function () {
         let val = $(this).is(":checked")

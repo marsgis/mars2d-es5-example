@@ -58,12 +58,19 @@
         layers: true //是否取config.json中的layers
       })
     }
+    flyToLayer(layer) {
+      if (layer.flyTo) {
+        layer.flyTo()
+      } else if (layer.getBounds) {
+        this.map.flyToBounds(layer.getBounds())
+      }
+    }
     //对单击的图层做处理（单个）
     checkClickLayer(layer, show) {
       if (show) {
         if (this.config.autoCenter && !layer.options.noCenter) {
           //在对应config.json图层节点配置 noCenter:true 可以不定位
-          layer.flyTo()
+          this.flyToLayer(layer)
         }
 
         //存在关联widget时

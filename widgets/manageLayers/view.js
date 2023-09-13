@@ -52,19 +52,17 @@ function _getNodeConfig(layer) {
 
   let item = layer.options
 
-  if (!item.name) {
+  if (!item.name || item.name == "未命名") {
     console.log("未命名图层不加入图层管理", layer)
     return
   }
 
   let node = {
     id: layer.id,
-    pId: layer.pid || -1,
+    pId: layer.pid,
     name: layer.name,
     checked: layer.isAdded && (layer.show ?? true)
   }
-
-  // console.log(`${layer.name}:id-${layer.id}:id-${layer.id}`);
 
   if (layer.hasEmptyGroup) {
     //空数组
@@ -122,7 +120,7 @@ function updateNode(layer) {
   let treeObj = $.fn.zTree.getZTreeObj("treeOverlays")
 
   let node = treeObj.getNodeByParam("id", layer.id, null)
-  let show = layer.isAdded
+  let show = layer.isAdded && layer.show
   if (node) {
     //更新node
     if (node.checked == show) {
@@ -154,8 +152,8 @@ function treeOverlays_onDblClick(event, treeId, treeNode) {
     return
   }
   let layer = layersObj[treeNode.id]
-  if (layer && layer.isAdded && layer.flyTo) {
-    layer.flyTo()
+  if (layer && layer.isAdded) {
+    thisWidget.flyToLayer(layer)
   }
 }
 

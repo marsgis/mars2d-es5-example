@@ -24,7 +24,7 @@
       type="text/javascript"
       src="../lib/include-lib.js"
       libpath="../lib/"
-      include="jquery,font-awesome,bootstrap,layer,localforage,haoutil,mars2d,mars2d-widget"
+      include="jquery,font-awesome,bootstrap,layer,localforage,haoutil,mars2d,es5-widget"
     ></script>
     <link href="css/style.css" rel="stylesheet" />
   </head>
@@ -34,8 +34,8 @@
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
     <script type="text/javascript">
-      //附加：激活POI查询widget，用于在底图上叠加显示数据，【框架已自动纠偏处理】
-      function activatePOIQuery(map) {
+      function initUI(map) {
+        //附加：激活POI查询widget，用于在底图上叠加显示数据，【框架已自动纠偏处理】
         mars2d.widget.activate({
           map: map,
           name: "POI查询",

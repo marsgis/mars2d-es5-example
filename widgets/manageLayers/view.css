@@ -12,10 +12,12 @@
   -moz-user-select: none;
   user-select: none;
 }
+
 .layersctl_rMenu ul {
   margin: 0px;
   padding: 0px;
 }
+
 .layersctl_rMenu ul li {
   display: block;
   color: #222;
@@ -27,4 +29,26 @@
   border-bottom: 1px solid transparent;
   cursor: default;
   outline: none;
+}
+
+/* 滑动条设置 */
+.slider {
+  width: 50px !important;
+  margin-left: 6px;
+  margin-top: -7px;
+}
+
+.slider-handle {
+  top: 4px;
+  width: 12px;
+  height: 12px;
+}
+
+.slider-selection {
+  background: rgb(88, 178, 231);
+}
+
+/* 滑动条内的小方块样式 */
+::-webkit-scrollbar-corner {
+  display: none;
 }
