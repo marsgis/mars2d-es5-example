@@ -17,12 +17,14 @@ const mapOptions = {
  */
 function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
-
   map.setView([30.451633, 111.700745], 13)
 
+  globalNotify("已知问题提示", "(1) 需要自行申请mapbox相关token替换 ")
+
+
   const gl = L.mapboxGL({
-    accessToken: "pk.eyJ1IjoiY2pwMjAwMCIsImEiOiJjbGdibGJ2OTMwMmJxM2ZwOHQ2ZWJ0NnJyIn0.eRG2RzgUHrJ2auzNG1RUaw",
-    style: "https://api.maptiler.com/maps/basic/style.json?key=gbetYLSD5vR8MdtZ88AQ",
+    accessToken: "自己的Token",
+    style: "https://api.maptiler.com/maps/basic/style.json?key=自己的key",
     pane: "overlayPane"
   }).addTo(map)
 
@@ -33,7 +35,7 @@ function onMounted(mapInstance) {
 
     mapboxMap.addSource("states", {
       type: "vector",
-      tiles: ["http://124.223.40.17:18080/vectortile/pcyd/{z}/{x}/{y}.pbf"]
+      tiles: ["http://localhost/vectortile/pcyd/{z}/{x}/{y}.pbf"]
     })
     mapboxMap.addLayer({
       id: "state-fills",
