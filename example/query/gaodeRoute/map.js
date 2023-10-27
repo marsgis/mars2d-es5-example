@@ -1,4 +1,4 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
 let routeLayer
@@ -8,11 +8,11 @@ let gaodeRoute
 let startGraphic, endGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
     center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
 }
 
-export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
+var eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -20,7 +20,7 @@ export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -36,12 +36,12 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 开始分析按钮
-export function btnAnalyse(type) {
+function btnAnalyse(type) {
   if (!startGraphic || !endGraphic) {
     globalMsg("请设置起点和终点")
     return
@@ -50,7 +50,7 @@ export function btnAnalyse(type) {
 }
 
 // 清除按钮
-export function removeAll() {
+function removeAll() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -70,7 +70,7 @@ export function removeAll() {
  * @param {string} type 不同方式路线查询
  * @returns {void}
  */
-export function startPoint(type) {
+function startPoint(type) {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -105,7 +105,7 @@ export function startPoint(type) {
  * @param {string} type 不同方式路线查询
  * @returns {void}
  */
-export function endPoint(type) {
+function endPoint(type) {
   if (endGraphic) {
     endGraphic.remove()
     endGraphic = null
@@ -186,7 +186,7 @@ function queryRoute(type) {
 }
 
 // 点击保存GeoJSON
-export function saveGeoJSON() {
+function saveGeoJSON() {
   if (routeLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

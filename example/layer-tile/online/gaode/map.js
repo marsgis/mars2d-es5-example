@@ -1,13 +1,13 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
 const attributionHtml = `©2023 高德软件- <span>审图号：GS(2021)6375号</span>
 - 甲测资字11111093 - <a href="https://map.amap.com/doc/serviceitem.html" target="_blank" trace="tos">服务条款</a> `
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   basemaps: [
     {
       name: "高德地图",
@@ -43,7 +43,8 @@ export const mapOptions = {
     {
       name: "实时交通信息",
       type: "gaode",
-      layer: "time"
+      layer: "time",
+      proxy: "//server.mars2d.cn/proxy/"
     }
   ]
 }
@@ -54,7 +55,7 @@ export const mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   addCreditDOM()
 
@@ -65,7 +66,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   removeCreditDOM()
   map = null
 }

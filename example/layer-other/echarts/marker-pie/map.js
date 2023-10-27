@@ -1,12 +1,12 @@
-import * as mars2d from "mars2d"
-const L = mars2d.L
+// import * as mars2d from "mars2d"
+
 
 let map
 let layerWork
 let echartsArr = []
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 10,
   center: { lng: 119.771576, lat: 32.208153 }
 }
@@ -17,7 +17,7 @@ export const mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   layerWork = L.featureGroup()
   map.addLayer(layerWork)
@@ -30,7 +30,7 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-export function onUnmounted() {
+function onUnmounted() {
   clearLayers()
   map.removeLayer(layerWork)
   map = null

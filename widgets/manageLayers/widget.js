@@ -1,7 +1,7 @@
 "use script" //开发环境建议开启严格模式
 ;(function (window, mars2d) {
   //创建widget类，需要继承BaseWidget
-  class MyWidget extends mars2d.widget.BaseWidget {
+  class MyWidget extends es5widget.BaseWidget {
     //弹窗配置
     get view() {
       return {
@@ -77,11 +77,11 @@
         let item = layer.options
         if (item.onWidget) {
           if (this._lastWidget) {
-            mars2d.widget.disable(this._lastWidget)
+            es5widget.disable(this._lastWidget)
             this._lastWidget = null
           }
 
-          mars2d.widget.activate({
+          es5widget.activate({
             uri: item.onWidget,
             layerItem: item,
             disableOther: false
@@ -96,7 +96,7 @@
         //存在关联widget时
         let item = layer.options
         if (item.onWidget) {
-          mars2d.widget.disable(item.onWidget)
+          es5widget.disable(item.onWidget)
           if (this._lastWidget == item.onWidget) {
             this._lastWidget = null
           }
@@ -123,7 +123,7 @@
   }
 
   //注册到widget管理器中。
-  mars2d.widget.bindClass(MyWidget)
+  es5widget.bindClass(MyWidget)
 
   //每个widet之间都是直接引入到index.html中，会存在彼此命名冲突，所以闭包处理下。
 })(window, mars2d)
