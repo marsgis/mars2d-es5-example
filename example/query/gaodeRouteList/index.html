@@ -1,366 +1,367 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars2d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <!-- 标题及搜索关键字 -->
+    <meta name="keywords" content="火星科技,cesium,2D,GIS,marsgis,三维,地球,地图,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 cesium cesium开发 cesium框架 三维 地球 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 三维地图 全景漫游 地理信息系统 云GIS 三维GIS GIS平台 WebGIS"
+    />
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport"
-    content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
-  <meta name="author" content="火星科技 http://mars2d.cn " />
-  <meta name="apple-touch-fullscreen" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="x5-fullscreen" content="true" />
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
-  <!-- 标题及搜索关键字 -->
-  <meta name="keywords" content="火星科技,cesium,2D,GIS,marsgis,三维,地球,地图,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
-  <meta name="description"
-    content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 cesium cesium开发 cesium框架 三维 地球 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 三维地图 全景漫游 地理信息系统 云GIS 三维GIS GIS平台 WebGIS" />
+    <link rel="shortcut icon" type="image/x-icon" href="img/favicon/favicon.ico" />
+    <title>高德路径规划查询(多条) | Mars2d | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
 
-  <link rel="shortcut icon" type="image/x-icon" href="img/favicon/favicon.ico" />
-  <title>高德路径规划查询(多条) | Mars2d | 三维地图 | 火星科技 | 合肥火星科技有限公司</title>
+    <!--第三方lib-->
+    <script
+      type="text/javascript"
+      src="/lib/include-lib.js"
+      libpath="/lib/"
+      include="jquery,font-awesome,bootstrap,bootstrap-table,layer,haoutil,mars2d"
+    ></script>
 
-  <!--第三方lib-->
-  <script type="text/javascript" src="/lib/include-lib.js" libpath="/lib/"
-    include="jquery,font-awesome,bootstrap,bootstrap-table,layer,haoutil,mars2d"></script>
+    <link href="/css/style.css" rel="stylesheet" />
+  </head>
 
-  <link href="/css/style.css" rel="stylesheet" />
-</head>
+  <body>
+    <div id="mars2dContainer" class="mars2d-container"></div>
 
-<body>
+    <div class="infoview">
+      <table class="mars-table" style="border-collapse: separate; border-spacing: 0px 6px">
+        <tr>
+          <td>方式</td>
+          <td colspan="2">
+            <select id="queryType" class="selectpicker form-control">
+              <option value="1" selected="selected">步行路线查询</option>
+              <!-- <option value="2">骑行路线查询</option> -->
+              <option value="3">驾车路线查询</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>起点</td>
+          <td>
+            <input id="startIpt" type="text" value="" class="form-control" style="width: 200px" />
+          </td>
+          <td>
+            <input type="button" class="btn btn-primary" value="选点" id="startPoint" />
+          </td>
+        </tr>
+        <tr>
+          <td>终点：</td>
+          <td>查询POI点,共<span style="color: red" id="count">0</span>条</td>
+          <td>
+            <input type="button" class="btn btn-primary" value="查询" id="endPoint" />
+          </td>
+        </tr>
+        <tr>
+          <td></td>
+          <td colspan="3">
+            <input type="button" class="btn btn-primary" value="开始分析" id="FX" />
+            <input type="button" class="btn btn-primary" value="清除" id="clear" />
+          </td>
+        </tr>
+      </table>
+    </div>
 
+    <div id="resultView" class="infoview" style="top: 250px; display: none; word-break: break-all; width: 400px">
+      <table id="table"></table>
+    </div>
 
-  <div id="mars2dContainer" class="mars2d-container"></div>
+    <script src="/js/common.js"></script>
+    <script src="./map.js"></script>
 
-  <div class="infoview">
-    <table class="mars-table" style="border-collapse:separate; border-spacing:0px 6px;">
-      <tr>
-        <td>方式</td>
-        <td colspan="2">
-          <select id="queryType" class="selectpicker form-control">
-            <option value="1" selected="selected">步行路线查询</option>
-            <!-- <option value="2">骑行路线查询</option> -->
-            <option value="3">驾车路线查询</option>
-          </select>
-        </td>
-      </tr>
-      <tr>
-        <td>起点</td>
-        <td>
-          <input id="startIpt" type="text" value="" class="form-control" style="width: 200px" />
-        </td>
-        <td>
-          <input type="button" class="btn btn-primary" value="选点" id="startPoint" />
-        </td>
-      </tr>
-      <tr>
-        <td>终点：</td>
-        <td>查询POI点,共<span style="color: red" id="count">0</span>条</td>
-        <td>
-          <input type="button" class="btn btn-primary" value="查询" id="endPoint" />
-        </td>
-      </tr>
-      <tr>
-        <td></td>
-        <td colspan="3">
-          <input type="button" class="btn btn-primary" value="开始分析" id="FX" />
-          <input type="button" class="btn btn-primary" value="清除" id="clear" />
-        </td>
-      </tr>
-    </table>
-  </div>
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+      let routeLayer
+      let gaodeRoute
 
-  <div id="resultView" class="infoview" style="top: 250px; display: none; word-break: break-all; width: 400px">
-    <table id="table"></table>
-  </div>
+      //当前页面业务相关
+      let startGraphic
+      let endPointArr
+      let poiLayer
+      var map
+      let $table
 
-  <script src="/js/common.js"></script>
-  <script src="./map.js"></script>
+      function initUI(options) {
+        //合并属性参数，可覆盖config.json中的对应配置
+        let mapOptions = mars2d.Util.merge(options, {
+          center: { lat: 31.812769, lng: 117.250545, alt: 18500, heading: 358, pitch: -81 }
+        })
 
-  <script type="text/javascript">
-    "use script" //开发环境建议开启严格模式
-    let routeLayer
-    let gaodeRoute
+        //创建矢量数据图层
+        routeLayer = new mars2d.layer.GraphicLayer()
+        map.addLayer(routeLayer)
 
-    //当前页面业务相关
-    let startGraphic
-    let endPointArr
-    let poiLayer
-    var map
-    let $table
+        gaodeRoute = new mars2d.query.GaodeRoute({
+          // key: ['ae29a37307840c7ae4a785ac905927e0'],
+        })
 
-    function initUI(options) {
-      //合并属性参数，可覆盖config.json中的对应配置
-      let mapOptions = mars2d.Util.merge(options, {
-        center: { lat: 31.812769, lng: 117.250545, alt: 18500, heading: 358, pitch: -81 }
-      })
-
-      //创建矢量数据图层
-      routeLayer = new mars2d.layer.GraphicLayer()
-      map.addLayer(routeLayer)
-
-      gaodeRoute = new mars2d.query.GaodeRoute({
-        // key: ['ae29a37307840c7ae4a785ac905927e0'],
-      })
-
-      $table = $("#table")
-      $table.bootstrapTable({
-        height: 300,
-        singleSelect: true, //单选
-        pagination: false,
-        iconsPrefix: "fa",
-        columns: [
-          {
-            field: "index",
-            title: "序号",
-            sortable: true,
-            editable: false,
-            align: "left",
-            formatter: function (value, row, index) {
-              return index + 1
+        $table = $("#table")
+        $table.bootstrapTable({
+          height: 300,
+          singleSelect: true, //单选
+          pagination: false,
+          iconsPrefix: "fa",
+          columns: [
+            {
+              field: "index",
+              title: "序号",
+              sortable: true,
+              editable: false,
+              align: "left",
+              formatter: function (value, row, index) {
+                return index + 1
+              }
+            },
+            {
+              field: "name",
+              title: "目的地",
+              sortable: true,
+              editable: false,
+              align: "left"
+            },
+            {
+              field: "allDistance",
+              title: "总距离",
+              sortable: true,
+              editable: false,
+              align: "left"
+            },
+            {
+              field: "allDuration",
+              title: "时间",
+              sortable: true,
+              editable: false,
+              align: "left"
             }
-          },
-          {
-            field: "name",
-            title: "目的地",
-            sortable: true,
-            editable: false,
-            align: "left"
-          },
-          {
-            field: "allDistance",
-            title: "总距离",
-            sortable: true,
-            editable: false,
-            align: "left"
-          },
-          {
-            field: "allDuration",
-            title: "时间",
-            sortable: true,
-            editable: false,
-            align: "left"
+          ],
+          onClickRow: function (item, $element, field) {
+            console.log(item.graphic)
+            map.flyToGraphic(item.graphic, { scale: 1.0 })
+            // centerAtRoute(item.graphic);
           }
-        ],
-        onClickRow: function (item, $element, field) {
-          console.log(item.graphic)
-          map.flyToGraphic(item.graphic, { scale: 1.0 })
-          // centerAtRoute(item.graphic);
-        }
-      })
+        })
 
-      $("#startPoint").click(function () {
+        $("#startPoint").click(function () {
+          if (startGraphic) {
+            startGraphic.remove()
+            startGraphic = null
+          }
+
+          map.graphicLayer.startDraw({
+            type: "marker",
+            style: {
+              image: "img/marker/start.png"
+            },
+            success: function (graphic) {
+              startGraphic = graphic
+
+              let point = graphic.latlng
+              $("#startIpt").val([point.lat, point.lng])
+            }
+          })
+        })
+
+        let queryGaodePOI = new mars2d.query.GaodePOI({
+          // key: ['ae29a37307840c7ae4a785ac905927e0'],
+        })
+
+        //创建矢量数据图层
+        poiLayer = new mars2d.layer.GraphicLayer()
+        map.addLayer(poiLayer)
+
+        poiLayer.bindPopup(function (event) {
+          let item = event.attr
+
+          let inHtml = '<div class="mars-popup-titile">' + item.name + '</div><div class="mars-popup-content" >'
+          let type = $.trim(item.type)
+          if (type != "") {
+            inHtml += "<div><label>类别：</label>" + type + "</div>"
+          }
+          let xzqh = $.trim(item.xzqh)
+          if (xzqh != "") {
+            inHtml += "<div><label>区域：</label>" + xzqh + "</div>"
+          }
+          let tel = $.trim(item.tel)
+          if (tel != "") {
+            inHtml += "<div><label>电话：</label>" + tel + "</div>"
+          }
+          let address = $.trim(item.address)
+          if (address != "") {
+            inHtml += "<div><label>地址：</label>" + address + "</div>"
+          }
+          inHtml += "</div>"
+          return inHtml
+        })
+
+        $("#endPoint").click(function () {
+          haoutil.loading.show()
+          let extent = map.getExtent() //当前视域内
+
+          queryGaodePOI.queryPolygon({
+            text: "企业",
+            polygon: mars2d.PointTrans.coords2latlngs([
+              [extent.xmin, extent.ymin],
+              [extent.xmin, extent.ymax],
+              [extent.xmax, extent.ymax],
+              [extent.xmax, extent.ymin]
+            ]),
+            page: 0,
+            count: 10,
+            success: function (res) {
+              haoutil.loading.close()
+              console.log(res)
+              $("#count").html(res.count)
+              addEndPointEntity(res.list)
+            },
+            error: function (msg, error) {
+              window.toastr.error(msg)
+              haoutil.loading.close()
+            }
+          })
+        })
+
+        //开始分析
+        $("#FX").click(queryRoute)
+        $("#clear").click(clear)
+      }
+
+      function queryRoute() {
+        if (!startGraphic || !endPointArr || endPointArr.length == 0) {
+          haoutil.msg("请设置起点和查询目的地")
+          return
+        }
+
+        haoutil.loading.show()
+        $("#resultView").hide()
+
+        let type = Number($("#queryType").val()) //GaodeRouteType枚举类型
+        let startPoint = startGraphic.coordinates
+        let arr = []
+        for (let i = 0; i < endPointArr.length; i++) {
+          let item = endPointArr[i]
+          arr.push([startPoint[0], [item.x, item.y]])
+        }
+        console.log(startPoint)
+        gaodeRoute.queryArr({
+          type: type,
+          points: arr,
+          success: function (data) {
+            haoutil.loading.close()
+            console.log("查询之后的数据", data)
+            showRouteResult(data)
+          },
+          error: function (msg) {
+            haoutil.loading.close()
+            window.toastr.error(msg)
+          }
+        })
+      }
+
+      function addEndPointEntity(arr) {
+        console.log("查询数据结果", arr)
+
+        endPointArr = arr
+
+        for (let i = 0; i < arr.length; i++) {
+          let item = arr[i]
+          const graphic = new mars2d.graphic.Marker({
+            latlng: [item.lat, item.lng],
+            style: {
+              image: "img/marker/end.png",
+              width: 32,
+              height: 44,
+              label: {
+                text: item.name,
+                font_size: "20px 楷体",
+                color: "AZURE",
+                border: true,
+                border_olor: "black",
+                border_Width: 2,
+                horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
+                verticalOrigin: mars2d.VerticalOrigin.BOTTOM
+              }
+            },
+            attr: item
+          })
+          poiLayer.addGraphic(graphic)
+          poiLayer.flyTo()
+        }
+      }
+
+      function showRouteResult(data) {
+        $("#resultView").show()
+
+        let arrTable = []
+        for (let i = 0; i < data.length; i++) {
+          const item = data[i]
+          if (!item) {
+            continue
+          }
+
+          const latlngs = mars2d.PointTrans.coords2latlngs(item.points)
+          if (!latlngs || latlngs.length < 1) {
+            continue
+          }
+
+          const name = endPointArr[i].name
+
+          const time = mars2d.Util.formatTime(item.allDuration)
+          const distance = mars2d.MeasureUtil.formatDistance(item.allDistance)
+          const html = "目的地：" + name + "<br/>总距离：" + distance + "<br/>所需时间：" + time + ""
+
+          const graphic = new mars2d.graphic.Polyline({
+            latlngs: latlngs,
+
+            popup: html
+          })
+          routeLayer.addGraphic(graphic)
+
+          // graphic.entityGraphic.material_old = graphic.entityGraphic.material;
+          // graphic.entityGraphic.width_old = graphic.entityGraphic.width;
+
+          arrTable.push({
+            name: name,
+            allDistance: distance, //总距离
+            allDuration: time, //全部所需时间
+            graphic: graphic
+          })
+        }
+
+        $table.bootstrapTable("load", arrTable)
+      }
+
+      let lastRoute
+
+      function centerAtRoute(graphic) {
+        console.log(graphic)
+        // map.flyToGraphic(graphic, { scale: 1.0 });
+        // lastRoute = graphic;
+      }
+
+      function clear() {
         if (startGraphic) {
           startGraphic.remove()
           startGraphic = null
         }
+        routeLayer.clear()
+        poiLayer.clear()
 
-        map.graphicLayer.startDraw({
-          type: "marker",
-          style: {
-            image: "img/marker/start.png"
-          },
-          success: function (graphic) {
-            startGraphic = graphic
+        $("#startIpt").val("")
+        $("#endIpt").val("")
 
-            let point = graphic.latlng
-            $("#startIpt").val([point.lat, point.lng])
-          }
-        })
-      })
-
-      let queryGaodePOI = new mars2d.query.GaodePOI({
-        // key: ['ae29a37307840c7ae4a785ac905927e0'],
-      })
-
-      //创建矢量数据图层
-      poiLayer = new mars2d.layer.GraphicLayer()
-      map.addLayer(poiLayer)
-
-      poiLayer.bindPopup(function (event) {
-        let item = event.attr
-
-        let inHtml = '<div class="mars-popup-titile">' + item.name + '</div><div class="mars-popup-content" >'
-        let type = $.trim(item.type)
-        if (type != "") {
-          inHtml += "<div><label>类别：</label>" + type + "</div>"
-        }
-        let xzqh = $.trim(item.xzqh)
-        if (xzqh != "") {
-          inHtml += "<div><label>区域：</label>" + xzqh + "</div>"
-        }
-        let tel = $.trim(item.tel)
-        if (tel != "") {
-          inHtml += "<div><label>电话：</label>" + tel + "</div>"
-        }
-        let address = $.trim(item.address)
-        if (address != "") {
-          inHtml += "<div><label>地址：</label>" + address + "</div>"
-        }
-        inHtml += "</div>"
-        return inHtml
-      })
-
-      $("#endPoint").click(function () {
-        haoutil.loading.show()
-        let extent = map.getExtent() //当前视域内
-
-        queryGaodePOI.queryPolygon({
-          text: "企业",
-          polygon: mars2d.PointTrans.coords2latlngs([
-            [extent.xmin, extent.ymin],
-            [extent.xmin, extent.ymax],
-            [extent.xmax, extent.ymax],
-            [extent.xmax, extent.ymin]
-          ]),
-          page: 0,
-          count: 10,
-          success: function (res) {
-            haoutil.loading.close()
-            console.log(res)
-            $("#count").html(res.count)
-            addEndPointEntity(res.list)
-          },
-          error: function (msg, error) {
-            window.toastr.error(msg)
-            haoutil.loading.close()
-          }
-        })
-      })
-
-      //开始分析
-      $("#FX").click(queryRoute)
-      $("#clear").click(clear)
-    }
-
-    function queryRoute() {
-      if (!startGraphic || !endPointArr || endPointArr.length == 0) {
-        haoutil.msg("请设置起点和查询目的地")
-        return
+        $("#resultView").hide()
+        $("#count").html("0")
       }
-
-      haoutil.loading.show()
-      $("#resultView").hide()
-
-      let type = Number($("#queryType").val()) //GaodeRouteType枚举类型
-      let startPoint = startGraphic.coordinates
-      let arr = []
-      for (let i = 0; i < endPointArr.length; i++) {
-        let item = endPointArr[i]
-        arr.push([startPoint[0], [item.x, item.y]])
-      }
-      console.log(startPoint)
-      gaodeRoute.queryArr({
-        type: type,
-        points: arr,
-        success: function (data) {
-          haoutil.loading.close()
-          console.log("查询之后的数据", data)
-          showRouteResult(data)
-        },
-        error: function (msg) {
-          haoutil.loading.close()
-          window.toastr.error(msg)
-        }
-      })
-    }
-
-    function addEndPointEntity(arr) {
-      console.log("查询数据结果", arr)
-
-      endPointArr = arr
-
-      for (let i = 0; i < arr.length; i++) {
-        let item = arr[i]
-        const graphic = new mars2d.graphic.Marker({
-          latlng: [item.lat, item.lng],
-          style: {
-            image: "img/marker/end.png",
-            width: 32,
-            height: 44,
-            label: {
-              text: item.name,
-              font_size: "20px 楷体",
-              color: "AZURE",
-              border: true,
-              border_olor: "black",
-              border_Width: 2,
-              horizontalOrigin: mars2d.HorizontalOrigin.CENTER,
-              verticalOrigin: mars2d.VerticalOrigin.BOTTOM
-            }
-          },
-          attr: item
-        })
-        poiLayer.addGraphic(graphic)
-        poiLayer.flyTo()
-      }
-    }
-
-    function showRouteResult(data) {
-      $("#resultView").show()
-
-      let arrTable = []
-      for (let i = 0; i < data.length; i++) {
-        const item = data[i]
-        if (!item) {
-          continue
-        }
-
-        const latlngs = mars2d.PointTrans.coords2latlngs(item.points)
-        if (!latlngs || latlngs.length < 1) {
-          continue
-        }
-
-        const name = endPointArr[i].name
-
-        const time = mars2d.Util.formatTime(item.allDuration)
-        const distance = mars2d.MeasureUtil.formatDistance(item.allDistance)
-        const html = "目的地：" + name + "<br/>总距离：" + distance + "<br/>所需时间：" + time + ""
-
-        const graphic = new mars2d.graphic.Polyline({
-          latlngs: latlngs,
-
-          popup: html
-        })
-        routeLayer.addGraphic(graphic)
-
-        // graphic.entityGraphic.material_old = graphic.entityGraphic.material;
-        // graphic.entityGraphic.width_old = graphic.entityGraphic.width;
-
-        arrTable.push({
-          name: name,
-          allDistance: distance, //总距离
-          allDuration: time, //全部所需时间
-          graphic: graphic
-        })
-      }
-
-      $table.bootstrapTable("load", arrTable)
-    }
-
-    let lastRoute
-
-    function centerAtRoute(graphic) {
-      console.log(graphic)
-      // map.flyToGraphic(graphic, { scale: 1.0 });
-      // lastRoute = graphic;
-    }
-
-    function clear() {
-      if (startGraphic) {
-        startGraphic.remove()
-        startGraphic = null
-      }
-      routeLayer.clear()
-      poiLayer.clear()
-
-      $("#startIpt").val("")
-      $("#endIpt").val("")
-
-      $("#resultView").hide()
-      $("#count").html("0")
-    }
-  </script>
-</body>
-
+    </script>
+  </body>
 </html>

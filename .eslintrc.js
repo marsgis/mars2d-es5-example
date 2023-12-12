@@ -3,11 +3,11 @@ module.exports = {
   env: {
     es6: true,
     node: false,
-    browser: true,
+    browser: true
   },
   parser: "babel-eslint",
   parserOptions: {
-    sourceType: "module",
+    sourceType: "module"
   },
   plugins: ["html", "prettier"],
   extends: ["eslint:recommended", "plugin:prettier/recommended"],
@@ -28,6 +28,7 @@ module.exports = {
     mars3d: "readonly",
     L: "readonly",
     mars2d: "readonly",
+    es5widget: "readonly",
 
     turf: "readonly",
     THREE: "readonly",
@@ -50,7 +51,7 @@ module.exports = {
     JB: false,
     h337: false,
     jeDate: false,
-    kriging: false,
+    kriging: false
   },
   rules: {
     // mars2d-es5-example项目专用的配置(目的便于示例的开发调试) start
@@ -109,6 +110,6 @@ module.exports = {
     "no-func-assign": "error", // 禁止对 function 声明重新赋值
     "no-nested-ternary": "error", // 禁用嵌套的三元表达式
     "no-multiple-empty-lines": ["error", { max: 3 }], // 空行最多不能超过两行
-    "new-cap": "off", // 关闭eslint fromDegrees方法报错
-  },
-};
+    "new-cap": "off" // 关闭eslint fromDegrees方法报错
+  }
+}
