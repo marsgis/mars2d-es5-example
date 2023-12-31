@@ -87,7 +87,24 @@
     updateStyle2map(style) {
       console.log("更新style样式", style)
       let graphic = this.config.graphic
+      const opacity = this.getOpacity(style.fillColor)
+      if (style.fillColor && opacity) {
+        style.fillOpacity = opacity * 1
+      }
       graphic.style = style
+    }
+
+    getOpacity(str) {
+      if (str) {
+        const regex = /\(([^)]+)\)/
+        const match = str.match(regex)
+
+        if (match && match[1] && match[1].split(",").length === 4) {
+          return match[1].split(",")[3]
+        }
+      }
+
+      return null
     }
     //更新坐标
     updatePoints2map(points) {

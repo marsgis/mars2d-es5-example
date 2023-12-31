@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.1.23
- * 编译日期：2023-11-29 17:08:46
+ * 版本信息：v3.1.25
+ * 编译日期：2023-12-31 22:40:46
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2021-10-01
  */
@@ -5805,7 +5805,7 @@ declare namespace GraphicLayer {
  * @param [options.hasEdit = false] - 是否自动激活编辑（true时，单击后自动激活编辑）
  * @param [options.isAutoEditing = true] - 完成标绘时是否自动启动编辑(需要hasEdit:true时)
  * @param [options.isContinued = false] - 是否连续标绘
- * @param [options.symbol] - 矢量数据的style样式,为Function时是完全自定义的回调处理 symbol(attr, style, feature)
+ * @param [options.symbol] - 矢量数据的style样式,为Function时是完全自定义的回调处理 symbol(attr, style, feature)，GraphicLayer图层仅loadGeoJSON方法中有效
  * @param [options.symbol.type] - 标识数据类型，默认是根据数据生成 point、polyline、polygon
  * @param options.symbol.styleOptions - Style样式，每种不同类型数据都有不同的样式，具体见各{@link GraphicType}矢量数据的style参数。
  * @param [options.symbol.styleField] - 按 styleField 属性设置不同样式。
@@ -6244,6 +6244,7 @@ declare class GraphicLayer extends L.FeatureGroup {
      * @param options.type - 类型
      * @param [options.style] - 按type支持 {@link GraphicType} 类的构造方法参数
      * @param [options.attr] - 附带的属性信息
+     * @param [options.maxPointNum = 9999] - 绘制时，最多允许点的个数, 仅部分线面对象支持。
      * @param [options.success] - 绘制创建完成的回调方法，同drawCreated事件，例如： success: function (graphic){  }
      * @returns 创建完成的矢量数据对象
      */
@@ -6251,6 +6252,7 @@ declare class GraphicLayer extends L.FeatureGroup {
         type: GraphicType | string;
         style?: any;
         attr?: any;
+        maxPointNum?: number;
         success?: (...params: any[]) => any;
     }): any | L.Layer;
     /**
@@ -8691,6 +8693,7 @@ declare class TileLayer extends L.TileLayer {
  * @param [options.uppercase = false] - 如果true，WMS请求参数名称将是大写。
  * @param [options.version = '1.1.1'] - 使用WMS服务版本
  * @param [options.crs] - 坐标参考系统用于WMS请求，默认为映射CRS。如果您不确定这是什么意思，请不要更改。
+ * @param [options.cql_filter] - 筛选服务数据的SQL语句
  * @param [options.interactive = true] - 是否触发鼠标事件，如果false，图层不会发出鼠标click事件和popup。
  * @param [options.opacity = 1] - 瓦片的不透明度。
  * @param [options.minZoom = 0] - 最小的缩放级别
@@ -8738,6 +8741,7 @@ declare class WmsLayer extends L.TileLayer.WMS {
         uppercase?: boolean;
         version?: string;
         crs?: L.CRS;
+        cql_filter?: string;
         interactive?: boolean;
         opacity?: number;
         minZoom?: number;

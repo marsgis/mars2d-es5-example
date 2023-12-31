@@ -1,108 +1,113 @@
 <!DOCTYPE html>
 <html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars2d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <!-- 标题及搜索关键字 -->
+    <meta name="keywords" content="火星科技,cesium,3D,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 cesium cesium开发 cesium框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS"
+    />
 
-<head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
-  <meta name="author" content="火星科技 http://mars2d.cn " />
-  <meta name="apple-touch-fullscreen" content="yes" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <meta name="format-detection" content="telephone=no" />
-  <meta name="x5-fullscreen" content="true" />
-  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
-  <!-- 标题及搜索关键字 -->
-  <meta name="keywords" content="火星科技,cesium,3D,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
-  <meta name="description"
-        content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 cesium cesium开发 cesium框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS" />
+    <link rel="shortcut icon" type="image/x-icon" href="//mars2d.cn/favicon.ico" />
+    <title>统计柱状图 | Mars2D | 地理信息平台 | 火星科技 | 合肥火星科技有限公司</title>
 
-  <link rel="shortcut icon" type="image/x-icon" href="//mars2d.cn/favicon.ico" />
-  <title>统计柱状图 | Mars2D | 地理信息平台 | 火星科技 | 合肥火星科技有限公司</title>
+    <!--第三方lib-->
+    <script
+      type="text/javascript"
+      src="/lib/include-lib.js"
+      libpath="/lib/"
+      include="jquery,font-awesome,bootstrap,layer,haoutil,echarts-gl,turf,mars2d"
+    ></script>
 
-  <!--第三方lib-->
-  <script type="text/javascript" src="/lib/include-lib.js" libpath="/lib/" include="jquery,font-awesome,bootstrap,layer,haoutil,echarts-gl,turf,mars2d"></script>
+    <link href="/css/style.css" rel="stylesheet" />
+    <style>
+      .gdpViewPopup .leaflet-popup-content-wrapper,
+      .gdpViewPopup .leaflet-popup-tip {
+        background: none;
+        box-shadow: none;
+      }
+      .gdpViewPopup a.leaflet-popup-close-button {
+        position: absolute;
+        right: -395px;
+        top: -291px;
+        width: 30px;
+        height: 40px;
+        font-size: 25px;
+        color: white;
+        border: none;
+        background-color: transparent !important;
+      }
 
-  <link href="/css/style.css" rel="stylesheet" />
-  <style>
-    .gdpViewPopup .leaflet-popup-content-wrapper,
-    .gdpViewPopup .leaflet-popup-tip {
-      background: none;
-      box-shadow: none;
-    }
-    .gdpViewPopup a.leaflet-popup-close-button{
-      position: absolute;
-      right: -395px;
-      top: -291px;
-      width: 30px;
-      height: 40px;
-      font-size: 25px;
-      color: white;
-      border: none;
-      background-color: #1f3f8e !important;
-    }
+      .gdpView {
+        min-width: 90px;
+        min-height: 35px;
+        position: absolute;
+        left: 16px;
+        bottom: 31px;
+        cursor: default;
+        border-radius: 4px;
+        opacity: 0.96;
+        border: 1px solid rgba(35, 40, 44, 0.226);
+        box-shadow: 0px 2px 21px 0px rgba(35, 40, 44, 0.226);
+        border-radius: 4px;
+        box-sizing: border-box;
+        background: rgba(2, 79, 128, 1);
+      }
 
-    .gdpView {
-      min-width: 90px;
-      min-height: 35px;
-      position: absolute;
-      left: 16px;
-      bottom: 31px;
-      cursor: default;
-      border-radius: 4px;
-      opacity: 0.96;
-      border: 1px solid rgba(35, 40, 44, 0.226);
-      box-shadow: 0px 2px 21px 0px rgba(35, 40, 44, 0.226);
-      border-radius: 4px;
-      box-sizing: border-box;
-      background: rgba(2, 79, 128, 0.425);
-    }
+      .gdpView::before {
+        content: "";
+        width: calc(100% + 22px);
+        height: 39px;
+        position: absolute;
+        bottom: -39px;
+        left: -22px;
+        background: url(./img/marker/popupLbl.png) 0px 0px no-repeat;
+        background-position: 0px 0px;
+      }
 
-    .gdpView::before {
-      content: "";
-      width: calc(100% + 22px);
-      height: 39px;
-      position: absolute;
-      bottom: -39px;
-      left: -22px;
-      background: url(./img/marker/popupLbl.png) 0px 0px no-repeat;
-      background-position: 0px 0px;
-    }
+      .gdpCharts {
+        width: 470px;
+        height: 275px;
+        text-align: center;
+        padding: 1px;
+        font-size: 14px;
+        font-family: "MicrosoftYaHei";
+        font-weight: 400;
+        color: #ffffff;
+        line-height: 33px;
+        /* border: 1px solid #ffffff4f; */
+        -webkit-box-sizing: border-box;
+        box-sizing: border-box;
+        white-space: nowrap;
+      }
 
-    .gdpCharts {
-      width: 470px;
-      height: 275px;
-      text-align: center;
-      padding: 1px;
-      font-size: 14px;
-      font-family: "MicrosoftYaHei";
-      font-weight: 400;
-      color: #ffffff;
-      line-height: 33px;
-      /* border: 1px solid #ffffff4f; */
-      -webkit-box-sizing: border-box;
-      box-sizing: border-box;
-      white-space: nowrap;
-    }
+      .gdpCharts::before {
+        content: "";
+        width: 100%;
+        height: 40px;
+        position: absolute;
+        left: 0;
+        background-color: #1f3f8e;
+      }
+    </style>
+  </head>
 
-    .gdpCharts::before {
-      content: "";
-      width: 100%;
-      height: 40px;
-      position: absolute;
-      left: 0;
-      background-color: #1f3f8e;
-    }
-  </style>
-</head>
+  <body class="dark">
+    <!--加载前进行操作提示，优化用户体验-->
+    <div id="mask" class="signmask" onclick="removeMask()"></div>
 
-<body class="dark">
-  <!--加载前进行操作提示，优化用户体验-->
-  <div id="mask" class="signmask" onclick="removeMask()"></div>
+    <div id="mars2dContainer" class="mars2d-container"></div>
 
-  <div id="mars2dContainer" class="mars2d-container"></div>
-
-  <script src="/js/common.js"></script>
-  <script src="./map.js"></script>
-</body>
-
+    <script src="/js/common.js"></script>
+    <script src="./map.js"></script>
+  </body>
 </html>

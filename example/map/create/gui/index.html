@@ -38,14 +38,20 @@
       }
       .infoview div {
         margin-top: 0;
-        max-height: 25px;
+        /* 这行代码会导致颜色拾取框变小，现注释 */
+        /* max-height: 25px; */
+      }
+      .infoview .property-name {
+        color: #fff;
+      }
+
+      .dg .cr.color {
+        height: 40px;
       }
     </style>
   </head>
 
   <body>
-
-
     <div id="mars2dContainer" class="mars2d-container"></div>
 
     <script src="/js/common.js"></script>
