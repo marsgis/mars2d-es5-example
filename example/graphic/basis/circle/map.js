@@ -67,7 +67,7 @@ function bindLayerPopup() {
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr })
   })
 }
 
@@ -221,7 +221,8 @@ function startDrawGraphic() {
       outline: true,
       outlineWidth: 2,
       outlineColor: "#254dc4",
-      outlineOpacity: 1
+      outlineOpacity: 1,
+      dashArray: "实线"
     },
     success: function (graphic) {
       console.log("标绘完成", graphic)
@@ -242,7 +243,7 @@ function addRandomGraphicByCount(count) {
     const index = j + 1
 
     const graphic = new mars2d.graphic.Circle({
-      latlng: latlng,
+      latlng,
       style: {
         radius: 1500, // 单位：米
         fill: true,
@@ -253,7 +254,7 @@ function addRandomGraphicByCount(count) {
         outlineColor: "#00ff00",
         outlineOpacity: 0.5
       },
-      attr: { index: index }
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }

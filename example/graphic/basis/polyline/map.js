@@ -16,7 +16,7 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
-  graphicLayer = new mars2d.layer.GraphicLayer()
+  graphicLayer = new mars2d.layer.GraphicLayer({})
   map.addLayer(graphicLayer)
 
   // 图层管理的相关处理，
@@ -66,14 +66,14 @@ function bindLayerPopup() {
     attr["来源"] = "我是layer上绑定的Popup"
     attr["备注"] = "我支持鼠标交互"
 
-    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr: attr })
+    return mars2d.Util.getTemplateHtml({ title: "layer上绑定的Popup", template: "all", attr })
   })
 }
 
 // 绑定右键菜单
 function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-        {
+    {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
       show: function (e) {
@@ -215,7 +215,8 @@ function startDrawGraphic() {
     type: "polyline",
     style: {
       width: 3,
-      color: "#0000ff"
+      color: "#0000ff",
+      dashArray: "实线"
     },
     success: function (graphic) {
       console.log("标绘完成", graphic)
@@ -240,8 +241,8 @@ function addRandomGraphicByCount(count) {
 
     const graphic = new mars2d.graphic.Polyline({
       latlngs: [pt1, latlng, pt2],
-      style: { width: 3, color: "#0000ff" },
-      attr: { index: index }
+      style: { width: 3, color: "#0000ff", dashArray: "实线" },
+      attr: { index }
     })
     graphicLayer.addGraphic(graphic)
   }
@@ -266,7 +267,7 @@ function addDemoGraphic1() {
   ])
   console.log(latlngs)
   const graphic = new mars2d.graphic.Polyline({
-    latlngs: latlngs,
+    latlngs,
     style: {
       color: "#ff0000",
       width: 3
@@ -286,7 +287,7 @@ function addDemoGraphic2() {
     [117.251461, 31.856011, 26.44]
   ])
   const graphic = new mars2d.graphic.Polyline({
-    latlngs: latlngs,
+    latlngs,
     style: {
       width: 3,
       color: "#ff0000",
@@ -305,7 +306,7 @@ function addDemoGraphic3() {
     [117.305473, 31.800304, 23.86]
   ])
   const graphic = new mars2d.graphic.Polyline({
-    latlngs: latlngs,
+    latlngs,
     style: {
       width: 3,
       color: "#0000ff"

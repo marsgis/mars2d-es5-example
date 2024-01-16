@@ -174,7 +174,7 @@ function addCustomPhotoLayer() {
         className: "mars2d-marker-photo",
         iconSize: [40, 40]
       },
-      attr: { image: image, id: i }
+      attr: { image, id: i }
     })
     clusterLayer.addGraphic(graphic)
 
