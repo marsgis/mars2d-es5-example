@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars2d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
+
+    <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS"
+    />
+
+  <script type="text/javascript" src="/lib/include-lib.js" libpath="/lib/"
+    include="jquery,layer,toastr,font-awesome,bootstrap,bootstrap-table,bootstrap-checkbox,bootstrap-slider,layer,haoutil,mars2d,shpGeojson,es5-widget"></script>
+
+  <link href="/css/style.css" rel="stylesheet" />
+
+  <script src="./Shp2JsonLayer.js" type="text/javascript"></script>
+</head>
+
+  <body>
+    <div id="mars2dContainer" class="mars2d-container"></div>
+  <div class="infoview">
+    <div>
+      <input id="shoXZM" type="button" class="btn btn-primary" value="乡镇面" />
+      <input id="shoGCD" type="button" class="btn btn-primary" value="高程点" />
+    </div>
+
+    <div>
+      图层状态：
+      <div class="checkbox checkbox-primary checkbox-inline">
+        <input id="enabledShowHide" class="styled" type="checkbox" checked />
+        <label for="enabledShowHide"> 显示 </label>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="enabledPopup" class="styled" type="checkbox" checked />
+          <label for="enabledPopup"> Popup </label>
+        </div>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="enabledTooltip" class="styled" type="checkbox" />
+          <label for="enabledTooltip"> Tooltip </label>
+        </div>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="enabledRightMenu" class="styled" type="checkbox" />
+          <label for="enabledRightMenu"> 右键菜单 </label>
+        </div>
+      </div>
+
+    </div>
+
+
+    <script src="/js/common.js"></script>
+    <script src="./map.js"></script>
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+
+      function initUI(options) {
+        setTimeout(() => {
+          if (graphicLayer) {
+            $("#enabledShowHide").attr("checked", graphicLayer.show)
+            $("#enabledPopup").attr("checked", graphicLayer.hasPopup())
+            $("#enabledTooltip").attr("checked", graphicLayer.hasTooltip())
+            $("#enabledRightMenu").attr("checked", graphicLayer.hasContextMenu())
+
+            const graphics = graphicLayer.getGraphics()
+            if (graphics.length > 0) {
+              if (!graphics[0].hasOpacity) {
+                $("#enabledOpacity").hide()
+              }
+              if (!graphics[0].hasEdit) {
+                $("#enabledEdit").hide()
+              }
+            }
+          }
+        }, 500)
+
+        // // 图层状态
+        $("#enabledShowHide").change(function () {
+          let val = $(this).is(":checked")
+          graphicLayer.show = val
+        })
+
+        // // 图层交互
+        $("#enabledPopup").change(function () {
+          let val = $(this).is(":checked")
+
+          if (val) {
+            bindLayerPopup2() //map.js中不绑定Popup,可以使用graphic_layer_state.js中的bindLayerPopup2
+          } else {
+            graphicLayer.unbindPopup()
+          }
+        })
+        $("#enabledTooltip").change(function () {
+          let val = $(this).is(":checked")
+
+          if (val) {
+            graphicLayer.bindTooltip(
+              function (event) {
+                const attr = getAttrForEvent(event)
+                attr["类型"] = event.graphic?.type
+                attr["来源"] = "我是layer上绑定的Toolip"
+                attr["备注"] = "我支持鼠标移入交互"
+
+                return mars2d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr: attr })
+              },
+              { pointerEvents: true }
+            )
+          } else {
+            graphicLayer.unbindTooltip()
+          }
+        })
+        $("#enabledRightMenu").change(function () {
+          let val = $(this).is(":checked")
+
+          if (val) {
+            bindLayerContextMenu2() //map.js中不绑定ContextMenu,可以使用graphic_layer_state.js中的bindLayerContextMenu2
+          } else {
+            graphicLayer.unbindContextMenu(true)
+          }
+        })
+
+        // // 数据维护
+        $("#hasEdit").change(function () {
+          let val = $(this).is(":checked")
+          graphicLayer.hasEdit = val
+
+          // 编辑时，为了方便操作自动关闭Popup，真实项目中请按需修改
+          $("#enabledPopup").attr("checked", !val)
+          $("#enabledPopup").change()
+        })
+
+        $("#shoXZM").click(function () {
+          shoXZM()
+        })
+
+        $("#shoGCD").click(function () {
+          shoGCD()
+        })
+      }
+    </script>
+</body>
+
+</html>

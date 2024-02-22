@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars2d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
+
+    <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS"
+    />
+
+    <title>Mars2D地图 |二维地图| 火星科技|合肥火星科技|合肥火星科技有限公</title>
+
+    <script
+      type="text/javascript"
+      src="/lib/include-lib.js"
+      libpath="/lib/"
+      include="jquery,layer,toastr,font-awesome,bootstrap,layer,haoutil,ztree,mars2d,kmlGeojson"
+    ></script>
+    <link href="/css/style.css" rel="stylesheet" />
+
+    <!-- Kml2JsonLayer图层封装 -->
+    <script src="./Kml2JsonLayer.js" type="text/javascript" ></script>
+  </head>
+
+  <body>
+    <div id="mars2dContainer" class="mars2d-container"></div>
+
+    <div id="viewSL" class="infoview">
+      示例：
+      <input type="button" class="btn btn-primary" value="铁路" onclick="shoRailway()" />
+      <input type="button" class="btn btn-primary" value="高速公路线" onclick="showExpressway()" />
+      <input type="button" class="btn btn-primary" value="气象等值面" onclick="showMeteorological()" />
+
+      <input type="button" class="btn btn-primary" value="国家GDP数据" onclick="showGDP()" />
+      <input type="button" class="btn btn-primary" value="海上安全通告" onclick="showSafetyNotice()" />
+    </div>
+
+    <div class="infoview" style="overflow: auto; right: 5px; left: auto; top: 80px; max-height: 88%">
+      <ul id="treeOverlays" class="ztree"></ul>
+    </div>
+
+    <script src="/js/common.js"></script>
+    <script src="./map.js"></script>
+
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+
+      //===========================树控件处理============================
+
+      treeEvent.on("tree", (e) => {
+        initTree(e.treeData)
+      })
+
+      let layersObj = {}
+
+      function initTree(arr, nameColum = "name") {
+        //初始化树
+        let setting = {
+          check: {
+            enable: true
+          },
+          data: {
+            simpleData: {
+              enable: true
+            }
+          },
+          callback: {
+            onCheck: treeOverlays_onCheck,
+            onClick: treeOverlays_onClick
+          }
+        }
+
+        let zNodes = []
+        let pnode = {
+          id: -1,
+          name: "全部",
+          type: "group",
+          open: false,
+          checked: true,
+          icon: "/lib/jquery/ztree/css/mars/images/folder.png"
+        }
+        zNodes.push(pnode)
+
+        for (let i = 0, len = arr.length; i < len; i++) {
+          let item = arr[i]
+          let name = item[nameColum] || "未命名"
+
+          let node = {
+            id: i,
+            pId: pnode.id,
+            name: name,
+            checked: true,
+            icon: "/lib/jquery/ztree/css/mars/images/layer.png"
+          }
+          zNodes.push(node)
+
+          layersObj[i] = item.graphic
+        }
+
+        $.fn.zTree.destroy()
+        $.fn.zTree.init($("#treeOverlays"), setting, zNodes)
+      }
+
+      function treeOverlays_onCheck(e, treeId) {
+        let zTree = $.fn.zTree.getZTreeObj(treeId)
+
+        //获得所有改变check状态的节点
+        let changedNodes = zTree.getChangeCheckedNodes()
+        if (changedNodes) {
+          for (let i = 0; i < changedNodes.length; i++) {
+            let treeNode = changedNodes[i]
+            treeNode.checkedOld = treeNode.checked
+            let graphic = layersObj[treeNode.id]
+            if (graphic == null) {
+              continue
+            }
+            let show = treeNode.checked
+            //处理图层显示隐藏
+            graphic.show = show
+          }
+        }
+      }
+
+      function treeOverlays_onClick(event, treeId, treeNode) {
+        let graphic = layersObj[treeNode.id]
+        if (graphic == null) {
+          return
+        }
+        flyToEntity(graphic)
+      }
+    </script>
+  </body>
+</html>
