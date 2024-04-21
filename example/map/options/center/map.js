@@ -1,9 +1,9 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   center: { lng: 117.240601, lat: 31.827107 }
 }
 
@@ -13,7 +13,7 @@ var mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   // 1可以通过右键菜单"查看当前范围"来获取center参数后，拷贝到配置中
 
@@ -30,22 +30,22 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function changeView1() {
+export function changeView1() {
   map.setView({ lng: 116.391747, lat: 39.914152 }, 15)
 }
 
-function changeView2() {
+export function changeView2() {
   map.setView({ lng: 86.851252, lat: 28.140562 }, 15)
 }
 
-function changeView3() {
+export function changeView3() {
   map.setView({ lng: 110.091603, lat: 34.506415 }, 14)
 }
 
-function changeView4() {
+export function changeView4() {
   map.setView({ lng: 115.876343, lat: 30.835904 }, 16)
 }

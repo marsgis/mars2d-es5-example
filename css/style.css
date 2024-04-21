@@ -152,7 +152,7 @@ img {
 .jedate .jedate-time .hmslist ul li:hover{background-color: #F2F2F2;}
 
 /*解决问题：https://github.com/Leaflet/Leaflet/issues/3575**/
-/* .leaflet-tile-container img {
-  width: 257px !important;
-  height: 257px !important;
-} */
+.leaflet-container img.leaflet-tile {
+	/* See: https://bugs.chromium.org/p/chromium/issues/detail?id=600120 */
+	mix-blend-mode: plus-lighter;
+}

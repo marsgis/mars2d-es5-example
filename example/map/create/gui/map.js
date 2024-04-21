@@ -1,10 +1,10 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
-var map // mars3d.Map三维地图对象
+export let map // mars3d.Map三维地图对象
 
 
 
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
 }
@@ -13,17 +13,17 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 调整亮度 （演示滑动条）
-function updateBrightness(val) {
+export function updateBrightness(val) {
   // bloomEffect.brightness = val
 }
 
 // 是否运行地图鼠标交互
-function enableMapMouseController(value) {
+export function enableMapMouseController(value) {
   // map.setSceneOptions({
   //   cameraController: {
   //     enableZoom: value,

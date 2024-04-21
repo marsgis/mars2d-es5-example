@@ -1,11 +1,11 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map
 let graphicLayer
 let index = 0
 const colors = ["#99CCCC", "#66FF66", "#FF6666", "#00CCFF", "#00FF33", "#CC0000", "#CC00CC", "#CCFF00", "#0000FF"]
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 11,
   center: { lat: 31.868811, lng: 117.234421 }
 }
@@ -16,7 +16,7 @@ var mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -31,7 +31,7 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -43,7 +43,7 @@ function getColor() {
 
 const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 
-function randomPoints() {
+export function randomPoints() {
   graphicLayer.clear()
   const points = turf.randomPoint(100, { bbox })
 
@@ -65,7 +65,7 @@ function randomPoints() {
   })
 }
 
-function randomPolylines() {
+export function randomPolylines() {
   graphicLayer.clear()
 
   let num_vertices = parseInt(Math.random() * 10)
@@ -96,7 +96,7 @@ function randomPolylines() {
   })
 }
 
-function randomPolygons() {
+export function randomPolygons() {
   graphicLayer.clear()
 
   let num_vertices = parseInt(Math.random() * 10)
@@ -125,6 +125,6 @@ function randomPolygons() {
   })
 }
 
-function clearAll() {
+export function clearAll() {
   graphicLayer.clear()
 }

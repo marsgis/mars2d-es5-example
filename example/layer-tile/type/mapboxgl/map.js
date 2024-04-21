@@ -1,4 +1,4 @@
-// // import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 let mapboxMap

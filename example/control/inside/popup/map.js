@@ -1,16 +1,16 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map
 let graphicLayer
 let geoJsonLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 12,
   center: { lng: 117.309471, lat: 31.797018 }
 }
 
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -18,7 +18,7 @@ var eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance
 
   // 创建矢量数据图层
@@ -27,6 +27,9 @@ function onMounted(mapInstance) {
 
   map.on(mars2d.EventType.popupopen, function (event) {
     const container = event.popup._container // popup对应的DOM
+    if (container.querySelector(".leaflet-popup-content").childElementCount) {
+      container.querySelector(".leaflet-popup-close-button").style.color = "#fff" // 关闭按钮颜色
+    }
     console.log("打开了popup(全局监听)", event)
   })
   map.on(mars2d.EventType.popupclose, function (event) {
@@ -41,12 +44,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
   removeDemoLayer()
 }
 
-function removeDemoLayer() {
+export function removeDemoLayer() {
   graphicLayer.clear()
 
   if (geoJsonLayer) {
@@ -56,7 +59,7 @@ function removeDemoLayer() {
 }
 
 // 1.在map地图上绑定Popup单击弹窗
-function bindMapDemo() {
+export function bindMapDemo() {
   removeDemoLayer()
 
   // 关闭弹窗
@@ -68,7 +71,7 @@ function bindMapDemo() {
 }
 
 // 2.在layer图层上绑定Popup单击弹窗
-function bindLayerDemo() {
+export function bindLayerDemo() {
   console.log("调用了该方法")
   removeDemoLayer()
 
@@ -95,7 +98,7 @@ function bindLayerDemo() {
 }
 
 // 2.在layer图层上预定义Popup单击弹窗
-function bindLayerDemo2() {
+export function bindLayerDemo2() {
   removeDemoLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -107,10 +110,10 @@ function bindLayerDemo2() {
     popup: [
       { field: "id", name: "编码" },
       { field: "name", name: "名称" },
-      { field: "type", name: "类型" },
+      { field: "type", name: "类型:" },
       {
         type: "html",
-        html: `<label>视频</label><video src='//data.mars2d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`
+        html: `<label>视频:</label><video src='//data.mars2d.cn/file/video/lukou.mp4' controls autoplay style="width: 300px;" ></video>`
       }
     ],
     popupOptions: {
@@ -121,7 +124,7 @@ function bindLayerDemo2() {
 }
 
 // 3.在graphic数据上绑定Popup单击弹窗
-function bindGraphicDemo1() {
+export function bindGraphicDemo1() {
   removeDemoLayer()
 
   const graphic = new mars2d.graphic.Marker({
@@ -137,14 +140,26 @@ function bindGraphicDemo1() {
   graphicLayer.addGraphic(graphic)
 
   function getInnerHtml(event) {
-    // let attr = event.attr
-    const inthtml = `<table style="width:280px;">
-            <tr><th scope="col" colspan="4"  style="text-align:center;font-size:15px;">graphic.bindPopup</th></tr>
-            <tr><td >说明：</td><td >Popup鼠标单击信息弹窗 </td></tr>
-            <tr><td >方式：</td><td >可以绑定任意html </td></tr>
-            <tr><td >备注：</td><td >我是graphic上绑定的Popup</td></tr>
-            <tr><td colspan="4" style="text-align:right;cursor: pointer;"><a href="javascript:showXQ()">更多</a></td></tr>
-          </table>`
+    const inthtml = `
+    <div class="newPopup">
+    <div class="popup_header">graphic.bindPopup</div>
+    <div class="popup_body">
+      <div class="info">
+        <div>说明：</div>
+        <div>Popup鼠标单击信息弹窗</div>
+      </div>
+      <div class="info">
+        <div>方式：</div>
+        <div>可以绑定任意html</div>
+      </div>
+      <div class="info">
+        <div>备注：</div>
+        <div>我是graphic上绑定的Popup</div>
+      </div>
+    </div>
+    <div class="btn"><a href="javascript:showXQ()">更多</a></div>
+  </div>
+    `
     return inthtml
   }
 
@@ -162,7 +177,7 @@ function bindGraphicDemo1() {
 }
 
 // 3.在graphic数据上绑定Popup单击弹窗
-function bindGraphicDemo2() {
+export function bindGraphicDemo2() {
   removeDemoLayer()
 
   const graphic = new mars2d.graphic.Marker({

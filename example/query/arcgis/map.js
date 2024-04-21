@@ -1,4 +1,4 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
 
@@ -7,11 +7,11 @@ let geoJsonLayer
 let drawGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   center: { lat: 31.79536, lng: 117.255222, alt: 16294, heading: 358, pitch: -76 }
 }
 
-var eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -19,7 +19,7 @@ var eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
   showGeoJsonLayer()
 }
@@ -28,11 +28,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function query(text) {
+export function query(text) {
   if (!drawGraphic) {
     globalMsg("请绘制区域")
     return
@@ -41,6 +41,7 @@ function query(text) {
   queryMapserver.query({
     where: `项目名称 like '%${text}%'`, // 类sql语句
     graphic: drawGraphic,
+    page: false,
     success: (result) => {
       console.log(result)
       if (result.count === 0) {
@@ -61,8 +62,7 @@ function query(text) {
 function showGeoJsonLayer() {
   queryMapserver = new mars2d.query.QueryArcServer({
     url: "http://server.mars3d.cn/arcgis/rest/services/mars/hfghss/MapServer/1",
-    popup: "all",
-    pageSize: 6
+    popup: "all"
   })
 
   // 用于显示查询结果（geojson）的图层
@@ -81,10 +81,11 @@ function showGeoJsonLayer() {
         highlight: { type: "click", image: "img/marker/mark1.png" },
         label: {
           text: "{项目名称}",
-          font_size: 25,
+          font_size: 16,
           color: "#ffffff",
           outline: true,
           outlineColor: "#000000",
+          offsetY: 30,
           pixelOffsetY: -25,
           scaleByDistance: true,
           scaleByDistance_far: 80000,
@@ -108,7 +109,7 @@ function showGeoJsonLayer() {
 }
 
 // 框选查询 矩形
-function drawRectangle() {
+export function drawRectangle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -126,7 +127,7 @@ function drawRectangle() {
 }
 
 // 框选查询   圆
-function drawCircle() {
+export function drawCircle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "circle",
@@ -144,7 +145,7 @@ function drawCircle() {
 }
 
 // 框选查询   多边行
-function drawPolygon() {
+export function drawPolygon() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -161,14 +162,14 @@ function drawPolygon() {
   })
 }
 
-function flyToGraphic(id) {
+export function flyToGraphic(id) {
   // 预留功能，后续支持高亮操作
   /* graphic.openHighlight() */
   map.flyToGraphic(geoJsonLayer.getGraphicById(id))
 }
 
 // 清除按钮
-function removeAll() {
+export function removeAll() {
   clearAll()
 }
 
@@ -179,14 +180,14 @@ function clearAll() {
 }
 
 // 首页
-function showFirstPage() {
+export function showFirstPage() {
   queryMapserver.showFirstPage()
 }
 // 上一页
-function showPretPage() {
+export function showPretPage() {
   queryMapserver.showPretPage()
 }
 // 下一页
-function showNextPage() {
+export function showNextPage() {
   queryMapserver.showNextPage()
 }
