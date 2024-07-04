@@ -1,4 +1,4 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map
 
@@ -8,7 +8,7 @@ let map
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.container.style.backgroundImage = "url(./img/photo/logo.png)"
 }
@@ -18,10 +18,10 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function opacityChange(opacity) {
+function opacityChange(opacity) {
   map.basemap.opacity = opacity / 100
 }

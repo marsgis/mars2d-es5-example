@@ -1,9 +1,9 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   chinaCRS: mars2d.ChinaCRS.WGS84,
   basemaps: [
     {
@@ -30,13 +30,6 @@ export const mapOptions = {
       ],
       show: true
     },
-    // {
-    //   pid: 10,
-    //   name: "OSM地图",
-    //   type: "xyz",
-    //   url: "http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-    //   subdomains: "abc"
-    // },
     {
       pid: 10,
       name: "高德地图",
@@ -47,15 +40,16 @@ export const mapOptions = {
       id: 2017,
       pid: 10,
       name: "蓝色地图",
-      type: "arcgis",
-      url: "http://map.geoq.cn/ArcGIS/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
+      type: "gaode",
+      layer: "vec",
+      customColor: "#11243C",
       chinaCRS: "GCJ02"
     }
   ]
 }
 
 // 事件对象，用于抛出事件给vue
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -63,7 +57,7 @@ export const eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 }
 
@@ -71,6 +65,6 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }

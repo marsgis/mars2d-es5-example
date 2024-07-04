@@ -1,9 +1,9 @@
-import * as mars2d from "mars2d"
-import { kriging, kriging_bounds, kriging_colors } from "./krigingConfig"
+// import * as mars2d from "mars2d"
+// import { kriging, kriging_bounds, kriging_colors } from "./krigingConfig"
 let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {}
+var mapOptions = {}
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -11,7 +11,7 @@ export const mapOptions = {}
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   map.setView([38.028658, 105.403119], 5)
@@ -24,7 +24,7 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 

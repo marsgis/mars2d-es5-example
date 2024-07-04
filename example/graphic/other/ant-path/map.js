@@ -1,7 +1,7 @@
-import * as mars2d from "mars2d"
-const L = mars2d.L
+// import * as mars2d from "mars2d"
 
-// import { antPath } from "leaflet-ant-path" //vue项目中可以这样install后使用
+
+// // import { antPath } from "leaflet-ant-path" //vue项目中可以这样install后使用
 // const antPolyline = antPath(latlngs, { delay: 1500 })
 
 let map // mars2d.Map三维地图对象
@@ -12,7 +12,7 @@ let map // mars2d.Map三维地图对象
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   const latlngs = [
@@ -37,6 +37,6 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }

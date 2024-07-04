@@ -1,9 +1,9 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 11,
   center: [31.847574, 117.281904],
   basemaps: [
@@ -30,21 +30,23 @@ export const mapOptions = {
       name: "蓝色底图",
       icon: "img/basemaps/bd-c-midnight.png",
       type: "arcgis",
-      url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetPurplishBlue/MapServer",
-      chinaCRS: mars2d.ChinaCRS.GCJ02
+      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+      chinaCRS: mars2d.ChinaCRS.GCJ02,
+      customColor: "#11243C"
     },
     {
       name: "灰色底图",
       icon: "img/basemaps/bd-c-grayscale.png",
       type: "arcgis",
-      url: "http://map.geoq.cn/arcgis/rest/services/ChinaOnlineStreetGray/MapServer",
-      chinaCRS: mars2d.ChinaCRS.GCJ02
+      url: "https://services.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer",
+      chinaCRS: mars2d.ChinaCRS.GCJ02,
+      customColor: "#575757"
     }
   ]
 }
 
 // 事件对象，用于抛出事件给vue
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -52,7 +54,7 @@ export const eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加底图 [需要引用esri-leaflet插件]
@@ -83,6 +85,6 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }

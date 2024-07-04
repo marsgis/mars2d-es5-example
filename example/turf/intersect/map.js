@@ -1,4 +1,4 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map
 let graphicLayer
@@ -7,7 +7,7 @@ let graphic2
 let intersectGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 13,
   center: { lng: 117.216396, lat: 31.839795 }
 }
@@ -18,7 +18,7 @@ export const mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   addPolygon()
@@ -29,7 +29,7 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -70,7 +70,7 @@ function addPolygon() {
   })
   graphicLayer.addGraphic(graphic2)
 }
-export function intersect() {
+function intersect() {
   if (intersectGraphic) {
     graphicLayer.removeGraphic(intersectGraphic, true)
     intersectGraphic = null
@@ -95,7 +95,7 @@ export function intersect() {
   intersectGraphic = graphicLayer.addGraphic(intersectGraphic)
 }
 
-export function clear() {
+function clear() {
   if (intersectGraphic) {
     graphicLayer.removeGraphic(intersectGraphic, true)
     intersectGraphic = null

@@ -1,5 +1,5 @@
-import * as mars2d from "mars2d"
-const L = mars2d.L
+// import * as mars2d from "mars2d"
+
 
 let map
 
@@ -9,7 +9,7 @@ let map
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance
 
   const timeDimension = new L.TimeDimension({
@@ -88,6 +88,6 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
