@@ -22,7 +22,7 @@ var eventTarget = new mars2d.BaseClass()
 function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
-  const customColor = "#11243C" // 颜色
+  const customColor = "#150D6A" // 颜色
   map.container.style.background = customColor //  DIV背景
 
   // 添加底图

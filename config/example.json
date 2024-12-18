@@ -667,11 +667,6 @@
             "es5_thumbnail": "graphic-basis-marker-pulse.gif"
           },
           {
-            "name": "图标点+文字(含聚合)",
-            "thumbnail": "graphic-basis-marker-labe.jpg",
-            "main": "graphic/basis/marker-labe"
-          },
-          {
             "name": "MovingMarker 运动点",
             "thumbnail": "graphic-basis-movingMarker.gif",
             "main": "graphic/basis/movingMarker",
@@ -754,6 +749,11 @@
             "resources": [
               "custom-photo.css"
             ]
+          },
+          {
+            "name": "图标点+文字(含聚合)",
+            "thumbnail": "graphic-basis-marker-labe.jpg",
+            "main": "graphic/basis/marker-labe"
           }
         ]
       },
