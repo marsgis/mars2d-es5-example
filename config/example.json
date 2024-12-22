@@ -138,7 +138,7 @@
             "hasPannel": true
           },
           {
-            "name": "百度(百度偏移坐标系)",
+            "name": "百度",
             "thumbnail": "layer-tile-online-baidu.jpg",
             "main": "layer-tile/online/baidu",
             "hasPannel": true
@@ -392,10 +392,7 @@
           {
             "name": "工具按钮栏",
             "thumbnail": "control-basis-toolBar.jpg",
-            "main": "control/basis/toolBar",
-            "resources": [
-              "http://api.map.baidu.com/getscript?v=2.0&ak=LvhIlDXT60I3NePicXWQT5K0eHFCR4hD&services="
-            ]
+            "main": "control/basis/toolBar"
           },
           {
             "name": "下侧状态栏",
@@ -667,6 +664,11 @@
             "es5_thumbnail": "graphic-basis-marker-pulse.gif"
           },
           {
+            "name": "图标点+文字(含聚合)",
+            "thumbnail": "graphic-basis-marker-labe.jpg",
+            "main": "graphic/basis/marker-labe"
+          },
+          {
             "name": "MovingMarker 运动点",
             "thumbnail": "graphic-basis-movingMarker.gif",
             "main": "graphic/basis/movingMarker",
@@ -749,11 +751,6 @@
             "resources": [
               "custom-photo.css"
             ]
-          },
-          {
-            "name": "图标点+文字(含聚合)",
-            "thumbnail": "graphic-basis-marker-labe.jpg",
-            "main": "graphic/basis/marker-labe"
           }
         ]
       },

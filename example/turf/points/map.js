@@ -81,7 +81,7 @@ function convexPolygon() {
   const polygonGraphic = new mars2d.graphic.Polygon({
     latlngs,
     style: {
-      fillColor: "#00ffff",
+      fillColor: "#0000ff",
       fillOpacity: 0.5
     }
   })

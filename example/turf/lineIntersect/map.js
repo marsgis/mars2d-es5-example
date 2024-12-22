@@ -86,7 +86,7 @@ function crossPoint() {
           style: {
             color: "#0000ff",
             pixelSize: 5,
-            outlineColor: "#ffffff",
+            outlineColor: "#0000ff",
             outlineWidth: 2,
             clampToGround: true
           }
