@@ -2,8 +2,8 @@
 /**
  * Mars2D地理信息平台  mars2d
  *
- * 版本信息：v3.2.10
- * 编译日期：2024-12-22 18:48
+ * 版本信息：v3.2.11
+ * 编译日期：2025-01-05 17:24
  * 版权所有：Copyright by 火星科技  http://mars2d.cn
  * 使用单位：免费公开版 ，2024-01-16
  */
@@ -1791,10 +1791,12 @@ declare class Circle extends L.Circle {
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
+     * @param [options.outline] - 是否导出为圆的边线坐标
      * @param [options.precision] - 保留经纬度的小数位数
      * @returns GeoJSON格式规范对象
      */
     toGeoJSON(options?: any | {
+        outline?: boolean;
         precision?: number;
     }): any | any;
     /**
@@ -5258,10 +5260,12 @@ declare class Rectangle extends L.Rectangle {
     /**
      * 将图层数据导出为GeoJSON格式规范对象。
      * @param [options] - 参数对象:
+     * @param [options.outline] - 是否导出为矩形的边线坐标
      * @param [options.precision] - 保留经纬度的小数位数
      * @returns GeoJSON格式规范对象
      */
     toGeoJSON(options?: any | {
+        outline?: boolean;
         precision?: number;
     }): any | any;
     /**
@@ -6317,7 +6321,7 @@ declare class GraphicLayer extends L.FeatureGroup {
      * @param [attrName = 'id'] - 属性键
      * @returns 矢量数据对象
      */
-    getGraphicByAttr(attrValue: string | number, attrName?: string): any | BaseGraphic | any;
+    getGraphicByAttr(attrValue: string | number, attrName?: string): any | any;
     /**
      * 清除图层内所有矢量数据
      * @returns 无
