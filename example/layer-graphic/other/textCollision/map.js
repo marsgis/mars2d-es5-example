@@ -1,11 +1,11 @@
-// import * as mars2d from "mars2d"
-
+import * as mars2d from "mars2d"
+const L = mars2d.L
 
 let map // mars2d.Map三维地图对象
 let labelTextCollision
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = function (option) {
+export const mapOptions = function (option) {
   labelTextCollision = new L.LabelTextCollision({
     showText: true,
     collisionFlg: true // 是否文本碰撞检测
@@ -21,7 +21,7 @@ var mapOptions = function (option) {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
@@ -78,11 +78,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function setCollisionDetection(flg) {
+export function setCollisionDetection(flg) {
   labelTextCollision.options.collisionFlg = flg
   map.fitBounds(map.getBounds())
 }

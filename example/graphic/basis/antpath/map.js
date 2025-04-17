@@ -1,11 +1,11 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
+const L = mars2d.L
 
-
-var map // mars2d.Map三维地图对象
-var graphicLayer
+export let map // mars2d.Map三维地图对象
+export let graphicLayer
 
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -13,7 +13,7 @@ var eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
@@ -34,7 +34,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -129,7 +129,7 @@ function addDemoGraphic4() {
   graphicLayer.addGraphic(graphic)
 }
 
-function startDrawGraphic() {
+export function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "antPath",
     style: {
@@ -148,7 +148,7 @@ function startDrawGraphic() {
 }
 
 // 生成演示数据(测试数据量)
-function addRandomGraphicByCount(count) {
+export function addRandomGraphicByCount(count) {
   graphicLayer.clear()
 
   const bbox = [116.984788, 31.625909, 117.484068, 32.021504]

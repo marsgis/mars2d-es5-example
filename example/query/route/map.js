@@ -1,18 +1,18 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
 let routeLayer
-let gaodeRoute
+let query
 
 // 当前页面业务相关
 let startGraphic, endGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
 }
 
-var eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -20,15 +20,15 @@ var eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
   routeLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(routeLayer)
 
-  gaodeRoute = new mars2d.query.GaodeRoute({
-    // key: ['ae29a37307840c7ae4a785ac905927e0'],
+  query = new mars2d.query.QueryRoute({
+    service: mars2d.QueryServiceType.GAODE
   })
 }
 
@@ -36,20 +36,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-// 开始分析按钮
-function btnAnalyse(type) {
-  if (!startGraphic || !endGraphic) {
-    return
-  }
-  queryRoute(type)
-}
-
 // 清除按钮
-function removeAll() {
+export function removeAll() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -62,14 +54,13 @@ function removeAll() {
   routeLayer.clear()
 }
 
-/**
- * 起点按钮
- *
- * @export
- * @param {string} type 不同方式路线查询
- * @returns {void}
- */
-function startPoint(type) {
+// 切换服务
+export function changeService(type) {
+  query.setOptions({ service: type })
+}
+
+// 起点按钮
+export function startPoint() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -79,32 +70,20 @@ function startPoint(type) {
     type: "marker",
     style: {
       image: "img/marker/start.png"
-      // horizontalOrigin: Cesium.HorizontalOrigin.CENTER,
-      // verticalOrigin: Cesium.VerticalOrigin.BOTTOM
     },
     success: function (graphic) {
       startGraphic = graphic
 
       const point = graphic.latlng
-      // point.format()
 
       // 触发自定义事件，改变输入框的值
-      console.log(startGraphic)
       eventTarget.fire("start", { point })
-
-      queryRoute(type)
     }
   })
 }
 
-/**
- * 终点按钮
- *
- * @export
- * @param {string} type 不同方式路线查询
- * @returns {void}
- */
-function endPoint(type) {
+// 终点按钮
+export function endPoint() {
   if (endGraphic) {
     endGraphic.remove()
     endGraphic = null
@@ -125,13 +104,11 @@ function endPoint(type) {
 
       // 触发自定义事件，改变输入框的值
       eventTarget.fire("end", { point })
-
-      queryRoute(type)
     }
   })
 }
 
-function queryRoute(type) {
+export function queryRoute(type) {
   if (!startGraphic || !endGraphic) {
     return
   }
@@ -139,13 +116,14 @@ function queryRoute(type) {
   routeLayer.clear()
   showLoading()
 
-  gaodeRoute.query({
+  query.query({
     type: Number(type),
     points: [startGraphic.coordinates[0], endGraphic.coordinates[0]],
     success: function (data) {
       hideLoading()
       const firstItem = data.paths[0]
       const points = firstItem.points
+
       if (!points || points.length < 1) {
         return
       }
@@ -185,7 +163,7 @@ function queryRoute(type) {
 }
 
 // 点击保存GeoJSON
-function saveGeoJSON() {
+export function saveGeoJSON() {
   if (routeLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

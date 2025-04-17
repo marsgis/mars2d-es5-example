@@ -1,16 +1,16 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 let geoJsonLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 11,
   center: { lng: 117.287917, lat: 31.904563 }
 }
 
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -18,7 +18,7 @@ var eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   showPointDemo()
@@ -28,7 +28,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -47,7 +47,7 @@ function getArrayRandomOne(arr) {
 }
 
 // 示例：显示标绘数据
-function showDrawDemo() {
+export function showDrawDemo() {
   removeLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -66,7 +66,7 @@ function showDrawDemo() {
 }
 
 // 示例：显示体育设施点数据
-function showPointDemo() {
+export function showPointDemo() {
   removeLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -121,7 +121,7 @@ function showPointDemo() {
 }
 
 // 示例：显示省界线数据
-function showChinaLineDemo() {
+export function showChinaLineDemo() {
   removeLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -145,7 +145,7 @@ function showChinaLineDemo() {
 }
 
 // 示例：显示面数据（规划面）
-function showGuihuaDemo() {
+export function showGuihuaDemo() {
   removeLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -208,7 +208,7 @@ function showGuihuaDemo() {
 }
 
 // 示例：显示安徽各市数据
-function showAnhuiDemo() {
+export function showAnhuiDemo() {
   removeLayer()
 
   const colors = ["#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"]
@@ -270,7 +270,7 @@ function showAnhuiDemo() {
 }
 
 // 示例：显示世界各国数据
-function showWorldDemo() {
+export function showWorldDemo() {
   removeLayer()
 
   map.setMinZoom(1)

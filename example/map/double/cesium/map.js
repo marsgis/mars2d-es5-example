@@ -1,10 +1,10 @@
-// import * as mars2d from "mars2d"
-
+import * as mars2d from "mars2d"
+const L = mars2d.L
 let map2d
 let map3d
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   center: { lat: 30.754115, lng: 116.341283 },
   control: {
     geocoder: false
@@ -17,7 +17,7 @@ var mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map2d = mapInstance // 记录map
   creatMap3D()
 }
@@ -27,7 +27,7 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map2d = null
 }
 
@@ -61,7 +61,7 @@ function bind2dEvent() {
   map2d.on("zoomend", _map_extentChangeHandler, this)
 }
 
-function viewTo2d() {
+export function viewTo2d() {
   const to3dDom = document.getElementById("centerDiv3D")
   const to2dDom = document.getElementById("centerDiv2D")
   to3dDom.style.display = "none"
@@ -72,7 +72,7 @@ function viewTo2d() {
   }
 }
 
-function viewTo3d() {
+export function viewTo3d() {
   const to3dDom = document.getElementById("centerDiv3D")
   const to2dDom = document.getElementById("centerDiv2D")
   to2dDom.style.display = "none"
@@ -81,7 +81,7 @@ function viewTo3d() {
   to3dDom.style.width = "100%"
 }
 
-function viewTo23D() {
+export function viewTo23D() {
   const to3dDom = document.getElementById("centerDiv3D")
   const to2dDom = document.getElementById("centerDiv2D")
   to3dDom.style.width = "50%"

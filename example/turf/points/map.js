@@ -1,4 +1,4 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map
 let graphicLayer
@@ -6,7 +6,7 @@ let pointsLayer
 const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 11,
   center: { lat: 31.880473, lng: 117.200775 }
 }
@@ -17,7 +17,7 @@ var mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -34,12 +34,12 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 生成50个随机点
-function randomPoints() {
+export function randomPoints() {
   clearlayer()
 
   const points = turf.randomPoint(50, { bbox }) // 50个随机点
@@ -61,7 +61,7 @@ function randomPoints() {
   })
 }
 // 计算包围面
-function convexPolygon() {
+export function convexPolygon() {
   graphicLayer.clear()
 
   const points = pointsLayer.toGeoJSON()
@@ -89,7 +89,7 @@ function convexPolygon() {
 }
 
 // 泰森多边形
-function voronoiPolygon() {
+export function voronoiPolygon() {
   graphicLayer.clear()
 
   const points = pointsLayer.toGeoJSON()
@@ -125,7 +125,7 @@ function voronoiPolygon() {
 }
 
 // 计算TIN多边形
-function tinPolygon() {
+export function tinPolygon() {
   graphicLayer.clear()
 
   const points = pointsLayer.toGeoJSON()
@@ -164,7 +164,7 @@ function tinPolygon() {
 }
 
 // 清除所有矢量图层
-function clearlayer() {
+export function clearlayer() {
   graphicLayer.clear()
   pointsLayer.clear()
 }

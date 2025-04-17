@@ -1,0 +1,132 @@
+<!-- 2017-12-4 14:24:10 | 修改 木遥（微信:  http://marsgis.cn/weixin.html ） -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+
+    <!-- 标题及搜索关键字 -->
+    <meta name="keywords" content="火星科技,cesium,2D,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 cesium cesium开发 cesium框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS"
+    />
+
+    <link rel="shortcut icon" type="image/x-icon" href="//mars2d.cn/favicon.ico" />
+    <title>Mapbox | Mars2D | 地理信息平台 | 火星科技 | 合肥火星科技有限公司</title>
+
+    <script
+      type="text/javascript"
+      src="/lib/include-lib.js"
+      libpath="/lib/"
+      include="jquery,font-awesome,bootstrap,bootstrap-slider,layer,haoutil,mars2d,es5-widget"
+    ></script>
+    <style>
+      .infoview-left {
+        left: 10px;
+        width: 183px;
+      }
+
+      .keyboard-img {
+        width: 155px;
+        height: 180px;
+        background: url(img/manager/keyboard.png);
+        filter: invert(100%);
+        clip-path: polygon(0% 0%, 152px 0%, 155px 14px, 155px 100%, 0% 100%);
+      }
+
+      .zm {
+        display: none;
+        width: 28px;
+        height: 25px;
+        padding: 4px 8px;
+        border-radius: 4px;
+        color: #fdfdfd;
+        text-align: center;
+        position: absolute;
+        padding: 0px;
+        line-height: 25px;
+      }
+      .active {
+        display: block;
+        background: #006aff;
+      }
+      .zm_q {
+        left: 51px;
+        top: 59px;
+      }
+
+      .zm_w {
+        left: 82px;
+        top: 59px;
+      }
+
+      .zm_e {
+        left: 111px;
+        top: 59px;
+      }
+
+      .zm_a {
+        left: 58px;
+        top: 88px;
+      }
+
+      .zm_s {
+        left: 87px;
+        top: 88px;
+      }
+
+      .zm_d {
+        left: 118px;
+        top: 88px;
+      }
+    </style>
+    <link href="/css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div id="mars2dContainer" class="mars2d-container"></div>
+
+    <div class="infoview infoview-left">
+      <div class="keyboard-img">
+        <div class="zm zm_q">Q</div>
+        <div class="zm zm_w">W</div>
+        <div class="zm zm_e">E</div>
+        <div class="zm zm_a">A</div>
+        <div class="zm zm_s">S</div>
+        <div class="zm zm_d">D</div>
+      </div>
+    </div>
+    <div class="infoview infoview-right">步长：<input id="step" style="width: 100px" /></div>
+
+    <script src="/js/common.js"></script>
+    <script src="./map.js"></script>
+    <script type="text/javascript">
+      function initUI(map) {
+        $("#step")
+          .slider({
+            min: 0,
+            max: 100,
+            value: 100
+          })
+          .on("change", (e) => {
+            changeSlider(e.value.newValue)
+          })
+
+        let activeKey = ""
+        $(document).keydown(function (event) {
+          // 在这里处理键盘事件
+          $(`.zm_${activeKey}`).removeClass("active")
+          activeKey = event.key
+          $(`.zm_${activeKey}`).addClass("active")
+        })
+      }
+    </script>
+  </body>
+</html>

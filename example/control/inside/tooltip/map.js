@@ -1,5 +1,5 @@
-// import * as mars2d from "mars2d"
-
+import * as mars2d from "mars2d"
+const L = mars2d.L
 
 let map
 let graphicLayer // 矢量数据图层
@@ -7,12 +7,12 @@ let geoJsonLayer
 let lastMaplTooltip //
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 12,
   center: { lng: 117.309471, lat: 31.797018 }
 }
 
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -20,7 +20,7 @@ var eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance
 
   // 创建矢量数据图层
@@ -39,7 +39,7 @@ function onMounted(mapInstance) {
   bindLayerDemo()
 }
 
-function removeDemoLayer() {
+export function removeDemoLayer() {
   // 关闭弹窗
   if (lastMaplTooltip) {
     map.closeTooltip(lastMaplTooltip)
@@ -55,7 +55,7 @@ function removeDemoLayer() {
 }
 
 // 1.在map地图上绑定Tooltip单击弹窗
-function bindMapDemo() {
+export function bindMapDemo() {
   removeDemoLayer()
 
   if (lastMaplTooltip) {
@@ -70,7 +70,7 @@ function bindMapDemo() {
 }
 
 // 2.在layer图层上绑定Tooltip单击弹窗
-function bindLayerDemo() {
+export function bindLayerDemo() {
   removeDemoLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -103,7 +103,7 @@ function bindLayerDemo() {
 }
 
 // 2.在layer图层上预定义tooltip单击弹窗
-function bindLayerDemo2() {
+export function bindLayerDemo2() {
   removeDemoLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -123,7 +123,7 @@ function bindLayerDemo2() {
 }
 
 // 3.在graphic数据上绑定Tooltip单击弹窗
-function bindGraphicDemo1() {
+export function bindGraphicDemo1() {
   removeDemoLayer()
 
   const graphic = new mars2d.graphic.Marker({
@@ -163,7 +163,7 @@ function bindGraphicDemo1() {
 }
 
 // 3.在graphic数据上绑定Tooltip单击弹窗
-function bindGraphicDemo2() {
+export function bindGraphicDemo2() {
   removeDemoLayer()
 
   const graphic = new mars2d.graphic.Marker({

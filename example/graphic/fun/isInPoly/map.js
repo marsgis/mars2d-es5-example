@@ -1,4 +1,4 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 let graphicLayer
@@ -10,7 +10,7 @@ let selectGraphic = []
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
@@ -41,7 +41,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -64,7 +64,7 @@ function addData(arr) {
   }
 }
 
-function removeAll() {
+export function removeAll() {
   map.graphicLayer.clear()
 
   for (let i = 0; i < selectGraphic.length; i++) {
@@ -75,7 +75,7 @@ function removeAll() {
   selectGraphic = []
 }
 
-function drawPolygon() {
+export function drawPolygon() {
   removeAll()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -89,7 +89,7 @@ function drawPolygon() {
   })
 }
 
-function drawCircle() {
+export function drawCircle() {
   removeAll()
   map.graphicLayer.startDraw({
     type: "circle",
@@ -103,7 +103,7 @@ function drawCircle() {
   })
 }
 
-function drawRectangle() {
+export function drawRectangle() {
   removeAll()
   map.graphicLayer.startDraw({
     type: "rectangle",

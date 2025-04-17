@@ -1,5 +1,5 @@
-// import * as mars2d from "mars2d"
-
+import * as mars2d from "mars2d"
+const L = mars2d.L
 
 let map // mars2d.Map三维地图对象
 let queryMapserver
@@ -7,7 +7,7 @@ let geoJsonLayer
 let drawGraphic
 let graphicLayer
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -15,7 +15,7 @@ var eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   graphicLayer = new mars2d.layer.GraphicLayer()
@@ -28,7 +28,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -41,18 +41,6 @@ function showGeoJsonLayer() {
   // 用于显示查询结果（geojson）的图层
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
     name: "合肥项目",
-    symbol: {
-      styleOptions: {
-        image: "img/marker/mark3.png",
-        highlight: { type: "click", image: "img/marker/mark1.png" },
-        label: {
-          text: "{项目名称}",
-          font_size: 16,
-          color: "#0000ff",
-          offsetY: 30
-        }
-      }
-    },
     popup: "all"
   })
   map.addLayer(geoJsonLayer)
@@ -63,7 +51,12 @@ function showGeoJsonLayer() {
   })
 }
 
-function query(text) {
+// 切换服务
+export function changeService(name) {
+  queryMapserver.layer = `mars:${name}`
+}
+
+export function query(text, name) {
   if (!drawGraphic) {
     globalMsg("请绘制区域")
     return
@@ -78,7 +71,9 @@ function query(text) {
       } else {
         globalMsg("共查询到 " + result.count + " 条记录！")
       }
-      geoJsonLayer.load({ data: result.geojson })
+
+      const style = getGraphicStyle(name)
+      geoJsonLayer.load({ data: result.geojson, symbol: { styleOptions: style } })
     },
     error: (error, msg) => {
       console.log("服务访问错误", error)
@@ -87,8 +82,25 @@ function query(text) {
   })
 }
 
+// 点查询
+export function drawPoint() {
+  clearAll()
+  graphicLayer.startDraw({
+    type: "point",
+    style: {
+      fillColor: "#0000ff",
+      fillOpacity: 0.3,
+      outline: true,
+      outlineColor: "#0000ff"
+    },
+    success: function (graphic) {
+      drawGraphic = graphic
+      console.log("点：", drawGraphic.toGeoJSON({ outline: true }))
+    }
+  })
+}
 // 框选范围
-function drawRectangle() {
+export function drawRectangle() {
   clearAll()
   graphicLayer.startDraw({
     type: "rectangle",
@@ -107,7 +119,7 @@ function drawRectangle() {
 }
 
 // 框选查询   圆
-function drawCircle() {
+export function drawCircle() {
   clearAll()
   graphicLayer.startDraw({
     type: "circle",
@@ -125,7 +137,7 @@ function drawCircle() {
 }
 
 // 框选查询   多边行
-function drawPolygon() {
+export function drawPolygon() {
   clearAll()
   graphicLayer.startDraw({
     type: "polygon",
@@ -142,16 +154,66 @@ function drawPolygon() {
   })
 }
 
-function flyToGraphic(graphic) {
+export function flyToGraphic(graphic) {
   map.flyToGraphic(graphic, { scale: 1.5 })
   graphic.openPopup()
 }
 
 // 清除
-function clearAll(noClearDraw) {
+export function clearAll(noClearDraw) {
   if (!noClearDraw) {
     drawGraphic = null
     graphicLayer.clear()
   }
   geoJsonLayer.clear()
+}
+
+function getGraphicStyle(layerName) {
+  switch (layerName) {
+    case "hfjy":
+      return {
+        image: "img/marker/mark3.png",
+        highlight: { type: "click", image: "img/marker/mark1.png" },
+        label: {
+          text: "{项目名称}",
+          font_size: 16,
+          color: "#0000ff",
+          offsetY: 30
+        }
+      }
+    case "hfgh":
+      return {
+        fill: true,
+        fillColor: "#051453",
+        fillOpacity: 0.3,
+        outline: true,
+        outlineWidth: 2,
+        outlineColor: "#0000FF",
+        outlineOpacity: 1.0,
+        dashArray: "5, 10",
+        dashSpeed: -30, // 可以定义运动速度，注释后是静态的
+        label: {
+          text: "{用地名称}",
+          font_size: 16,
+          color: "#0600ff",
+          offsetY: 30
+        }
+      }
+
+    case "hfdl": {
+      return {
+        width: 4,
+        color: "rgb(20, 200, 100)",
+        label: {
+          text: "{NAME}",
+          font_size: 16,
+          color: "#0000ff",
+          offsetY: 30
+        }
+      }
+    }
+
+    default:
+      break
+  }
 }

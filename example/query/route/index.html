@@ -42,11 +42,21 @@
     <div class="infoview">
       <table class="mars-table" style="border-collapse: separate; border-spacing: 0px 6px">
         <tr>
+          <td>服务</td>
+          <td colspan="2">
+            <select id="serveType" class="selectpicker form-control">
+              <option value="tdt">天地图服务</option>
+              <option value="gaode" selected="selected">高德服务</option>
+              <option value="baidu">百度服务</option>
+            </select>
+          </td>
+        </tr>
+        <tr>
           <td>方式</td>
           <td colspan="2">
             <select id="queryType" class="selectpicker form-control">
               <option value="1" selected="selected">步行路线查询</option>
-              <!-- <option value="2">骑行路线查询</option> -->
+              <option value="2">骑行路线查询</option>
               <option value="3">驾车路线查询</option>
             </select>
           </td>
@@ -72,7 +82,8 @@
         <tr>
           <td></td>
           <td colspan="3">
-            <input type="button" class="btn btn-primary" value="开始分析" id="FX" />
+            <!-- <input type="button" class="btn btn-primary" value="开始分析" id="FX" /> -->
+            <input type="button" class="btn btn-primary" value="保存GeoJSON" id="saveGeoJSON" />
             <input type="button" class="btn btn-primary" value="清除" id="clear" />
           </td>
         </tr>
@@ -91,7 +102,6 @@
     <script type="text/javascript">
       "use script" //开发环境建议开启严格模式
       let routeLayer
-      let gaodeRoute
 
       //当前页面业务相关
       let startGraphic, endGraphic
@@ -109,10 +119,6 @@
         //创建矢量数据图层
         routeLayer = new mars2d.layer.GraphicLayer()
         map.addLayer(routeLayer)
-
-        gaodeRoute = new mars2d.query.GaodeRoute({
-          // key: ['ae29a37307840c7ae4a785ac905927e0'],
-        })
 
         $("#startPoint").click(function () {
           if (startGraphic) {
@@ -172,6 +178,10 @@
           queryRoute()
         })
 
+        $("#saveGeoJSON").click(function () {
+          saveGeoJSON()
+        })
+
         $("#clear").click(function () {
           if (startGraphic) {
             startGraphic.remove()
@@ -199,10 +209,14 @@
         haoutil.loading.show()
         $(".result").hide()
 
-        let type = Number($("#queryType").val()) //GaodeRouteType枚举类型
+        const serveType = $("#serveType").val()
+
+        let queryType = Number($("#queryType").val())
+
+        changeService(serveType)
         console.log(startGraphic)
-        gaodeRoute.query({
-          type: type,
+        query.query({
+          type: queryType,
           points: [startGraphic.coordinates[0], endGraphic.coordinates[0]],
           success: function (data) {
             console.log(data)

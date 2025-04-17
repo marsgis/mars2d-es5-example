@@ -59,7 +59,7 @@
       })
 
       //查询控制器
-      this._queryPoi = new mars2d.query.GaodePOI({
+      this._queryPoi = new mars2d.query.QueryPOI({
         // city: '合肥市',
       })
     }

@@ -1,16 +1,16 @@
-// import * as mars2d from "mars2d"
-
+import * as mars2d from "mars2d"
+const L = mars2d.L
 
 let map // mars2d.Map二维地图对象
-let routeLayer
-let gaodeRoute
+let queryRoute
+let queryPOI
 
+let routeLayer
 let poiLayer
-let queryGaodePOI
 let startGraphic
 let endPointArr
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -18,19 +18,19 @@ var eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
   routeLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(routeLayer)
 
-  gaodeRoute = new mars2d.query.GaodeRoute({
-    // key: ['ae29a37307840c7ae4a785ac905927e0'],
+  queryRoute = new mars2d.query.QueryRoute({
+    service: mars2d.QueryServiceType.GAODE
   })
 
-  queryGaodePOI = new mars2d.query.GaodePOI({
-    // key: ['ae29a37307840c7ae4a785ac905927e0'],
+  queryPOI = new mars2d.query.QueryPOI({
+    service: mars2d.QueryServiceType.GAODE
   })
 
   // 创建矢量数据图层
@@ -70,18 +70,18 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 let lastRoute
-function centerAtRoute(id) {
+export function centerAtRoute(id) {
   const graphic = routeLayer.getGraphicById(id)
   map.flyToGraphic(graphic, { scale: 1.0 })
   lastRoute = graphic
 }
 
-function stratPoint() {
+export function stratPoint() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -103,7 +103,7 @@ function stratPoint() {
   })
 }
 
-function endPoint() {
+export function endPoint() {
   showLoading()
   routeLayer.clear()
   poiLayer.clear()
@@ -111,7 +111,7 @@ function endPoint() {
 
   const extent = map.getExtent() // 当前视域内
 
-  queryGaodePOI.queryPolygon({
+  queryPOI.queryPolygon({
     text: "企业",
     polygon: mars2d.PointTrans.coords2latlngs([
       [extent.xmin, extent.ymin],
@@ -136,17 +136,24 @@ function endPoint() {
   })
 }
 
-function btnAnalyse(type) {
+// 切换服务
+export function changeService(type) {
+  queryRoute.setOptions({ service: type })
+  queryPOI.setOptions({ service: type })
+}
+
+export function btnAnalyse(type) {
   if (!startGraphic || !endPointArr || endPointArr.length === 0) {
     globalMsg("请设置起点和查询目的地")
     return
   }
   showLoading()
 
-  queryRoute(type)
+  routeLayer.clear()
+  queryRoutes(type)
 }
 
-function queryRoute(type) {
+function queryRoutes(type) {
   const startPoint = startGraphic.coordinates
   const arr = []
   for (let i = 0; i < endPointArr.length; i++) {
@@ -154,7 +161,7 @@ function queryRoute(type) {
     arr.push([startPoint[0], [item.x, item.y]])
   }
 
-  gaodeRoute.queryArr({
+  queryRoute.queryArr({
     type: Number(type), // GaodeRouteType枚举类型
     points: arr,
     success: function (data) {
@@ -169,7 +176,7 @@ function queryRoute(type) {
   })
 }
 
-function removeAll() {
+export function removeAll() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null

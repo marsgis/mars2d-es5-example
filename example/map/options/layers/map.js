@@ -1,4 +1,4 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 function initMap() {
   // 添加可叠加图层有3种方式（参数除指定的type类型外无需type参数，其他参数都相同）:
