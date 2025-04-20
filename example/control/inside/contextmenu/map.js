@@ -1,4 +1,4 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map
 
@@ -8,7 +8,7 @@ let map
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance
 
   // 对地图绑定自定义右键菜单
@@ -54,6 +54,6 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }

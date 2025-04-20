@@ -1,4 +1,4 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map
 let graphicLayer
@@ -6,7 +6,7 @@ const bbox = [116.984788, 31.625909, 117.484068, 32.021504]
 const turfOptions = { units: "kilometers" }
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 10
 }
 
@@ -16,7 +16,7 @@ export const mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -28,36 +28,36 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 点
-export function pointGrid(cellSide) {
+function pointGrid(cellSide) {
   const geojson = turf.pointGrid(bbox, cellSide, turfOptions)
   drawPoint(geojson)
 }
 
 // 三角网
-export function triangleGrid(cellSide) {
+function triangleGrid(cellSide) {
   const geojson = turf.triangleGrid(bbox, cellSide, turfOptions)
   drawPolyon(geojson)
 }
 
 // 方格网
-export function squareGrid(cellSide) {
+function squareGrid(cellSide) {
   const geojson = turf.squareGrid(bbox, cellSide, turfOptions)
   drawPolyon(geojson)
 }
 
 // 蜂窝网
-export function hexGrid(cellSide) {
+function hexGrid(cellSide) {
   const geojson = turf.hexGrid(bbox, cellSide, turfOptions)
   drawPolyon(geojson)
 }
 
 // 蜂窝网格、正方形网格、三角形网格
-export function drawPolyon(geojson) {
+function drawPolyon(geojson) {
   graphicLayer.clear()
   const polygons = mars2d.Util.geoJsonToGraphics(geojson) // 解析geojson
 

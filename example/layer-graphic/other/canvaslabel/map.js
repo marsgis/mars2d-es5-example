@@ -1,11 +1,11 @@
-import * as mars2d from "mars2d"
-const L = mars2d.L
+// import * as mars2d from "mars2d"
+
 
 let map // mars2d.Map三维地图对象
 let canvasLabelRenderer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = function (option) {
+var mapOptions = function (option) {
   canvasLabelRenderer = new L.CanvasLabel({
     defaultLabelStyle: {
       collisionFlg: true,
@@ -26,7 +26,7 @@ export const mapOptions = function (option) {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 定义事件
@@ -100,11 +100,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function setCollisionDetection(flg) {
+function setCollisionDetection(flg) {
   canvasLabelRenderer.options.defaultLabelStyle.collisionFlg = flg
   map.fitBounds(map.getBounds())
 }

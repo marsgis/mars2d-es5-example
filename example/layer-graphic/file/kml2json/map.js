@@ -1,10 +1,10 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
-export let map // mars2d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars2d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 11,
   center: { lng: 117.287917, lat: 31.904563 },
   operationallayers: [
@@ -37,7 +37,7 @@ export const mapOptions = {
   ]
 }
 
-export const treeEvent = new mars2d.BaseClass()
+var treeEvent = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -45,7 +45,7 @@ export const treeEvent = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   shoRailway()
 }
@@ -54,12 +54,12 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // flyTo至目标
-export function flyToEntity(entity) {
+function flyToEntity(entity) {
   map.flyTo(entity)
 }
 
@@ -72,7 +72,7 @@ function removeLayer() {
 }
 
 // 示例：
-export function shoRailway() {
+function shoRailway() {
   removeLayer()
 
   graphicLayer = new mars2d.layer.Kml2JsonLayer({
@@ -109,7 +109,7 @@ export function shoRailway() {
 }
 
 // 示例：
-export function showExpressway() {
+function showExpressway() {
   removeLayer()
 
   graphicLayer = new mars2d.layer.Kml2JsonLayer({
@@ -131,7 +131,7 @@ export function showExpressway() {
 }
 
 // 示例：
-export function showSafetyNotice() {
+function showSafetyNotice() {
   removeLayer()
 
   graphicLayer = new mars2d.layer.Kml2JsonLayer({
@@ -173,7 +173,7 @@ export function showSafetyNotice() {
 }
 
 // 示例：
-export function showMeteorological() {
+function showMeteorological() {
   removeLayer()
 
   graphicLayer = new mars2d.layer.Kml2JsonLayer({
@@ -197,7 +197,7 @@ export function showMeteorological() {
 }
 
 // 示例：
-export function showGDP() {
+function showGDP() {
   removeLayer()
 
   graphicLayer = new mars2d.layer.Kml2JsonLayer({

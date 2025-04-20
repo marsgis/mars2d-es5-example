@@ -1,12 +1,12 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map
 let keyboardRoam
 
-export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
+var eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 14,
   center: { lng: 117.289352, lat: 31.816386 }
 }
@@ -17,7 +17,7 @@ export const mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   keyboardRoam = new mars2d.thing.KeyboardRoam()
@@ -33,12 +33,13 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
+
 // 修改步长
-export function changeSlider(val) {
+function changeSlider(val) {
   if (val) {
     keyboardRoam.moveStep = val
   }

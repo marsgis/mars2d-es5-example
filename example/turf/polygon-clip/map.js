@@ -1,9 +1,9 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 let map
 let drawLayer
 let polygonLayer
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 11,
   center: { lng: 117.29501, lat: 31.841349 }
 }
@@ -14,7 +14,7 @@ export const mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加载面数据
@@ -29,11 +29,11 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function drawLine() {
+function drawLine() {
   drawLayer.clear()
   drawLayer.startDraw({
     type: "polyline",
@@ -115,7 +115,7 @@ function loadPolygon() {
 }
 
 // 清除
-export function clear() {
+function clear() {
   drawLayer.clear()
 }
 
@@ -205,7 +205,7 @@ const geoUtil = {
     // 获得裁切点
     const intersects = turf.lineIntersect(polyLine, clipLine)
     if (intersects.features.length !== 2) {
-      throw new Error({ state: "裁剪失败", message: "切割线与多边形交点应该为2个,当前交点个数为" + intersects.features.length })
+      return
     }
     // 检查切割线与多边形的位置关系 （切割线的起点和终点不能落在多边形内部）
     const clipLineLength = clipLine.geometry.coordinates.length

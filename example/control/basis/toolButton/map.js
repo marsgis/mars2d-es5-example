@@ -1,9 +1,9 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   control: {
     toolBar: {
       item: ["home", "fullscreen"] // 默认视域按钮;全屏按钮
@@ -18,7 +18,7 @@ export const mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   const toolButton = new mars2d.control.ToolButton({
@@ -55,6 +55,6 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }

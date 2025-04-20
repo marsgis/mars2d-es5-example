@@ -1,9 +1,9 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map
 let expImg
 
-export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
+var eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -11,7 +11,7 @@ export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   expImg = new mars2d.thing.ExpImg()
@@ -23,12 +23,13 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
+
 // 添加书签
-export function butAddTxtName(name) {
+function butAddTxtName(name) {
   // 动态的获取index
   const item = {
     name,
@@ -44,7 +45,7 @@ export function butAddTxtName(name) {
     }
   })
 }
-export function butAddTxtName2(name) {
+function butAddTxtName2(name) {
   // 动态的获取index
   const item = {
     name,
@@ -62,6 +63,6 @@ export function butAddTxtName2(name) {
 }
 
 // 飞向视角
-export function flytoView(view) {
+function flytoView(view) {
   map.setView(view.center, view.zoom)
 }

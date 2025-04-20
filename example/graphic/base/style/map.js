@@ -1,16 +1,16 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
-export let map // mars2d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars2d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 12,
   center: { lng: 117.294159, lat: 31.845774 }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -31,7 +31,7 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -104,7 +104,7 @@ function addDemoGraphic3(graphicLayer) {
 }
 
 // 在图层绑定Popup弹窗
-export function bindLayerPopup() {
+function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event?.attr || {}
     attr["类型"] = event.type
@@ -116,7 +116,7 @@ export function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-export function bindLayerContextMenu() {
+function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

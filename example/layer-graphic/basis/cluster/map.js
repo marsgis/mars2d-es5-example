@@ -1,11 +1,11 @@
-import * as mars2d from "mars2d"
-const L = mars2d.L
+// import * as mars2d from "mars2d"
+
 
 let map // mars2d.Map三维地图对象
 let clusterLayer
 
 // 事件对象，用于抛出事件给vue
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
 /**
  * 初始化地图业务，生命周期钩子函数（必须）
@@ -13,7 +13,7 @@ export const eventTarget = new mars2d.BaseClass()
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   addLayer()
@@ -23,22 +23,26 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function showClusteringFn(val) {
-  clusterLayer.clusterEnabled = val
+function showClusteringFn(val) {
+  if (clusterLayer) {
+    clusterLayer.clusterEnabled = val
+  } else {
+    globalAlert("聚合图层未创建")
+  }
 }
 
-export function removeLayer() {
+function removeLayer() {
   if (clusterLayer) {
     clusterLayer.remove()
     clusterLayer = null
   }
 }
 
-export function addLayer() {
+function addLayer() {
   removeLayer()
 
   clusterLayer = new mars2d.layer.ClusterLayer({
@@ -118,7 +122,7 @@ export function addLayer() {
   })
 }
 
-export function addCustomLayer() {
+function addCustomLayer() {
   removeLayer()
 
   clusterLayer = new mars2d.layer.ClusterLayer({
@@ -172,7 +176,7 @@ export function addCustomLayer() {
 }
 
 // 照片点示例
-export function addCustomPhotoLayer() {
+function addCustomPhotoLayer() {
   removeLayer()
 
   clusterLayer = new mars2d.layer.ClusterLayer({

@@ -1,9 +1,9 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 2,
   center: { lng: 90, lat: -16.972741 },
   worldCopyJump: true
@@ -15,7 +15,7 @@ export const mapOptions = {
  * @param {mars2d.Map} mapInstance 地图对象
  * @returns {void} 无
  */
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
   map.basemap = 2017 // 切换至蓝色底图
 
@@ -27,7 +27,7 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
