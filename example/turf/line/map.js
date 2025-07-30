@@ -1,20 +1,15 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map
 let graphicLayer
 let lineLayer
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 10
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -31,11 +26,11 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function drawLine() {
+export function drawLine() {
   clearLayer()
 
   lineLayer.startDraw({
@@ -49,7 +44,7 @@ function drawLine() {
 }
 
 // 计算曲线
-function calculationCurve() {
+export function calculationCurve() {
   graphicLayer.clear()
 
   let line = lineLayer.getGraphics()
@@ -75,7 +70,7 @@ function calculationCurve() {
 }
 
 // 计算平行线
-function parallelLines(distance) {
+export function parallelLines(distance) {
   let line = lineLayer.getGraphics()
   if (line.length === 0) {
     globalMsg("请绘制线！")
@@ -101,7 +96,7 @@ function parallelLines(distance) {
   graphicLayer.addGraphic(graphic)
 }
 
-function clearLayer() {
+export function clearLayer() {
   graphicLayer.clear()
   lineLayer.clear()
 }

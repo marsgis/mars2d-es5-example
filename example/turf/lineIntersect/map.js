@@ -1,20 +1,15 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map
 let lineLayer
 let pointLayer
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 10
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -44,11 +39,11 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function drawLine() {
+export function drawLine() {
   // 开始绘制
   lineLayer.startDraw({
     type: "polyline",
@@ -60,7 +55,7 @@ function drawLine() {
   })
 }
 
-function crossPoint() {
+export function crossPoint() {
   lineLayer.stopDraw()
   pointLayer.clear()
   if (lineLayer.graphics.length <= 1) {
@@ -98,7 +93,7 @@ function crossPoint() {
   }
 }
 
-function clearAll() {
+export function clearAll() {
   pointLayer.clear()
   lineLayer.clear()
 }

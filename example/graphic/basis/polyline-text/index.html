@@ -1,0 +1,260 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0,minimum-scale=1.0,maximum-scale=1.0" />
+    <meta name="author" content="火星科技 http://mars2d.cn " />
+    <meta name="apple-touch-fullscreen" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="x5-fullscreen" content="true" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1" />
+
+    <meta name="keywords" content="火星科技,leaflet,mars2d,GIS,marsgis,二维,地图,地球,开发,框架,系统,示例,资料,模型,离线,外包,合肥,安徽,中国" />
+    <meta
+      name="description"
+      content="火星科技 合肥火星 合肥火星科技 合肥火星科技有限公司 leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS"
+    />
+
+    <link rel="shortcut icon" type="image/x-icon" href="/img/favicon/favicon.ico" />
+    <title>功能示例 | Mars2D | 地理信息平台 | 火星科技 | 合肥火星科技有限公司</title>
+
+    <!--第三方lib-->
+    <script
+      type="text/javascript"
+      src="/lib/include-lib.js"
+      libpath="/lib/"
+      include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,mars2d,es5-widget"
+    ></script>
+
+    <link href="/css/style.css" rel="stylesheet" />
+  </head>
+
+  <body>
+    <div id="mars2dContainer" class="mars2d-container"></div>
+
+    <div class="infoview">
+      <div>
+        图层状态：
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="chkShow" class="styled" type="checkbox" checked />
+          <label for="chkShow"> 显示隐藏 </label>
+        </div>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="chkPopup" class="styled" type="checkbox" checked />
+          <label for="chkPopup"> Popup绑定 </label>
+        </div>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="chkTooltip" class="styled" type="checkbox" />
+          <label for="chkTooltip"> Tooltip绑定 </label>
+        </div>
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="chkContextMenu" class="styled" type="checkbox" checked />
+          <label for="chkContextMenu"> 右键菜单绑定 </label>
+        </div>
+      </div>
+      <div>
+        数据维护：
+        <input id="btnStartDraw" type="button" class="btn btn-primary" value="图上标绘" title="在图上绘制新增一个矢量数据" />
+
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="chkHasEdit" class="styled" type="checkbox" />
+          <label for="chkHasEdit"> 是否编辑 </label>
+        </div>
+      </div>
+      <div>
+        数据测试：
+        <input id="count" type="number" value="100" min="1" max="1000000" step="1" class="form-control" style="width: 152px" />条
+
+        <input id="addRandomGraphicByCount" type="button" class="btn btn-primary" value="生成" />
+      </div>
+      <div>
+        数据管理：
+        <input id="btnClear" type="button" class="btn btn-danger" value="清除" />
+        <input id="btnExpFile" type="button" class="btn btn-primary" value="保存GeoJSON" title="保存为GeoJSON文件" />
+        <input id="btnImpFile" type="button" class="btn btn-primary" value="打开GeoJSON" title="打开之前保存的GeoJSON文件" />
+
+        <input id="input_draw_file" type="file" accept=".json,.geojson" style="display: none" />
+      </div>
+    </div>
+
+    <script src="/js/common.js"></script>
+    <script src="./map.js"></script>
+    <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+
+      function initUI() {
+        bindAttributePannel()
+        //新增绘制
+        $("#btnStartDraw").click(function () {
+          //开始绘制(调用map.js里面的方法)
+          startDrawGraphic()
+        })
+        $("#addRandomGraphicByCount").click(function () {
+          //大数据加载(调用map.js里面的方法)
+          addRandomGraphicByCount($("#count").val())
+          graphicLayer.flyTo({ duration: 0, heading: 0, pitch: -40, scale: 1.2 })
+
+          const graphics = graphicLayer.getGraphics()
+          editorGraphic = graphics[graphics.length - 1]
+        })
+
+        $("#chkPopup").change(function () {
+          let val = $(this).is(":checked")
+
+          if (val) {
+            bindLayerPopup(graphicLayer)
+          } else {
+            graphicLayer.unbindPopup()
+          }
+        })
+        //可在图层上绑定tooltip,对所有加到这个图层的矢量数据都生效
+        $("#chkTooltip").change(function () {
+          let val = $(this).is(":checked")
+
+          if (val) {
+            graphicLayer.bindTooltip("我是layer上绑定的Tooltip")
+          } else {
+            graphicLayer.unbindTooltip()
+          }
+        })
+        $("#chkContextMenu").change(function () {
+          let val = $(this).is(":checked")
+
+          if (val) {
+            bindLayerContextMenu(graphicLayer)
+          } else {
+            graphicLayer.unbindContextMenu(true)
+          }
+        })
+        $("#chkHasEdit").change(function () {
+          let val = $(this).is(":checked")
+
+          graphicLayer.hasEdit = val //启用编辑
+        })
+
+        $("#chkShow").change(function () {
+          let val = $(this).is(":checked")
+
+          graphicLayer.show = val //显示隐藏
+        })
+
+        $("#btnClear").click(function () {
+          graphicLayer.clear()
+        })
+
+        $("#btnExpFile").click(function () {
+          if (graphicLayer.length === 0) {
+            $message("当前没有标注任何数据，无需保存！")
+            return
+          }
+          const geojson = graphicLayer.toGeoJSON()
+          mars2d.Util.downloadFile("我的标注.json", JSON.stringify(geojson))
+        })
+        $("#btnImpFile").click(function () {
+          clearSelectFile()
+          $("#input_draw_file").click()
+        })
+        $("#input_draw_file").change(function (e) {
+          let file = this.files[0]
+          let fileName = file.name
+          let fileType = fileName?.substring(fileName.lastIndexOf(".") + 1, fileName.length).toLowerCase()
+          if (fileType === "json" || fileType === "geojson") {
+            const reader = new FileReader()
+            reader.readAsText(file, "UTF-8")
+            reader.onloadend = function (e) {
+              const json = this.result
+              graphicLayer.loadGeoJSON(json, {
+                flyTo: true
+              })
+            }
+          } else if (fileType === "kml") {
+            const reader = new FileReader()
+            reader.readAsText(file, "UTF-8")
+            reader.onloadend = function (e) {
+              const strkml = this.result
+
+              mapWork.kgUtil.toGeoJSON(strkml).then((geojson) => {
+                console.log("kml2geojson转换结果为", geojson)
+
+                graphicLayer.loadGeoJSON(geojson, {
+                  flyTo: true
+                })
+              })
+            }
+          } else if (fileType === "kmz") {
+            // 加载input文件控件的二进制流
+
+            mapWork.kgUtil.toGeoJSON(item).then((geojson) => {
+              console.log("kmz2geojson", geojson)
+
+              graphicLayer.loadGeoJSON(geojson, {
+                flyTo: true
+              })
+            })
+          } else {
+            message.error("暂不支持 " + fileType + " 文件类型的数据！")
+          }
+        })
+      }
+
+      function clearSelectFile() {
+        if (!window.addEventListener) {
+          document.getElementById("input_draw_file").outerHTML += "" //IE
+        } else {
+          document.getElementById("input_draw_file").value = "" //FF
+        }
+      }
+
+      //  ***************************** 属性面板 ***********************  //
+      // 绑定事件，激活属性面板
+      function bindAttributePannel() {
+        graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
+          let val = $("#hasEdit").is(":checked")
+          if (val) {
+            showEditor(e)
+          }
+        })
+        // 修改了矢量数据
+        graphicLayer.on("editStart editMovePoint editStyle editRemovePoint", function (e) {
+          showEditor(e.graphic)
+        })
+        // 停止编辑
+        graphicLayer.on("editStop removeGraphic", function (e) {
+          setTimeout(() => {
+            if (!graphicLayer.isEditing) {
+              stopEditing()
+            }
+          }, 100)
+        })
+      }
+
+      //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
+      let timeTik
+      function showEditor(graphic) {
+        clearTimeout(timeTik)
+
+        let plotAttr = es5widget.getClass("widgets/plotAttr/widget.js")
+        if (plotAttr && plotAttr.isActivate) {
+          plotAttr.startEditing(graphic, graphic.coordinates)
+        } else {
+          es5widget.activate({
+            map: map,
+            uri: "widgets/plotAttr/widget.js",
+            name: "属性编辑",
+            graphic: graphic,
+            lonlats: graphic.coordinates
+          })
+        }
+      }
+
+      function stopEditing() {
+        timeTik = setTimeout(function () {
+          es5widget.disable("widgets/plotAttr/widget.js")
+        }, 200)
+      }
+      //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
+    </script>
+  </body>
+</html>

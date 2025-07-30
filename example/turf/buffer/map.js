@@ -1,22 +1,17 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map
 let resultLayer
 let graphicLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 13,
   center: { lng: 117.216396, lat: 31.839795 }
 }
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   resultLayer = new mars2d.layer.GraphicLayer()
@@ -69,11 +64,11 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function drawPoint() {
+export function drawPoint() {
   deleteAll()
 
   graphicLayer.startDraw({
@@ -85,7 +80,7 @@ function drawPoint() {
   })
 }
 
-function drawPolyline() {
+export function drawPolyline() {
   deleteAll()
 
   graphicLayer.startDraw({
@@ -97,7 +92,7 @@ function drawPolyline() {
   })
 }
 
-function drawPolygon() {
+export function drawPolygon() {
   deleteAll()
 
   graphicLayer.startDraw({
@@ -115,7 +110,7 @@ function drawPolygon() {
 }
 
 let width
-function radiusChange(val) {
+export function radiusChange(val) {
   width = val
   if (lastgeojson) {
     updateBuffer()
@@ -151,7 +146,7 @@ function updateBuffer(layer) {
   graphic.bringToBack()
 }
 
-function deleteAll() {
+export function deleteAll() {
   graphicLayer.clear()
   resultLayer.clear()
   lastgeojson = null

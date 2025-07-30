@@ -1,4 +1,4 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 
@@ -6,7 +6,7 @@ const attributionHtml = `©2024 Baidu - <span>审图号：GS(2023)3206号</span>
 - 甲测资字11111342- <a target="_blank" href="https://map.baidu.com/zt/client/service/index.html">服务条款</a>`
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   crs: mars2d.CRS.BAIDU,
   zoom: 12,
   center: { lng: 117.220102, lat: 31.834912 },
@@ -164,15 +164,10 @@ var mapOptions = {
 }
 
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   addCreditDOM()
 
@@ -183,7 +178,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   removeCreditDOM()
   map = null
 }

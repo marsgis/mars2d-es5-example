@@ -1,4 +1,4 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
 let routeLayer
@@ -8,19 +8,14 @@ let query
 let startGraphic, endGraphic
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
 }
 
-var eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -36,12 +31,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 清除按钮
-function removeAll() {
+export function removeAll() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -55,12 +50,12 @@ function removeAll() {
 }
 
 // 切换服务
-function changeService(type) {
+export function changeService(type) {
   query.setOptions({ service: type })
 }
 
 // 起点按钮
-function startPoint() {
+export function startPoint() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -83,7 +78,7 @@ function startPoint() {
 }
 
 // 终点按钮
-function endPoint() {
+export function endPoint() {
   if (endGraphic) {
     endGraphic.remove()
     endGraphic = null
@@ -108,7 +103,7 @@ function endPoint() {
   })
 }
 
-function queryRoute(type) {
+export function queryRoute(type) {
   if (!startGraphic || !endGraphic) {
     return
   }
@@ -163,7 +158,7 @@ function queryRoute(type) {
 }
 
 // 点击保存GeoJSON
-function saveGeoJSON() {
+export function saveGeoJSON() {
   if (routeLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

@@ -1,18 +1,13 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
-var graphicLayer
+export let graphicLayer
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   graphicLayer = new mars2d.layer.GraphicLayer({
@@ -26,12 +21,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 绘制
-function drawPolygon(type) {
+export function drawPolygon(type) {
   console.log("开始标绘：" + type)
 
   graphicLayer.startDraw({
@@ -49,7 +44,7 @@ function drawPolygon(type) {
 }
 
 // 绑定popup
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event?.attr || {}
     attr["类型"] = event.type
@@ -61,8 +56,8 @@ function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
-  graphicLayer.bindContextMenu([
+export function bindLayerContextMenu() {
+   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
@@ -91,6 +86,36 @@ function bindLayerContextMenu() {
       callback: function (e) {
         const graphic = e.graphic
         graphicLayer.stopEditing()
+      }
+    },
+    {
+      text: "复制",
+      iconCls: "fa fa-copy",
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
+          map.contextmenu.copyGraphic.layerId = graphicLayer.id
+        }
+      }
+    },
+    {
+      text: "剪切",
+      iconCls: "fa fa-scissors",
+      callback: (e) => {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        if (graphic) {
+          map.contextmenu.copyGraphic = graphic.toJSON() // map内置右键中"粘贴"菜单使用
+          map.contextmenu.copyGraphic.layerId = graphicLayer.id
+
+          graphic.remove(true) // 移除原有对象
+        }
       }
     },
     {

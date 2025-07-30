@@ -1,16 +1,11 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map
 let graphicLayer
 let pointLayer
 
-/**
- * 初始化地图业务，生命周期钩子函数（必须）
- * 框架在地图初始化完成后自动调用该函数
- * @param {mars2d.Map} mapInstance 地图对象
- * @returns {void} 无
- */
-function onMounted(mapInstance) {
+// 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -27,12 +22,12 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 绘制线
-function drawLine() {
+export function drawLine() {
   if (pointLayer) {
     pointLayer.clear()
   }
@@ -48,7 +43,7 @@ function drawLine() {
 }
 
 // 绘制点
-function drawPoint() {
+export function drawPoint() {
   pointLayer.clear()
   pointLayer.startDraw({
     type: "marker",
@@ -93,7 +88,7 @@ function nearPoint() {
 }
 
 // 清除数据
-function clearLayer() {
+export function clearLayer() {
   graphicLayer.clear()
   pointLayer.clear()
 }
