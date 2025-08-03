@@ -1,18 +1,18 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
-export let map // mars2d.Map三维地图对象
-const L = mars2d.L
-export let graphicLayer
+var map // mars2d.Map三维地图对象
+
+var graphicLayer
 
 // 事件对象，用于抛出事件给vue
-export const eventTarget = new mars2d.BaseClass()
-export const mapOptions = {
+var eventTarget = new mars2d.BaseClass()
+var mapOptions = {
   center: [31.755612, 117.341537],
   zoom: 11
 }
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
@@ -183,11 +183,13 @@ function addGraphic4() {
     decorator.setStyle([
       {
         symbol: {
+          type: "dash",
           pathOptions: { color: "#1f1f1f" }
         }
       },
       {
         symbol: {
+          type: "dash",
           pathOptions: { color: "#f00" }
         }
       }
@@ -291,7 +293,7 @@ function addGraphic6() {
   }, 3000)
 }
 
-export function startDrawGraphic() {
+function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "polyDecorator",
     style: [
@@ -323,7 +325,7 @@ export function startDrawGraphic() {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 

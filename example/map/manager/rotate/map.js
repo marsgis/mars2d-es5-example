@@ -1,15 +1,15 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
-export let map // mars2d.Map三维地图对象
+var map // mars2d.Map三维地图对象
 let graphicLayer
 
-const L = mars2d.L
+
 
 // 事件对象，用于抛出事件给vue
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
 // 参考 https://github.com/Raruto/leaflet-rotate#readme
-export const mapOptions = {
+var mapOptions = {
   rotate: true,
   rotateControl: {
     closeOnZeroBearing: false
@@ -18,7 +18,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
@@ -111,10 +111,10 @@ function addGraphic3() {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function changeRotate(val) {
+function changeRotate(val) {
   map.setBearing(val)
 }

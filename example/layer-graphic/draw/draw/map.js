@@ -1,13 +1,13 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
-export let graphicLayer
+var graphicLayer
 
 // 事件对象，用于抛出事件给vue
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   graphicLayer = new mars2d.layer.GraphicLayer({
@@ -66,11 +66,11 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function drawPoint() {
+function drawPoint() {
   graphicLayer.startDraw({
     type: "point",
     style: {
@@ -80,7 +80,7 @@ export function drawPoint() {
   })
 }
 
-export function drawMarker() {
+function drawMarker() {
   graphicLayer.startDraw({
     type: "marker",
     style: {
@@ -93,7 +93,7 @@ export function drawMarker() {
   })
 }
 
-export function drawLabel() {
+function drawLabel() {
   graphicLayer.startDraw({
     type: "label",
     style: {
@@ -105,7 +105,7 @@ export function drawLabel() {
   })
 }
 
-export function drawDivMarker() {
+function drawDivMarker() {
   graphicLayer.startDraw({
     type: "divGraphic",
     style: {
@@ -159,7 +159,7 @@ export function drawDivMarker() {
   })
 }
 
-export function drawPolyline() {
+function drawPolyline() {
   graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -169,7 +169,7 @@ export function drawPolyline() {
   })
 }
 
-export function drawCurveLine() {
+function drawCurveLine() {
   graphicLayer.startDraw({
     type: "brushLine",
     style: {
@@ -179,7 +179,7 @@ export function drawCurveLine() {
   })
 }
 
-export function drawPolygon() {
+function drawPolygon() {
   graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -194,7 +194,7 @@ export function drawPolygon() {
   })
 }
 
-export function drawRectangle() {
+function drawRectangle() {
   graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -209,7 +209,7 @@ export function drawRectangle() {
   })
 }
 
-export function drawImage() {
+function drawImage() {
   graphicLayer.startDraw({
     type: "image",
     style: {
@@ -219,7 +219,7 @@ export function drawImage() {
   })
 }
 
-export function drawCircle() {
+function drawCircle() {
   graphicLayer.startDraw({
     type: "circle",
     style: {
@@ -234,7 +234,7 @@ export function drawCircle() {
   })
 }
 
-export function onClickSaveKml() {
+function onClickSaveKml() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -258,7 +258,7 @@ export function onClickSaveKml() {
 
 // https://github.com/esri/terraformer-wkt-parser
 // 加载wkt用 var primitive = wkt.parse('LINESTRING (30 10, 10 30, 40 40)');
-export function onClickSaveWKT() {
+function onClickSaveWKT() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return

@@ -1,4 +1,4 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 let map
 let graphicLayer
 let shortestPathLayer
@@ -7,7 +7,7 @@ let polygonZAM
 let pointQD
 let pointZD
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -24,12 +24,12 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 绘制障碍面
-export function drawPolygon() {
+function drawPolygon() {
   if (polygonZAM) {
     polygonZAM.remove()
     polygonZAM = null
@@ -50,7 +50,7 @@ export function drawPolygon() {
 }
 
 // 绘制起点
-export function startPoint() {
+function startPoint() {
   if (pointQD) {
     pointQD.remove()
     pointQD = null
@@ -76,7 +76,7 @@ export function startPoint() {
 }
 
 // 绘制终点
-export function endPoint() {
+function endPoint() {
   if (pointZD) {
     pointZD.remove()
     pointZD = null
@@ -102,7 +102,7 @@ export function endPoint() {
 }
 
 // 计算最短路径
-export function shortestPath() {
+function shortestPath() {
   if (!polygonZAM) {
     globalMsg("请绘制障碍面")
     return
@@ -141,7 +141,7 @@ export function shortestPath() {
   shortestPathLayer.addGraphic(polyonLine)
 }
 
-export function clearLayer() {
+function clearLayer() {
   polygonZAM = null
   pointQD = null
   pointZD = null

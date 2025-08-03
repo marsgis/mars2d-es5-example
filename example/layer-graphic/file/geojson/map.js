@@ -1,19 +1,19 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 let geoJsonLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 11,
   center: { lng: 117.287917, lat: 31.904563 }
 }
 
 // 事件对象，用于抛出事件给vue
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   showPointDemo()
@@ -23,7 +23,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -42,7 +42,7 @@ function getArrayRandomOne(arr) {
 }
 
 // 示例：显示标绘数据
-export function showDrawDemo() {
+function showDrawDemo() {
   removeLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -61,7 +61,7 @@ export function showDrawDemo() {
 }
 
 // 示例：显示体育设施点数据
-export function showPointDemo() {
+function showPointDemo() {
   removeLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -116,7 +116,7 @@ export function showPointDemo() {
 }
 
 // 示例：显示省界线数据
-export function showChinaLineDemo() {
+function showChinaLineDemo() {
   removeLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -140,7 +140,7 @@ export function showChinaLineDemo() {
 }
 
 // 示例：显示面数据（规划面）
-export function showGuihuaDemo() {
+function showGuihuaDemo() {
   removeLayer()
 
   geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -203,7 +203,7 @@ export function showGuihuaDemo() {
 }
 
 // 示例：显示安徽各市数据
-export function showAnhuiDemo() {
+function showAnhuiDemo() {
   removeLayer()
 
   const colors = ["#FFEDA0", "#FED976", "#FEB24C", "#FD8D3C", "#FC4E2A", "#E31A1C", "#BD0026", "#800026"]
@@ -265,7 +265,7 @@ export function showAnhuiDemo() {
 }
 
 // 示例：显示世界各国数据
-export function showWorldDemo() {
+function showWorldDemo() {
   removeLayer()
 
   map.setMinZoom(1)

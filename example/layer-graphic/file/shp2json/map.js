@@ -1,18 +1,18 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
-export let map // mars2d.Map三维地图对象
-export let graphicLayer // 矢量图层对象
+var map // mars2d.Map三维地图对象
+var graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 11,
   center: { lng: 117.287917, lat: 31.904563 }
 }
 
-export const treeEvent = new mars2d.BaseClass()
+var treeEvent = new mars2d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   shoXZM()
@@ -22,12 +22,12 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // flyTo至目标
-export function flyToEntity(entity) {
+function flyToEntity(entity) {
   map.flyTo(entity)
 }
 
@@ -40,7 +40,7 @@ function removeLayer() {
 }
 
 // 示例：乡镇面
-export function shoXZM() {
+function shoXZM() {
   removeLayer()
 
   graphicLayer = new mars2d.layer.Shp2JsonLayer({
@@ -75,7 +75,7 @@ export function shoXZM() {
 }
 
 // 示例：高程点
-export function shoGCD() {
+function shoGCD() {
   removeLayer()
 
   graphicLayer = new mars2d.layer.Shp2JsonLayer({

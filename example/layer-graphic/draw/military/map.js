@@ -1,13 +1,13 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
-export let graphicLayer
+var graphicLayer
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   graphicLayer = new mars2d.layer.GraphicLayer({
@@ -21,12 +21,12 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 绘制
-export function drawPolygon(type) {
+function drawPolygon(type) {
   console.log("开始标绘：" + type)
 
   graphicLayer.startDraw({
@@ -44,7 +44,7 @@ export function drawPolygon(type) {
 }
 
 // 绑定popup
-export function bindLayerPopup() {
+function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event?.attr || {}
     attr["类型"] = event.type
@@ -56,7 +56,7 @@ export function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-export function bindLayerContextMenu() {
+function bindLayerContextMenu() {
    graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",

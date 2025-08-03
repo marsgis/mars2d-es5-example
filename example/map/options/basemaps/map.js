@@ -1,4 +1,4 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 function initMap() {
   // 在创建地球前的传参中配置basemaps参数
@@ -61,7 +61,7 @@ function initMap() {
         pid: 10,
         name: "高德卫星",
         type: "gaode",
-        layer: "img",
+        layer: "img_d",
         icon: "img/basemaps/bingimage.png"
       },
       {

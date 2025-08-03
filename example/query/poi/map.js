@@ -1,4 +1,4 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
 
@@ -10,14 +10,14 @@ let resultList = [] // 查询结果
 let lastQueryOptions // 上一次请求参数，用于 下一页使用
 let graphic
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   center: { lat: 31.797919, lng: 117.281329, alt: 36236, heading: 358, pitch: -81 }
 }
 
-export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
+var eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   globalNotify("已知问题提示", `(1) token如果访问失效或超流量了，请您自行申请替换mars3d.Token.update相关方法`)
@@ -60,12 +60,12 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 切换服务
-export function changeService(type) {
+function changeService(type) {
   queryPOI.setOptions({ service: type })
 }
 
@@ -78,7 +78,7 @@ export function changeService(type) {
  * @param {string} text 关键字
  * @returns {void}
  */
-export function query(radioFanwei, cityShi, text) {
+function query(radioFanwei, cityShi, text) {
   resultList = []
   switch (radioFanwei) {
     case "2": {
@@ -161,7 +161,7 @@ function loadData(queryOptions, text) {
   queryPOI.query(lastQueryOptions)
 }
 
-export function clearAll(noClearDraw) {
+function clearAll(noClearDraw) {
   lastQueryOptions = null
   resultList = []
   poiLayer.clear()
@@ -202,7 +202,7 @@ function addDemoGraphics(arr) {
 }
 
 // 框选查询 矩形
-export function drawRectangle() {
+function drawRectangle() {
   clearAll()
    map.graphicLayer.startDraw({
     type: "rectangle",
@@ -222,7 +222,7 @@ export function drawRectangle() {
 }
 
 // 框选查询   圆
-export function drawCircle() {
+function drawCircle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "circle",
@@ -241,7 +241,7 @@ export function drawCircle() {
 }
 
 // 框选查询   多边行
-export function drawPolygon() {
+function drawPolygon() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -259,7 +259,7 @@ export function drawPolygon() {
   })
 }
 
-export function flytoGraphic(graphic) {
+function flytoGraphic(graphic) {
   map.flyToGraphic(graphic)
   console.log(graphic)
 }

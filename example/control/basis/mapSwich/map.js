@@ -1,18 +1,18 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map // mars2d.Map三维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = function (option) {
+var mapOptions = function (option) {
   option.control = {}
   return option
 }
 
 // 事件对象，用于抛出事件给vue
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance
 
   // 地图切换
@@ -45,7 +45,7 @@ export function onMounted(mapInstance) {
         map.basemap = "天地图卫星"
         break
       case mars2d.control.MapSwich.Type.Map3D:
-        projectIfram.setAttribute("src", "http://mars3d.cn/project/jcxm/index.html") // mars3d的基础项目示例
+        projectIfram.setAttribute("src", "http://mars3d.cn/project/vue/map.html") // mars3d的基础项目示例
         projectIfram.style.display = ""
         projectIfram.style.zIndex = 400
 
