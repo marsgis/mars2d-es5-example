@@ -51,6 +51,16 @@
   <div class="infoview">
     <div>
       <div>
+          <span>服务：</span>
+          <span>
+            <select id="serveType" class="selectpicker form-control">
+              <option value="tdt">天地图服务</option>
+              <option value="gaode" selected="selected">高德服务</option>
+              <option value="baidu">百度服务</option>
+            </select>
+          </span>
+      </div>
+      <div>
         <span>范围：</span>
         <div class="radio radio-info radio-inline">
           <input type="radio" id="queryContent1" name="queryContent" value="1" checked />
@@ -146,7 +156,7 @@
         }
       })
 
-      let selectType
+      let selectType = "1"
       $('input:radio[name="queryContent"]').change(function () {
         selectType = $(this).val()
 
@@ -168,46 +178,13 @@
       })
 
       $("#query").click(function () {
-        clearAll(selectType == "3")
-        bootstrapList = []
-        switch (selectType) {
-          default:
-            {
-              //按城市
-              //var dnnm = $('#txtCity').data('citypicker').getCode()
-              let dmmc = $("#txtCity").data("citypicker").getName()
-
-              loadData({
-                page: 0,
-                city: dmmc,
-                citylimit: true
-              })
-            }
-            break
-          case "2": //当前视角范围
-            {
-              let extent = map.getExtent()
-              loadData({
-                page: 0,
-                polygon: [
-                  [extent.ymax, extent.xmin],
-                  [extent.ymin, extent.xmax]
-                ],
-                limit: true
-              })
-            }
-            break
-          case "3": //按范围
-            if (!drawGraphic) {
-              toastr.warning("请绘制限定范围！")
-              return
-            }
-            loadData({
-              page: 0,
-              graphic: drawGraphic,
-              limit: true
-            })
-            break
+        clearAll(true)
+        const cityCode = $("#txtCity").data("citypicker").getCode() + ""
+        const cityName = $("#txtCity").data("citypicker").getName()
+        if ($("#serveType").val() === "tdt") {
+          query(selectType, cityCode, $("#queryText").val())
+        } else {
+          query(selectType, cityName, $("#queryText").val())
         }
       })
 
@@ -241,40 +218,6 @@
       })
 }
 
-    function loadData(queryOptions) {
-      let queryVal = $.trim($("#queryText").val())
-      if (queryVal.length == 0) {
-        haoutil.msg("请输入 名称 关键字筛选数据！")
-        return
-      }
-      haoutil.loading.show()
-      lastQueryOptions = {
-        ...queryOptions,
-        count: 25, //count 每页数量
-        text: queryVal,
-        success: function (res) {
-          $("#resultView").show()
-          let data = res.list
-          bootstrapList = bootstrapList.concat(data)
-          $table.bootstrapTable("append", data)
-          $("#count").html(bootstrapList.length)
-          $("#allcount").html(res.allcount)
-          if (bootstrapList.length >= res.allcount || res.allcount < 25 || data.length == 0) {
-            $("#loadMore").hide()
-          } else {
-            $("#loadMore").show()
-          }
-          addGraphics(data)
-          haoutil.loading.close()
-        },
-        error: function (msg, error) {
-          window.toastr.error(msg)
-          haoutil.loading.close()
-        }
-      }
-      queryGaodePOI.query(lastQueryOptions)
-    }
-
     function clearAll(noClearDraw) {
       lastQueryOptions = null
 
@@ -289,35 +232,6 @@
       if (!noClearDraw) {
         drawGraphic = null
         map.graphicLayer.clear()
-      }
-    }
-
-    function addGraphics(arr) {
-      console.log("查询数据结果", arr)
-
-      for (let i = 0; i < arr.length; i++) {
-        let item = arr[i]
-        graphic = new mars2d.graphic.Marker({
-          id: item.id,
-          latlng: [item.lat, item.lng],
-          style: {
-            image: "img/marker/mark3.png",
-            scale: 1,
-            scaleByDistance: true,
-            scaleByDistance_far: 20000,
-            scaleByDistance_farValue: 0.5,
-            scaleByDistance_near: 1000,
-            scaleByDistance_nearValue: 1,
-            highlight: { type: "click", image: "img/marker/mark1.png" },
-            label: {
-              text: item.name,
-              font: "20px 楷体"
-            }
-          },
-          attr: item
-        })
-        poiLayer.addGraphic(graphic)
-        item._graphic = graphic
       }
     }
   </script>

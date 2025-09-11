@@ -20,6 +20,7 @@ var eventTarget = new mars2d.BaseClass()
 function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
+  map.container.style.backgroundColor = "#11243C"
   map.basemap = 2017 // 蓝色底图
 
   // 添加矢量图层
@@ -43,7 +44,7 @@ function onUnmounted() {
 function addAnhui(graphicLayer) {
   // 安徽省卫星底图
   const tileLayer = new mars2d.layer.TileLayer({
-    url: "//data.mars3d.cn/tile/anhui/{z}/{x}/{y}.png",
+    url: "https://data.mars3d.cn/tile/anhui/{z}/{x}/{y}.png",
     minZoom: 1,
     maxZoom: 12,
     rectangle: { xmin: 114.811691, xmax: 119.703609, ymin: 29.35597, ymax: 34.698585 }

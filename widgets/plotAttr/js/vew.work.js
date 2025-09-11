@@ -288,14 +288,15 @@ var plotEdit = {
         '<tr>  <td class="nametd">纬度：</td> <td><input type="number" class="mp_input plot_latlngs" data-type="wd" step="0.000001"  value="' +
         wd +
         '"></td></tr>'
-      if (this._hasHeight) {
-        inHtml +=
-          '<tr><td class="nametd">高程：</td> <td><input type="number" class="mp_input plot_latlngs" data-type="height" step="0.1" value="' +
-          height +
-          '" oldvalue="' +
-          height +
-          '"></td></tr>'
-      }
+      // 2d没有高程
+      // if (this._hasHeight) {
+      //   inHtml +=
+      //     '<tr><td class="nametd">高程：</td> <td><input type="number" class="mp_input plot_latlngs" data-type="height" step="0.1" value="' +
+      //     height +
+      //     '" oldvalue="' +
+      //     height +
+      //     '"></td></tr>'
+      // }
       inHtml += " </table> </div>"
     } else {
       if (this._hasHeight) {
@@ -338,16 +339,17 @@ var plotEdit = {
           '" value="' +
           wd +
           '"></td> </tr> '
-        if (this._hasHeight) {
-          inHtml +=
-            '<tr>  <td class="nametd">高程：</td> <td><input  type="number" step="0.1" class="mp_input plot_latlngs" data-type="height" data-index="' +
-            idx +
-            '" value="' +
-            height +
-            '" oldvalue="' +
-            height +
-            '"></td> </tr> '
-        }
+        // 2d没有高程
+        // if (this._hasHeight) {
+        //   inHtml +=
+        //     '<tr>  <td class="nametd">高程：</td> <td><input  type="number" step="0.1" class="mp_input plot_latlngs" data-type="height" data-index="' +
+        //     idx +
+        //     '" value="' +
+        //     height +
+        //     '" oldvalue="' +
+        //     height +
+        //     '"></td> </tr> '
+        // }
         inHtml += " </table> </div> </div>"
       }
     }
@@ -719,6 +721,9 @@ var plotEdit = {
 
           this.startEditing(this._last_attr)
         } else if (edit.type == "radio") {
+          this.startEditing(this._last_attr)
+        } else if (edit.type == "combobox") {
+          // 为了处理切换线形为虚线时，出现虚线速度的输入框
           this.startEditing(this._last_attr)
         }
 

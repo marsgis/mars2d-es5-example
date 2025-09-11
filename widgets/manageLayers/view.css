@@ -31,7 +31,7 @@
   outline: none;
 }
 
-/* 滑动条设置 */
+/* 锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷 */
 .slider {
   width: 50px !important;
   margin-left: 6px;
@@ -48,7 +48,7 @@
   background: rgb(88, 178, 231);
 }
 
-/* 滑动条内的小方块样式 */
+/* 锟斤拷锟斤拷锟斤拷锟节碉拷小锟斤拷锟斤拷锟斤拷式 */
 ::-webkit-scrollbar-corner {
   display: none;
 }

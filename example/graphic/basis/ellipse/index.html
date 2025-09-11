@@ -83,6 +83,7 @@
     "use script" //开发环境建议开启严格模式
 
     function initUI() {
+      bindAttributePannel()
       //图层管理的相关处理，
       initLayerManager(graphicLayer)
 
@@ -177,6 +178,54 @@
           clearSelectFile()
         }
       })
+
+      //  ***************************** 属性面板 ***********************  //
+      // 绑定事件，激活属性面板
+      function bindAttributePannel() {
+        graphicLayer.on(mars2d.EventType.drawCreated, function (e) {
+          let val = $("#hasEdit").is(":checked")
+          if (val) {
+            showEditor(e)
+          }
+        })
+        // 修改了矢量数据
+        graphicLayer.on("editStart editMovePoint editStyle editRemovePoint", function (e) {
+          showEditor(e.graphic)
+        })
+        // 停止编辑
+        graphicLayer.on("editStop removeGraphic", function (e) {
+          setTimeout(() => {
+            if (!graphicLayer.isEditing) {
+              stopEditing()
+            }
+          }, 100)
+        })
+      }
+
+      //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
+      let timeTik
+      function showEditor(graphic) {
+        clearTimeout(timeTik)
+
+        let plotAttr = es5widget.getClass("widgets/plotAttr/widget.js")
+        if (plotAttr && plotAttr.isActivate) {
+          plotAttr.startEditing(graphic, graphic.coordinates)
+        } else {
+          es5widget.activate({
+            map: map,
+            uri: "widgets/plotAttr/widget.js",
+            name: "属性编辑",
+            graphic: graphic,
+            lonlats: graphic.coordinates
+          })
+        }
+      }
+
+      function stopEditing() {
+        timeTik = setTimeout(function () {
+          es5widget.disable("widgets/plotAttr/widget.js")
+        }, 200)
+      }
     }
   </script>
 </body>

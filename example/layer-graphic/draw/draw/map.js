@@ -70,18 +70,19 @@ function onUnmounted() {
   map = null
 }
 
-function drawPoint() {
-  graphicLayer.startDraw({
+async function drawPoint() {
+  const graphic = await graphicLayer.startDraw({
     type: "point",
     style: {
       pixelSize: 8,
       color: "#000dfc"
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-function drawMarker() {
-  graphicLayer.startDraw({
+async function drawMarker() {
+  const graphic = await graphicLayer.startDraw({
     type: "marker",
     style: {
       image: "img/marker/mark1.png",
@@ -91,10 +92,11 @@ function drawMarker() {
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-function drawLabel() {
-  graphicLayer.startDraw({
+async function drawLabel() {
+  const graphic = await graphicLayer.startDraw({
     type: "label",
     style: {
       text: "Mars2D平台",
@@ -103,10 +105,11 @@ function drawLabel() {
       font_family: "楷体"
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-function drawDivMarker() {
-  graphicLayer.startDraw({
+async function drawDivMarker() {
+  const graphic = await graphicLayer.startDraw({
     type: "divGraphic",
     style: {
       html: `<div class="marsTiltPanel marsTiltPanel-theme-red">
@@ -157,30 +160,33 @@ function drawDivMarker() {
       verticalOrigin: mars2d.VerticalOrigin.BOTTOM
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-function drawPolyline() {
-  graphicLayer.startDraw({
+async function drawPolyline() {
+  const graphic = await graphicLayer.startDraw({
     type: "polyline",
     style: {
       width: 3,
       color: "#000dfc"
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-function drawCurveLine() {
-  graphicLayer.startDraw({
+async function drawCurveLine() {
+  const graphic = await graphicLayer.startDraw({
     type: "brushLine",
     style: {
       width: 3,
       color: "#000dfc"
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-function drawPolygon() {
-  graphicLayer.startDraw({
+async function drawPolygon() {
+  const graphic = await graphicLayer.startDraw({
     type: "polygon",
     style: {
       fill: true,
@@ -192,10 +198,11 @@ function drawPolygon() {
       outlineOpacity: 1
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-function drawRectangle() {
-  graphicLayer.startDraw({
+async function drawRectangle() {
+  const graphic = await graphicLayer.startDraw({
     type: "rectangle",
     style: {
       fill: true,
@@ -207,20 +214,22 @@ function drawRectangle() {
       outlineOpacity: 1
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-function drawImage() {
-  graphicLayer.startDraw({
+async function drawImage() {
+  const graphic = await graphicLayer.startDraw({
     type: "image",
     style: {
       url: "img/simple/gugong.jpg",
       opacity: 1
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
-function drawCircle() {
-  graphicLayer.startDraw({
+async function drawCircle() {
+  const graphic = await graphicLayer.startDraw({
     type: "circle",
     style: {
       fill: true,
@@ -232,6 +241,7 @@ function drawCircle() {
       outlineOpacity: 1
     }
   })
+  console.log("graphic绘制完成", graphic.toJSON())
 }
 
 function onClickSaveKml() {

@@ -22,7 +22,6 @@ function onUnmounted() {
   map = null
 }
 
-
 // 添加书签
 function butAddTxtName(name) {
   // 动态的获取index

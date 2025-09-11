@@ -15,6 +15,7 @@ var eventTarget = new mars2d.BaseClass()
 function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
+  map.container.style.backgroundColor = "#11243C"
   map.basemap = 2017 // 蓝色底图
 
   // 加载数据

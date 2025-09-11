@@ -18,29 +18,44 @@
     />
 
     <link rel="shortcut icon" type="image/x-icon" href="//mars2d.cn/favicon.ico" />
-    <title>全国温度图 | Mars2D | 地理信息平台 | 火星科技 | 合肥火星科技有限公司</title>
+    <title>Canvas文字 | Mars2D | 地理信息平台 | 火星科技 | 合肥火星科技有限公司</title>
 
     <!--第三方lib-->
     <script
       type="text/javascript"
       src="/lib/include-lib.js"
       libpath="/lib/"
-      include="jquery,font-awesome,bootstrap,layer,haoutil,turf,mars2d,kriging"
+      include="jquery,font-awesome,bootstrap,bootstrap-checkbox,layer,haoutil,turf,mars2d,canvaslabel"
     ></script>
+
     <link href="/css/style.css" rel="stylesheet" />
   </head>
 
   <body>
-
-
     <div id="mars2dContainer" class="mars2d-container"></div>
 
-    <script src="js/kriging_config.js"></script>
+    <div class="infoview">
+      <div>
+        按钮：
+        <div class="checkbox checkbox-primary checkbox-inline">
+          <input id="collisionDetection" class="styled" type="checkbox" checked />
+          <label for="collisionDetection"> 是否文本碰撞检测 </label>
+        </div>
+    </div>
 
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
 
     <script type="text/javascript">
+      "use script" //开发环境建议开启严格模式
+
+      function initUI() {
+        // 是否文本碰撞检测
+        $("#collisionDetection").change(function () {
+          let show = $(this).is(":checked")
+          setCollisionDetection(show)
+        })
+      }
     </script>
   </body>
 </html>
