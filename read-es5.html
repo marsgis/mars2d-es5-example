@@ -62,7 +62,11 @@
             configSourceUrl: `/config/example.json`
           })
 
-          marsEditor.renderHTML(document.getElementById("root"), getExampleId(), getQueryString("name"))
+          marsEditor.renderHTML({
+            container: document.getElementById("root"),
+            exampleId: getExampleId(),
+            exampleKey: getQueryString("key")
+          })
         })
       })
       function runScript(script) {

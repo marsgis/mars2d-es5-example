@@ -60,10 +60,11 @@
             configSourceUrl: `/config/example.json`
           })
 
-          marsEditor.renderHTML(document.getElementById("root"), getExampleId(), getQueryString("name"))
-          setTimeout(() => {
-            window.document.getElementById("btn-jump-react").style.display = "none" // 隐藏技术栈
-          }, 500)
+          marsEditor.renderHTML({
+            container: document.getElementById("root"),
+            exampleId: getExampleId(),
+            exampleKey: getQueryString("key")
+          })
         })
       })
       function runScript(script) {
