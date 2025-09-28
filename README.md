@@ -27,7 +27,7 @@
  
  这是一个基于`原生JS`开发的 mars2d 功能示例 演示项目。
 
- > 如果您不熟悉原生JS，对Vue比较熟悉，可以阅读：[功能示例Vue版教程](http://mars2d.cn/dev/guide/start/example.html)
+ > 如果您不熟悉原生JS，对Vue比较熟悉，可以阅读：[功能示例Vue版教程](http://mars2d.cn/docs/guide/example-vue/)
 
  ## 项目特性 
 - **独立页面**：每一个页面是一个单独的示例，依赖少，独立运行。
