@@ -1,11 +1,11 @@
-// import * as mars2d from "mars2d"
-
+import * as mars2d from "mars2d"
+const L = mars2d.L
 
 let map
 let mapEx
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   center: { lat: 30.754115, lng: 116.341283 },
   control: {
     geocoder: false
@@ -13,7 +13,7 @@ var mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 修改已有地图为50%
@@ -62,7 +62,7 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 

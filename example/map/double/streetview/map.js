@@ -1,15 +1,15 @@
-// import * as mars2d from "mars2d"
-
+import * as mars2d from "mars2d"
+const L = mars2d.L
 let map2d
 let graphicLayer
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 17,
   center: { lng: 117.204281, lat: 31.857494 }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map2d = mapInstance // 记录map
 
   globalNotify("已知问题提示", "(1) 百度街景目前限制使用，需要自行申请全景地图服务使用权限Key替换 ")
@@ -36,7 +36,7 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map2d = null
 }
 
@@ -51,7 +51,7 @@ function creatDom() {
 let typeView = 0
 
 // 3d显示
-function viewTo2d() {
+export function viewTo2d() {
   typeView = 0
   const dom2d = document.getElementById("centerDivJJ")
   const dom3d = document.getElementById("centerDiv2D")
@@ -64,7 +64,7 @@ function viewTo2d() {
 }
 
 // 街景显示
-function streetscape() {
+export function streetscape() {
   typeView = 1
   const dom2d = document.getElementById("centerDivJJ")
   const dom3d = document.getElementById("centerDiv2D")
@@ -75,7 +75,7 @@ function streetscape() {
 }
 
 // 分屏显示
-function splitScreen() {
+export function splitScreen() {
   typeView = 2
   const dom2d = document.getElementById("centerDivJJ")
   const dom3d = document.getElementById("centerDiv2D")

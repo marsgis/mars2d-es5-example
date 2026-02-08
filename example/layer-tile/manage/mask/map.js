@@ -1,19 +1,19 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 9,
   center: { lng: 117.258728, lat: 31.848053 },
   minZoom: 6
 }
 
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   const geoJsonLayer = new mars2d.layer.GeoJsonLayer({
@@ -43,8 +43,8 @@ function onMounted(mapInstance) {
 
   const graphicImg = new mars2d.graphic.Image({
     latlngs: [
-      [30.70, 116.05],
-      [32.86, 118.50]
+      [30.7, 116.05],
+      [32.86, 118.5]
     ],
     style: {
       url: "img/icon/calib.png",
@@ -83,6 +83,6 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }

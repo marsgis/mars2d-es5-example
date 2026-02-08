@@ -1,5 +1,5 @@
-// import * as mars2d from "mars2d"
-
+import * as mars2d from "mars2d"
+const L = mars2d.L
 
 let map // mars2d.Map二维地图对象
 let queryRoute
@@ -10,10 +10,10 @@ let poiLayer
 let startGraphic
 let endPointArr
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
@@ -65,18 +65,18 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 let lastRoute
-function centerAtRoute(id) {
+export function centerAtRoute(id) {
   const graphic = routeLayer.getGraphicById(id)
   map.flyToGraphic(graphic, { scale: 1.0 })
   lastRoute = graphic
 }
 
-function stratPoint() {
+export function stratPoint() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null
@@ -98,7 +98,7 @@ function stratPoint() {
   })
 }
 
-function endPoint() {
+export function endPoint() {
   showLoading()
   routeLayer.clear()
   poiLayer.clear()
@@ -132,12 +132,12 @@ function endPoint() {
 }
 
 // 切换服务
-function changeService(type) {
+export function changeService(type) {
   queryRoute.setOptions({ service: type })
   queryPOI.setOptions({ service: type })
 }
 
-function btnAnalyse(type) {
+export function btnAnalyse(type) {
   if (!startGraphic || !endPointArr || endPointArr.length === 0) {
     globalMsg("请设置起点和查询目的地")
     return
@@ -171,7 +171,7 @@ function queryRoutes(type) {
   })
 }
 
-function removeAll() {
+export function removeAll() {
   if (startGraphic) {
     startGraphic.remove()
     startGraphic = null

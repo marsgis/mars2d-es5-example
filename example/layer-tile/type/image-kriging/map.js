@@ -1,16 +1,16 @@
-// import * as mars2d from "mars2d"
-// import kriging from "kriging"
+import * as mars2d from "mars2d"
+import kriging from "kriging"
 
 let map
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 7,
   center: { lng: 116.883545, lat: 27.76133 }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   addTileLayer()
@@ -21,13 +21,13 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 叠加的图层
 let tileLayer
-async function addTileLayer() {
+export async function addTileLayer() {
   removeTileLayer()
 
   // 绘制色斑图需要的数据
@@ -89,7 +89,7 @@ async function addTileLayer() {
   })
   map.addLayer(tileLayer)
 }
-function removeTileLayer() {
+export function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

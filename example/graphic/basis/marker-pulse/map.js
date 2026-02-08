@@ -1,10 +1,10 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
+const L = mars2d.L
 
-
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 创建矢量数据图层
@@ -21,7 +21,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 

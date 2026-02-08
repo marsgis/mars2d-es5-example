@@ -1,4 +1,4 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
 let queryMapserver
@@ -6,14 +6,14 @@ let drawGraphic
 let geoJsonLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   center: { lat: 31.837532, lng: 117.202653, alt: 10586, heading: 0, pitch: -90 }
 }
 
-var eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
+export const eventTarget = new mars2d.BaseClass() // 事件对象，用于抛出事件到vue中
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 查询服务
@@ -42,12 +42,12 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
 // 框选查询 矩形
-function drawRectangle() {
+export function drawRectangle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "rectangle",
@@ -64,7 +64,7 @@ function drawRectangle() {
   })
 }
 // 框选查询   圆
-function drawCircle() {
+export function drawCircle() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "circle",
@@ -81,7 +81,7 @@ function drawCircle() {
   })
 }
 // 框选查询   多边行
-function drawPolygon() {
+export function drawPolygon() {
   clearAll()
   map.graphicLayer.startDraw({
     type: "polygon",
@@ -98,14 +98,14 @@ function drawPolygon() {
   })
 }
 // 清除数据
-function clearAll() {
+export function clearAll() {
   drawGraphic = null
   map.graphicLayer.clear()
   geoJsonLayer.clear()
 }
 
 // 查询数据
-function queryData(queryVal) {
+export function queryData(queryVal) {
   if (drawGraphic == null) {
     globalMsg("请绘制查询区域！")
     return

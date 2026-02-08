@@ -1,16 +1,16 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
+const L = mars2d.L
 
-
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 let queryMapserver
 let geoJsonLayer
 let drawGraphic
 let graphicLayer
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   graphicLayer = new mars2d.layer.GraphicLayer()
@@ -23,7 +23,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -47,11 +47,11 @@ function showGeoJsonLayer() {
 }
 
 // 切换服务
-function changeService(name) {
+export function changeService(name) {
   queryMapserver.layer = `mars:${name}`
 }
 
-function query(text, name) {
+export function query(text, name) {
   if (!drawGraphic) {
     globalMsg("请绘制区域")
     return
@@ -63,6 +63,7 @@ function query(text, name) {
     success: (result) => {
       if (result.count === 0) {
         globalMsg("未查询到相关记录！")
+        return
       } else {
         globalMsg("共查询到 " + result.count + " 条记录！")
       }
@@ -78,7 +79,7 @@ function query(text, name) {
 }
 
 // 点查询
-function drawPoint() {
+export function drawPoint() {
   clearAll()
   graphicLayer.startDraw({
     type: "point",
@@ -95,7 +96,7 @@ function drawPoint() {
   })
 }
 // 框选范围
-function drawRectangle() {
+export function drawRectangle() {
   clearAll()
   graphicLayer.startDraw({
     type: "rectangle",
@@ -114,7 +115,7 @@ function drawRectangle() {
 }
 
 // 框选查询   圆
-function drawCircle() {
+export function drawCircle() {
   clearAll()
   graphicLayer.startDraw({
     type: "circle",
@@ -132,7 +133,7 @@ function drawCircle() {
 }
 
 // 框选查询   多边行
-function drawPolygon() {
+export function drawPolygon() {
   clearAll()
   graphicLayer.startDraw({
     type: "polygon",
@@ -149,13 +150,13 @@ function drawPolygon() {
   })
 }
 
-function flyToGraphic(graphic) {
+export function flyToGraphic(graphic) {
   map.flyToGraphic(graphic, { scale: 1.5 })
   graphic.openPopup()
 }
 
 // 清除
-function clearAll(noClearDraw) {
+export function clearAll(noClearDraw) {
   if (!noClearDraw) {
     drawGraphic = null
     graphicLayer.clear()

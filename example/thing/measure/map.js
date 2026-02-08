@@ -1,8 +1,8 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 let map
 let measure
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   measure = new mars2d.thing.Measure()
@@ -48,18 +48,18 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function distance() {
+export function distance() {
   measure.distance()
 }
 
-function area() {
+export function area() {
   measure.area()
 }
 
-function clear() {
+export function clear() {
   measure.clear()
 }

@@ -1,18 +1,18 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
+const L = mars2d.L
 
-
-var map // mars2d.Map三维地图对象
-var graphicLayer // 矢量图层对象
+export let map // mars2d.Map二维地图对象
+export let graphicLayer // 矢量图层对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-var mapOptions = {
+export const mapOptions = {
   zoom: 13,
   center: { lng: 117.268238, lat: 31.898838 }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -32,7 +32,7 @@ function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -79,7 +79,7 @@ function addDemoGraphic2(graphicLayer) {
 }
 
 // 在图层绑定Popup弹窗
-function bindLayerPopup() {
+export function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
     const attr = event?.attr || {}
     attr["类型"] = event.type
@@ -91,7 +91,7 @@ function bindLayerPopup() {
 }
 
 // 绑定右键菜单
-function bindLayerContextMenu() {
+export function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
     {
       text: "开始编辑对象",
@@ -161,37 +161,37 @@ function bindLayerContextMenu() {
         globalAlert("该对象的长度为:" + strDis)
       }
     },
-        {
-          text: "计算周长",
-          iconCls: "fa fa-medium",
-          show: function (e) {
-            const graphic = e.graphic
-            if (!graphic) {
-              return false
-            }
-            return graphic.type === "circle" || graphic.type === "rectangle" || graphic.type === "polygon"
-          },
-          callback: function (e) {
-            const graphic = e.graphic
-            const strDis = mars2d.MeasureUtil.formatDistance(graphic.distance)
-            globalAlert("该对象的周长为:" + strDis)
-          }
-        },
-        {
-          text: "计算面积",
-          iconCls: "fa fa-reorder",
-          show: function (e) {
-            const graphic = e.graphic
-            if (!graphic) {
-              return false
-            }
-            return graphic.type === "circle" || graphic.type === "rectangle" || graphic.type === "polygon"
-          },
-          callback: function (e) {
-            const graphic = e.graphic
-            const strArea = mars2d.MeasureUtil.formatArea(graphic.area)
-            globalAlert("该对象的面积为:" + strArea)
-          }
+    {
+      text: "计算周长",
+      iconCls: "fa fa-medium",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
         }
+        return graphic.type === "circle" || graphic.type === "rectangle" || graphic.type === "polygon"
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        const strDis = mars2d.MeasureUtil.formatDistance(graphic.distance)
+        globalAlert("该对象的周长为:" + strDis)
+      }
+    },
+    {
+      text: "计算面积",
+      iconCls: "fa fa-reorder",
+      show: function (e) {
+        const graphic = e.graphic
+        if (!graphic) {
+          return false
+        }
+        return graphic.type === "circle" || graphic.type === "rectangle" || graphic.type === "polygon"
+      },
+      callback: function (e) {
+        const graphic = e.graphic
+        const strArea = mars2d.MeasureUtil.formatArea(graphic.area)
+        globalAlert("该对象的面积为:" + strArea)
+      }
+    }
   ])
 }

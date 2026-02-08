@@ -1,6 +1,6 @@
 let map
 
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance
   const overviewMap = new mars2d.control.OverviewMap({
     position: "topright",
@@ -23,6 +23,6 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }

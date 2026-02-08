@@ -1,13 +1,13 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
-var graphicLayer
+let map // mars2d.Map二维地图对象
+export let graphicLayer
 
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   graphicLayer = new mars2d.layer.GraphicLayer({
@@ -52,12 +52,10 @@ function onMounted(mapInstance) {
   })
 
   graphicLayer.on(mars2d.EventType.removeGraphic, function (e) {
-
     eventTarget.fire("graphicEditor-stop", e)
   })
 
   graphicLayer.on(mars2d.EventType.editStop, function (e) {
-
     eventTarget.fire("graphicEditor-stop", e)
   })
 }
@@ -66,11 +64,11 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-async function drawPoint() {
+export async function drawPoint() {
   const graphic = await graphicLayer.startDraw({
     type: "point",
     style: {
@@ -81,7 +79,7 @@ async function drawPoint() {
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
-async function drawMarker() {
+export async function drawMarker() {
   const graphic = await graphicLayer.startDraw({
     type: "marker",
     style: {
@@ -95,7 +93,7 @@ async function drawMarker() {
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
-async function drawLabel() {
+export async function drawLabel() {
   const graphic = await graphicLayer.startDraw({
     type: "label",
     style: {
@@ -108,7 +106,7 @@ async function drawLabel() {
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
-async function drawDivMarker() {
+export async function drawDivMarker() {
   const graphic = await graphicLayer.startDraw({
     type: "divGraphic",
     style: {
@@ -163,7 +161,7 @@ async function drawDivMarker() {
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
-async function drawPolyline() {
+export async function drawPolyline() {
   const graphic = await graphicLayer.startDraw({
     type: "polyline",
     style: {
@@ -174,7 +172,7 @@ async function drawPolyline() {
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
-async function drawCurveLine() {
+export async function drawCurveLine() {
   const graphic = await graphicLayer.startDraw({
     type: "brushLine",
     style: {
@@ -185,7 +183,7 @@ async function drawCurveLine() {
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
-async function drawPolygon() {
+export async function drawPolygon() {
   const graphic = await graphicLayer.startDraw({
     type: "polygon",
     style: {
@@ -201,7 +199,7 @@ async function drawPolygon() {
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
-async function drawRectangle() {
+export async function drawRectangle() {
   const graphic = await graphicLayer.startDraw({
     type: "rectangle",
     style: {
@@ -217,7 +215,7 @@ async function drawRectangle() {
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
-async function drawImage() {
+export async function drawImage() {
   const graphic = await graphicLayer.startDraw({
     type: "image",
     style: {
@@ -228,7 +226,7 @@ async function drawImage() {
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
-async function drawCircle() {
+export async function drawCircle() {
   const graphic = await graphicLayer.startDraw({
     type: "circle",
     style: {
@@ -244,7 +242,7 @@ async function drawCircle() {
   console.log("graphic绘制完成", graphic.toJSON())
 }
 
-function onClickSaveKml() {
+export function onClickSaveKml() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -268,7 +266,7 @@ function onClickSaveKml() {
 
 // https://github.com/esri/terraformer-wkt-parser
 // 加载wkt用 var primitive = wkt.parse('LINESTRING (30 10, 10 30, 40 40)');
-function onClickSaveWKT() {
+export function onClickSaveWKT() {
   if (graphicLayer.length === 0) {
     globalMsg("当前没有标注任何数据，无需保存！")
     return
@@ -299,10 +297,10 @@ function onClickSaveWKT() {
   mars2d.Util.downloadFile("我的标注wkt.txt", JSON.stringify(arrWKT))
 }
 
- // 绑定右键菜单
+// 绑定右键菜单
 function bindLayerContextMenu() {
   graphicLayer.bindContextMenu([
-        {
+    {
       text: "开始编辑对象",
       iconCls: "fa fa-edit",
       show: function (e) {

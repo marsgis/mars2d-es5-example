@@ -1,8 +1,8 @@
-// // import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 
-var mapOptions = {
+export const mapOptions = {
   zoom: 12,
   center: { lng: 111.700745, lat: 30.451633 },
   operationallayers: [

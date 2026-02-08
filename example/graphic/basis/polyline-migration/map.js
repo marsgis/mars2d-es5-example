@@ -1,19 +1,19 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
 
-
-var map // mars2d.Map三维地图对象
-var migrationLayer
+const L = mars2d.L
+export let map // mars2d.Map二维地图对象
+export let migrationLayer
 
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
-var mapOptions = {
+export const mapOptions = {
   zoom: 8,
   center: { lng: 118.009644, lat: 32.026706 }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   setData()
 }
@@ -22,7 +22,7 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
@@ -49,7 +49,7 @@ function getColor() {
   return colors[i]
 }
 
-function setData() {
+export function setData() {
   if (migrationLayer) {
     return
   }
@@ -87,27 +87,27 @@ function setData() {
   })
   migrationLayer.addTo(map)
 }
-function hide() {
+export function hide() {
   if (migrationLayer) {
     migrationLayer.hide()
   }
 }
-function show() {
+export function show() {
   if (migrationLayer) {
     migrationLayer.show()
   }
 }
-function pause() {
+export function pause() {
   if (migrationLayer) {
     migrationLayer.pause()
   }
 }
-function play() {
+export function play() {
   if (migrationLayer) {
     migrationLayer.play()
   }
 }
-function destroy() {
+export function destroy() {
   if (migrationLayer) {
     migrationLayer.destroy()
     migrationLayer = null

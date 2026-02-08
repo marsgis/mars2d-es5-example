@@ -1,14 +1,14 @@
-// import * as mars2d from "mars2d"
+import * as mars2d from "mars2d"
+const L = mars2d.L
 
-
-let map // mars2d.Map三维地图对象
+let map // mars2d.Map二维地图对象
 let canvasMarkerLayer
 
 // 事件对象，用于抛出事件给vue
-var eventTarget = new mars2d.BaseClass()
+export const eventTarget = new mars2d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-function onMounted(mapInstance) {
+export function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加图层
@@ -28,7 +28,6 @@ function onMounted(mapInstance) {
     return mars2d.Util.getTemplateHtml({ title: "矢量图层", template: "all", attr })
   })
 
-
   // 图层控制控件
   if (map.controls && map.controls.layers) {
     map.controls.layers.addOverlay(canvasMarkerLayer, "canvas点")
@@ -39,16 +38,16 @@ function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-function onUnmounted() {
+export function onUnmounted() {
   map = null
 }
 
-function clearData() {
+export function clearData() {
   canvasMarkerLayer.clear()
 }
 
 // 添加随机图标点
-function addMarkers(numPoints) {
+export function addMarkers(numPoints) {
   canvasMarkerLayer.clear()
 
   for (let i = 0; i < numPoints; i++) {
@@ -71,7 +70,7 @@ function addMarkers(numPoints) {
 }
 
 // 添加随机图标点
-function addCustomDrawMarkers(numPoints) {
+export function addCustomDrawMarkers(numPoints) {
   canvasMarkerLayer.clear()
 
   // if (map.dragging.moving()) {
