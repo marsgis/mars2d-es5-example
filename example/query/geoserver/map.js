@@ -1,5 +1,5 @@
-import * as mars2d from "mars2d"
-const L = mars2d.L
+// import * as mars2d from "mars2d"
+
 
 let map // mars2d.Map二维地图对象
 let queryMapserver
@@ -7,10 +7,10 @@ let geoJsonLayer
 let drawGraphic
 let graphicLayer
 // 事件对象，用于抛出事件给vue
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   graphicLayer = new mars2d.layer.GraphicLayer()
@@ -23,7 +23,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -47,11 +47,11 @@ function showGeoJsonLayer() {
 }
 
 // 切换服务
-export function changeService(name) {
+function changeService(name) {
   queryMapserver.layer = `mars:${name}`
 }
 
-export function query(text, name) {
+function query(text, name) {
   if (!drawGraphic) {
     globalMsg("请绘制区域")
     return
@@ -79,7 +79,7 @@ export function query(text, name) {
 }
 
 // 点查询
-export function drawPoint() {
+function drawPoint() {
   clearAll()
   graphicLayer.startDraw({
     type: "point",
@@ -96,7 +96,7 @@ export function drawPoint() {
   })
 }
 // 框选范围
-export function drawRectangle() {
+function drawRectangle() {
   clearAll()
   graphicLayer.startDraw({
     type: "rectangle",
@@ -115,7 +115,7 @@ export function drawRectangle() {
 }
 
 // 框选查询   圆
-export function drawCircle() {
+function drawCircle() {
   clearAll()
   graphicLayer.startDraw({
     type: "circle",
@@ -133,7 +133,7 @@ export function drawCircle() {
 }
 
 // 框选查询   多边行
-export function drawPolygon() {
+function drawPolygon() {
   clearAll()
   graphicLayer.startDraw({
     type: "polygon",
@@ -150,13 +150,13 @@ export function drawPolygon() {
   })
 }
 
-export function flyToGraphic(graphic) {
+function flyToGraphic(graphic) {
   map.flyToGraphic(graphic, { scale: 1.5 })
   graphic.openPopup()
 }
 
 // 清除
-export function clearAll(noClearDraw) {
+function clearAll(noClearDraw) {
   if (!noClearDraw) {
     drawGraphic = null
     graphicLayer.clear()

@@ -1,16 +1,16 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 let map
 
 let graphicLayer
 let polygonsLayer
 
-export const mapOptions = {
+var mapOptions = {
   zoom: 13,
   center: { lng: 117.283688, lat: 31.842128 }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 创建矢量数据图层
@@ -44,11 +44,11 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function drawPolygon() {
+function drawPolygon() {
   graphicLayer.clear()
   polygonsLayer.clear()
 
@@ -66,7 +66,7 @@ export function drawPolygon() {
 }
 
 // 旋转面
-export function spinPolygons(angle) {
+function spinPolygons(angle) {
   polygonsLayer.clear()
   graphicLayer.endDraw()
   const graphics = graphicLayer.getGraphics()
@@ -100,7 +100,7 @@ export function spinPolygons(angle) {
 }
 
 // 平移面
-export function translationPolygons(offset) {
+function translationPolygons(offset) {
   polygonsLayer.clear()
   graphicLayer.endDraw()
 
@@ -130,7 +130,7 @@ export function translationPolygons(offset) {
 }
 
 // 缩放面
-export function zoomPolygons(scale) {
+function zoomPolygons(scale) {
   polygonsLayer.clear()
   graphicLayer.endDraw()
 

@@ -1,4 +1,4 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
 
@@ -6,7 +6,7 @@ const attributionHtml = `©2024 Tencent - <span>审图号：GS(2023)1号</span>
 - <a target="_blank" href="https://lbs.qq.com/terms.html">服务条款</a>`
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   control: {
     layers: { position: "topright" }
   },
@@ -27,7 +27,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
   addCreditDOM()
   addTestMarker()
@@ -37,7 +37,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   removeCreditDOM()
   map = null
 }

@@ -1,16 +1,16 @@
-import * as mars2d from "mars2d"
-import * as GeoTIFF from "geotiff"
+// import * as mars2d from "mars2d"
+// import * as GeoTIFF from "geotiff"
 
-export let map // mars2d.Map二维地图对象
+var map // mars2d.Map二维地图对象
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 15,
   center: { lng: 117.14005, lat: 31.840196 }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须）,框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   globalNotify("已知问题提示", `(1)浏览器端直接加载TIF只适合小数据，大数据请发布WMS、WMTS等服务方式；`)
@@ -19,14 +19,14 @@ export function onMounted(mapInstance) {
 }
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
 // 叠加的图层
 let tileLayer
 
-export async function addTileLayer() {
+async function addTileLayer() {
   removeTileLayer()
 
   const result = await tif2img2("https://data.mars3d.cn/img/map/rjy.tif")
@@ -43,7 +43,7 @@ export async function addTileLayer() {
 }
 
 // 移除图层
-export function removeTileLayer() {
+function removeTileLayer() {
   if (tileLayer) {
     map.removeLayer(tileLayer, true)
     tileLayer = null

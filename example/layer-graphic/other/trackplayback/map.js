@@ -1,14 +1,14 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
-export let map // mars2d.Map二维地图对象
-const L = mars2d.L
+var map // mars2d.Map二维地图对象
+
 
 let trackplayback
 // 事件对象，用于抛出事件给vue
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   map.setView([33.74, 134.38], 6)
@@ -43,7 +43,7 @@ function initTtrackplayback(data) {
   })
 }
 
-export function controlPlaying(isPlay) {
+function controlPlaying(isPlay) {
   if (isPlay) {
     trackplayback.clock.start()
   } else {
@@ -51,23 +51,23 @@ export function controlPlaying(isPlay) {
   }
 }
 
-export function rePlaying() {
+function rePlaying() {
   trackplayback.clock.rePlaying()
 }
-export function slowSpeed() {
+function slowSpeed() {
   trackplayback.clock.slowSpeed()
 
   const info = getInfo()
   eventTarget.fire("dataLoad", { info })
 }
 
-export function quickSpeed() {
+function quickSpeed() {
   trackplayback.clock.quickSpeed()
 
   const info = getInfo()
   eventTarget.fire("dataLoad", { info })
 }
-export function setSpeed() {
+function setSpeed() {
   trackplayback.clock.setSpeed()
 }
 
@@ -87,14 +87,14 @@ function getInfo() {
   }
 }
 
-export function showTrackPoint(show) {
+function showTrackPoint(show) {
   if (show) {
     trackplayback.draw.showTrackPoint()
   } else {
     trackplayback.draw.hideTrackPoint()
   }
 }
-export function showTrackLine(show) {
+function showTrackLine(show) {
   if (show) {
     trackplayback.draw.showTrackLine()
   } else {
@@ -102,7 +102,7 @@ export function showTrackLine(show) {
   }
 }
 
-export function setCursor(val) {
+function setCursor(val) {
   trackplayback.setCursor(val)
 }
 
@@ -132,6 +132,6 @@ function getShowTime(time, accuracy = "s") {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }

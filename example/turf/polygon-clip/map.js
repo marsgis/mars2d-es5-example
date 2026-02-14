@@ -1,15 +1,15 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 let map
 let drawLayer
 let polygonLayer
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
-export const mapOptions = {
+var mapOptions = {
   zoom: 11,
   center: { lng: 117.29501, lat: 31.841349 }
 }
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 加载面数据
@@ -24,11 +24,11 @@ export function onMounted(mapInstance) {
  * @returns {void} 无
  */
 
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function drawLine() {
+function drawLine() {
   drawLayer.clear()
   drawLayer.startDraw({
     type: "polyline",
@@ -110,7 +110,7 @@ function loadPolygon() {
 }
 
 // 清除
-export function clear() {
+function clear() {
   drawLayer.clear()
 }
 

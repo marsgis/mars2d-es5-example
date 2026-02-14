@@ -1,19 +1,19 @@
-import * as mars2d from "mars2d"
+// import * as mars2d from "mars2d"
 
-export let map // mars2d.Map二维地图对象
+var map // mars2d.Map二维地图对象
 
 // 事件对象，用于抛出事件给vue
-export const eventTarget = new mars2d.BaseClass()
-export let graphicLayer
+var eventTarget = new mars2d.BaseClass()
+var graphicLayer
 
-export const mapOptions = {
+var mapOptions = {
   center: [31.837316, 117.231503],
   zoom: 13,
   zoomAnimation: true
 }
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance
 
   graphicLayer = new mars2d.layer.GraphicLayer()
@@ -26,7 +26,7 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
@@ -53,7 +53,7 @@ function addDemoGraphic() {
   graphicLayer.addGraphic(rain)
 }
 
-export function startDrawGraphic() {
+function startDrawGraphic() {
   graphicLayer.startDraw({
     type: "rain",
     style: {

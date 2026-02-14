@@ -1,10 +1,10 @@
-import * as mars2d from "mars2d"
-const L = mars2d.L
+// import * as mars2d from "mars2d"
+
 
 let map
 
 // 合并属性参数，可覆盖config.json中的对应配置
-export const mapOptions = {
+var mapOptions = {
   basemaps: [],
   control: {
     layers: false
@@ -12,7 +12,7 @@ export const mapOptions = {
 }
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance
 
   // 分屏对比
@@ -37,6 +37,6 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }

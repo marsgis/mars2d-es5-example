@@ -1,14 +1,14 @@
-import * as mars2d from "mars2d"
-const L = mars2d.L
+// import * as mars2d from "mars2d"
+
 
 let map // mars2d.Map二维地图对象
 let canvasMarkerLayer
 
 // 事件对象，用于抛出事件给vue
-export const eventTarget = new mars2d.BaseClass()
+var eventTarget = new mars2d.BaseClass()
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
-export function onMounted(mapInstance) {
+function onMounted(mapInstance) {
   map = mapInstance // 记录首次创建的map
 
   // 添加图层
@@ -38,16 +38,16 @@ export function onMounted(mapInstance) {
  * 释放当前地图业务的生命周期函数
  * @returns {void} 无
  */
-export function onUnmounted() {
+function onUnmounted() {
   map = null
 }
 
-export function clearData() {
+function clearData() {
   canvasMarkerLayer.clear()
 }
 
 // 添加随机图标点
-export function addMarkers(numPoints) {
+function addMarkers(numPoints) {
   canvasMarkerLayer.clear()
 
   for (let i = 0; i < numPoints; i++) {
@@ -70,7 +70,7 @@ export function addMarkers(numPoints) {
 }
 
 // 添加随机图标点
-export function addCustomDrawMarkers(numPoints) {
+function addCustomDrawMarkers(numPoints) {
   canvasMarkerLayer.clear()
 
   // if (map.dragging.moving()) {
