@@ -17,7 +17,7 @@ const fs = require("fs")
 const path = require("path")
 
 //////////////////////////以下参数可以根据实际情况调整/////////////////////
-const copyright = "版权所有 火星科技 http://marsgis.cn"
+const copyright = "版权所有 http://mars2d.cn"
 
 //这个时间后修改的文件不处理（增量更新时使用）
 let lastTime
