@@ -171,13 +171,8 @@
 
       function initUI() {
         // 树控件
-        mars2d.Util.fetchJson({ url: "../config/config.json" })
-          .then(function (data) {
-            initTree(data.mars2d.operationallayers)
-          })
-          .catch(function (error) {
-            console.log("加载JSON出错", error)
-          })
+        const layers = getLayers()
+        initTree(layers)
 
         // eslint-disable-next-line no-undef
         jeDate("#txtStartTime", {
@@ -460,7 +455,7 @@
 
         let zNodes = []
         for (let i = layers.length - 1; i >= 0; i--) {
-          let layerOptions = layers[i]
+          let layerOptions = layers[i].options
           layerOptions.flyTo = true
           let layer = mars2d.LayerUtil.create(layerOptions) //创建图层
 

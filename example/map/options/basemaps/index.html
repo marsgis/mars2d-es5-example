@@ -21,7 +21,12 @@
     <title>basemaps 瓦片底图 | Mars2D地理信息平台</title>
 
     <!--第三方lib-->
-    <script type="text/javascript" src="/lib/include-lib.js" libpath="/lib/" include="jquery,font-awesome,bootstrap,layer,haoutil,mars2d"></script>
+    <script
+      type="text/javascript"
+      src="/lib/include-lib.js"
+      libpath="/lib/"
+      include="jquery,font-awesome,bootstrap,layer,haoutil,toastr,mars2d"
+    ></script>
 
     <link href="/css/style.css" rel="stylesheet" />
   </head>
@@ -31,5 +36,11 @@
 
     <script src="/js/common.js"></script>
     <script src="./map.js"></script>
+    <script type="text/javascript">
+      globalNotify(
+        "已知问题提示",
+        "如图层未显示或服务URL访问超时，是因为目前国家测绘主管部门对未经审核批准的国外地图服务做了屏蔽封锁。<br />您可以需翻墙使用或参考示例代码替换本地服务地址使用"
+      )
+    </script>
   </body>
 </html>

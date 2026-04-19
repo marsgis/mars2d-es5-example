@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -18,7 +18,7 @@
       content="Mars2D leaflet leaflet框架 leaflet开发 leaflet leaflet开发 leaflet框架 二维 地图 模型  gis marsgis 地图离线 地图开发 地图框架 地图外包 框架 开发 外包  地图离线 二维地图 二维地图 全景漫游 地理信息系统 云GIS 二维GIS GIS平台 WebGIS"
     />
 
-    <title>军事标绘 |二维地图| </title>
+    <title>军事标绘 |二维地图|</title>
     <script
       type="text/javascript"
       src="/lib/include-lib.js"
@@ -95,7 +95,7 @@
         $("#chkPopup").change(function () {
           let val = $(this).is(":checked")
           if (val) {
-            bindLayerPopup(graphicLayer)
+            bindLayerPopupFn(graphicLayer)
           } else {
             graphicLayer.unbindPopup()
           }
@@ -200,7 +200,7 @@
         })
       }
 
-      function bindLayerPopup(graphicLayer) {
+      function bindLayerPopupFn(graphicLayer) {
         graphicLayer.bindPopup(function (event) {
           let attr = event.graphic?.attr || {}
           attr.test1 = "测试属性"
@@ -237,6 +237,5 @@
       }
       //附加：激活属性编辑widget【非必需，可以注释该方法内部代码】
     </script>
-
   </body>
 </html>

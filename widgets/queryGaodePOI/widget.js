@@ -186,7 +186,7 @@
           this.address = result
 
           if (this.addressContainer) {
-            this.addressContainer.innerText = "地址：" + result.address
+            this.addressContainer.innerText = "地址：" + result?.address
           }
         }
       })

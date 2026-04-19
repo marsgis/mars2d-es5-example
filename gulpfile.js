@@ -40,6 +40,7 @@ const noCopyPathDef = [
   "gulpfile.js",
   "package.json",
   "package-lock.json",
+  ".js.map",
   "-src."
 ]
 
