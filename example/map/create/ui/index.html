@@ -89,17 +89,17 @@
             <td>多选：</td>
             <td class="slider">
               <div class="checkbox checkbox-primary checkbox-inline">
-                <input id="showGoHome" class="styled" type="checkbox" onclick="fireStar()" />
+                <input id="showGoHome" class="styled" type="checkbox" onclick="MultipleChoice()" />
                 <label for="showGoHome"> 火星 </label>
               </div>
 
               <div class="checkbox checkbox-primary checkbox-inline">
-                <input id="showSceneModePicker" class="styled" type="checkbox" onclick="earthStar()" />
+                <input id="showSceneModePicker" class="styled" type="checkbox" onclick="MultipleChoice()" />
                 <label for="showSceneModePicker"> 地球 </label>
               </div>
 
               <div class="checkbox checkbox-primary checkbox-inline">
-                <input id="showBaseLayerPicker" class="styled" type="checkbox" onclick="sunStar()" />
+                <input id="showBaseLayerPicker" class="styled" type="checkbox" onclick="MultipleChoice()" />
                 <label for="showBaseLayerPicker"> 太阳 </label>
               </div>
             </td>
@@ -260,33 +260,48 @@
           const txtUrl = $("#txtUrl").val()
           toastr.info(txtUrl)
         })
+        $("#txtUrl").keydown(function () {
+          setTimeout(function () {
+            const txtUrl = $("#txtUrl").val()
+            globalMsg(txtUrl)
+          }, 10)
+        })
       }
 
-      function fireStar() {
-        if ($("#showGoHome").is(":checked")) {
-          toastr.info("火星被选中了")
+      function MultipleChoice() {
+        const objArr = [
+          {
+            show: $("#showGoHome").is(":checked"),
+            value: "火星"
+          },
+          {
+            show: $("#showSceneModePicker").is(":checked"),
+            value: "地球"
+          },
+          {
+            show: $("#showBaseLayerPicker").is(":checked"),
+            value: "太阳"
+          }
+        ]
+        const showStrArr = []
+        for (let i = 0; i < objArr.length; i++) {
+          const item = objArr[i]
+          if (item.show) {
+            showStrArr.push(item.value)
+          }
         }
-      }
-
-      function earthStar() {
-        if ($("#showSceneModePicker").is(":checked")) {
-          toastr.info("地球被选中了")
-        }
-      }
-
-      function sunStar() {
-        if ($("#showBaseLayerPicker").is(":checked")) {
-          toastr.info("太阳被选中了")
+        if (showStrArr.length > 0) {
+          globalMsg(showStrArr.join(",") + "被选中了")
         }
       }
 
       function chooseStar() {
         if ($("#shadingMaterials1").is(":checked")) {
-          toastr.info("火星被选中了")
+          globalMsg("火星被选中了")
         } else if ($("#shadingMaterials2").is(":checked")) {
-          toastr.info("地球被选中了")
+          globalMsg("地球被选中了")
         } else if ($("#shadingMaterials3").is(":checked")) {
-          toastr.info("太阳被选中了")
+          globalMsg("太阳被选中了")
         }
       }
 
