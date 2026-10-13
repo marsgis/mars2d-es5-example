@@ -53,6 +53,15 @@ function initLayerManager() {
   })
 }
 
+function startDrawGraphic() {
+  graphicLayer.startDraw({
+    type: "ellipse",
+    style: {
+      color: "#0000ff"
+    }
+  })
+}
+
 // 绑定popup
 function bindLayerPopup() {
   graphicLayer.bindPopup(function (event) {
