@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="no-js css-menubar" lang="zh-cn">
   <head>
     <meta charset="utf-8" />
@@ -33,11 +33,31 @@
 
     <title>功能示例(原生JS版) | Mars2D三维可视化平台</title>
 
-    <link rel="stylesheet" href="./lib/marsgis-editor/style.css" />
     <link rel="stylesheet" href="./js/editor/editor.css" />
-
+    <link rel="stylesheet" href="./lib/marsgis-editor/editor.css" />
+    <style>
+      /*
+       * 深海蓝 + 淡靛蓝主题（按当前示例页配色取样）：
+       * 顶栏/菜单取自截图中的 #233a5c / #2f476b，链接色对应右侧面板主色 #638eff 的浅色版
+       */
+      .marsgis-editor__container {
+        --mars-editor-menu-bg: #2f476b;
+        --mars-editor-menu-hover: #3d5b84;
+        --mars-editor-header-bg: #233a5c;
+        --mars-editor-header-border: 1px solid #35597f;
+        --mars-editor-header-shadow: 0 1px 6px rgba(0, 0, 0, 0.35);
+        --mars-editor-title-color: #eaf2fb;
+        --mars-editor-header-link-color: #8db6ff;
+        --mars-editor-header-link-hover-color: #c0d6ff;
+        --mars-editor-intro-color: #c3d5e7;
+        --mars-editor-gutter-bg: #233a5c;
+        --mars-editor-gutter-border: 1px solid #35597f;
+        --mars-editor-gutter-shadow: 0 1px 4px rgba(0, 0, 0, 0.3);
+      }
+    </style>
     <script src="./lib/include-lib.js" libpath="./lib/" include="jquery,layer,haoutil"></script>
-    <script src="./lib/require/require.js"></script>
+    <!-- 静态页加载器：自动加载 monaco 与 editor.iife.js，无需手写 RequireJS 配置 -->
+    <script src="./lib/marsgis-editor/editor.loader.js"></script>
   </head>
 
   <body class="hold-transition skin-blue sidebar-mini sidebar-collapse">
@@ -45,11 +65,9 @@
 
     <!-- <script type="module"> -->
     <script>
-      require.config({ paths: { vs: "./lib/monaco-editor" } })
-
-      require(["vs/editor/editor.main"], function (monaco) {
-        require(["./lib/marsgis-editor/editor.iife.js"], function () {
-          const marsEditor = new MarsgisEditor.Editor({
+      MarsgisEditorLoader.load()
+        .then(({ Editor }) => {
+          const marsEditor = new Editor({
             packageName: "mars2d",
             baseUrl: "/",
             code: getQueryString("code"),
@@ -66,7 +84,9 @@
             exampleKey: getQueryString("key")
           })
         })
-      })
+        .catch((err) => {
+          console.error("编辑器加载失败", err)
+        })
       function runScript(script) {
         const newScript = document.createElement("script")
         newScript.innerHTML = script
@@ -84,7 +104,6 @@
       function $message(msg, type) {
         return haoutil.msg(msg, type)
       }
-
       /**
        *  获取示例ID
        * @export

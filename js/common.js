@@ -10,7 +10,7 @@ function init() {
     .then(function (json) {
       console.log("读取 config.json 配置文件完成", json) // 打印测试信息
 
-      //创建三维地球场景
+      //创建二维地图场景
       const initMapFun = window.initMap ? window.initMap : globalInitMap
       var map = initMapFun(json)
       if (map && map.then) {
@@ -57,7 +57,7 @@ function globalInitMap(options) {
     }
   }
 
-  // 创建三维地球场景
+  // 创建二维地图场景
   return new mars2d.Map("mars2dContainer", options)
 }
 

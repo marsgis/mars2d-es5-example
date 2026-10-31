@@ -14,6 +14,8 @@ var mapOptions = {
 
 var eventTarget = new mars2d.BaseClass()
 
+let timeTik = null // tooltip 内时间局部刷新的定时器
+
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 function onMounted(mapInstance) {
   map = mapInstance
@@ -34,11 +36,20 @@ function onMounted(mapInstance) {
   bindLayerDemo()
 }
 
+function onUnmounted() {
+  removeDemoLayer()
+  map = null
+}
+
 function removeDemoLayer() {
+  if (timeTik) {
+    clearInterval(timeTik)
+    timeTik = null
+  }
   // 关闭弹窗
   if (lastMaplTooltip) {
     map.closeTooltip(lastMaplTooltip)
-    // delete lastMaplTooltip
+    lastMaplTooltip = null
   }
 
   graphicLayer.clear()
@@ -172,8 +183,6 @@ function bindGraphicDemo2() {
     }
   })
   graphicLayer.addGraphic(graphic)
-
-  let timeTik
 
   // 刷新局部DOM,不影响tooltip面板的其他控件操作
   graphic.on(mars2d.EventType.tooltipopen, function (event) {

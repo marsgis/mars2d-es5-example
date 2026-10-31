@@ -1,6 +1,8 @@
 // import * as mars2d from "mars2d"
 
+
 let map // mars2d.Map二维地图对象
+let zoomControl
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = function (option) {
@@ -17,8 +19,8 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   // 第二种添加控件方法
-  const zoom = L.control.zoom({ position: "bottomleft" })
-  map.addControl(zoom)
+  zoomControl = L.control.zoom({ position: "bottomleft" })
+  map.addControl(zoomControl)
 }
 
 /**
@@ -26,5 +28,9 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 function onUnmounted() {
+  if (map && zoomControl) {
+    map.removeControl(zoomControl)
+    zoomControl = null
+  }
   map = null
 }

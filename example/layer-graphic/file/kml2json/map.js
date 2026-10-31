@@ -51,6 +51,7 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 function onUnmounted() {
+  removeLayer()
   map = null
 }
 

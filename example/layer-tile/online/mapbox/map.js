@@ -73,8 +73,9 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 function onUnmounted() {
-  map = null
+  // 先移除叠加图层再置空 map，否则 removeLayer 内访问空 map 会报错
   removeLayer()
+  map = null
 }
 
 function addLayer() {

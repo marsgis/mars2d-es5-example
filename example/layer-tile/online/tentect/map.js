@@ -1,5 +1,6 @@
 // import * as mars2d from "mars2d"
 
+
 let map // mars2d.Map二维地图对象
 
 const attributionHtml = `©2024 Tencent - <span>审图号：GS(2023)1号</span>
@@ -38,6 +39,9 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 function onUnmounted() {
+  if (map) {
+    map.off("baselayerchange", attributionUpdateHandler)
+  }
   removeCreditDOM()
   map = null
 }
@@ -72,9 +76,14 @@ function addCreditDOM() {
 
     attributionDOM.innerHTML = map.basemap?.options?.attribution || ""
 
-    map.on("baselayerchange", function (event) {
-      attributionDOM.innerHTML = map.basemap?.options?.attribution || ""
-    })
+    map.on("baselayerchange", attributionUpdateHandler)
+  }
+}
+
+// 底图切换后同步版权信息；具名注册便于卸载时解绑，避免重复进入示例叠加监听
+function attributionUpdateHandler() {
+  if (attributionDOM) {
+    attributionDOM.innerHTML = map.basemap?.options?.attribution || ""
   }
 }
 function removeCreditDOM() {

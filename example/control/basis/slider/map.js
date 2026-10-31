@@ -1,6 +1,7 @@
 // import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let sliderControl
 
 // 合并属性参数，可覆盖config.json中的对应配置
 var mapOptions = {
@@ -26,6 +27,7 @@ function onMounted(mapInstance) {
     cityLevel: 10,
     streetLevel: 14
   })
+  sliderControl = slider
   map.addControl(slider)
 }
 /**
@@ -33,5 +35,9 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 function onUnmounted() {
+  if (map && sliderControl) {
+    map.removeControl(sliderControl)
+    sliderControl = null
+  }
   map = null
 }

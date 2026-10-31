@@ -23,26 +23,31 @@ const copyright = "版权所有 http://mars2d.cn"
 let lastTime
 
 //排除不拷贝的文件类型后缀
-const noCopyFileType = [".psd", ".doc", ".docx", ".txt", ".md", ".zip", ".rar"]
+const noCopyFileType = [".psd", ".doc", ".docx", ".txt", ".md", ".zip", ".rar", ".map"]
 
-//排除不拷贝的目录
+//排除不拷贝的目录（路径统一转换为 / 后按片段匹配）
 const noCopyPathDef = [
-  ".svn",
-  ".git",
-  "dist",
-  "node_modules",
-  ".eslintrc",
-  ".editorconfig",
-  ".eslintignore",
-  ".prettierrc",
-  ".vscode",
-  "LICENSE",
-  "gulpfile.js",
-  "package.json",
-  "package-lock.json",
+  "/.svn",
+  "/.git",
+  "/dist/",
+  "/node_modules/",
+  "/.eslintrc",
+  "/.editorconfig",
+  "/.eslintignore",
+  "/.prettierrc",
+  "/.vscode",
+  "/LICENSE",
+  "/gulpfile.js",
+  "/package.json",
+  "/package-lock.json",
+  "/README",
   ".js.map",
-  "-src."
+  "-src.",
+  "-test"
 ]
+
+//排除不拷贝的相对路径（按目录/文件精确匹配，避免误伤 example/**/index.html）
+const noCopyRelPathDef = ["build", "config/thumbnail", "dist", "index.html"]
 
 //定义不做压缩混淆直接拷贝的目录
 const noPipePathDef = ["lib"]
@@ -111,7 +116,7 @@ gulp.task("build", (done) => {
             })
           )
           .pipe(
-            uglify().on("error", function () {
+            uglify().on("error", function (err) {
               this.emit("end")
               throwOnlyCopy(srcPath, srcFile, outFilePath, err)
             })
@@ -220,16 +225,34 @@ gulp.task("build", (done) => {
   // console.log('--------代码编译完成--------');
 })
 
+//路径统一转换为 /，便于跨平台匹配
+function toPosixPath(filePath) {
+  return filePath.replace(/\\/g, "/")
+}
+
+//按相对路径精确匹配目录或文件（同时匹配其子路径）
+function isNoCopyRelPath(relPath) {
+  return noCopyRelPathDef.some((t) => relPath === t || relPath.startsWith(t + "/"))
+}
+
 //遍历目录获取文件列表
 function travel(dir) {
   fs.readdirSync(dir).forEach(function (file) {
     let pathname = path.join(dir, file)
+    let relPath = toPosixPath(path.relative(srcPath, pathname))
+    let thisPath = "/" + relPath
+
+    //不进入发布排除的目录/文件
+    if (isNoCopyRelPath(relPath)) {
+      return
+    }
+
     if (fs.statSync(pathname).isDirectory()) {
       //排除不拷贝的目录，文件不会生成到目标目录中
-      if (noCopyPathDef.some((t) => pathname.indexOf(t) !== -1)) {
+      if (noCopyPathDef.some((t) => thisPath.indexOf(t) !== -1)) {
         return
       }
-      if (noCopyPath.some((t) => pathname.indexOf(t) !== -1)) {
+      if (noCopyPath.some((t) => thisPath.indexOf(t) !== -1)) {
         return
       }
 
@@ -239,10 +262,10 @@ function travel(dir) {
       // console.log(pathname);
 
       //排除不拷贝的文件，文件不会生成到目标目录中
-      if (noCopyPathDef.some((t) => pathname.indexOf(t) !== -1)) {
+      if (noCopyPathDef.some((t) => thisPath.indexOf(t) !== -1)) {
         return
       }
-      if (noCopyPath.some((t) => pathname.indexOf(t) !== -1)) {
+      if (noCopyPath.some((t) => thisPath.indexOf(t) !== -1)) {
         return
       }
       if (noCopyFileType.indexOf(fileType) !== -1) {
@@ -251,9 +274,9 @@ function travel(dir) {
 
       //不做压缩处理,直接原样拷贝过去
       if (
-        noPipePath.some((t) => pathname.indexOf("\\Cesium\\") !== -1) || //不对Cesium目录压缩
-        noPipePathDef.some((t) => pathname.indexOf(t) !== -1) ||
-        noPipePath.some((t) => pathname.indexOf(t) !== -1)
+        thisPath.indexOf("/Cesium/") !== -1 || //不对Cesium目录压缩
+        noPipePathDef.some((t) => relPath === t || relPath.startsWith(t + "/")) ||
+        noPipePath.some((t) => thisPath.indexOf(t) !== -1)
       ) {
         fileType = ""
       }

@@ -193,6 +193,14 @@ mars2d-es5-example
 - Mars2D开源项目列表：[https://github.com/marsgis/mars2d](https://github.com/marsgis/mars2d)
 
 
-## 版权说明
-1. Mars2D平台由[mars2d团队](http://mars2d.cn/)自主研发，拥有所有权利。
-2. 任何个人或组织可以在遵守相关要求下可以免费无限制使用。
+
+## 📄 开源协议 / License
+
+### 1. 本项目授权
+本仓库项目源代码基于 **Apache License 2.0** 完全开源（见根目录 `LICENSE`），
+在遵守协议的前提下，可自由使用、修改、分发和再授权，**包括用于商业目的**。
+
+### 2. Mars2D SDK 为独立授权
+各模板运行时依赖的 **Mars2D SDK 核心类库**（`mars2d`，通过 `npm install mars2d`安装或 CDN 引入）是独立授权的产品，不属于本项目开源代码：
+- 免费版：可正常商用，但**必须保留**页面 Logo 和 F12 控制台版权信息，不得移除或遮挡；
+- 商业授权版：可去除 Logo、将版权信息替换为贵单位名称，并提供盖章授权文件。如有需要请购买 Mars2D SDK 商业授权 👉 <http://mars2d.cn/buy.html>

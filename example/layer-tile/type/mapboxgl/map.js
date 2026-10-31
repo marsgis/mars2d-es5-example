@@ -57,7 +57,7 @@ function onUnmounted() {
   map = null
 }
 
-// MapboxglLayer定义在public\lib\mars2d\thirdParty\mapbox\leaflet-mapbox-gl.js
+// MapboxglLayer定义在public\lib\leaflet\thirdParty\mapbox\leaflet-mapbox-gl.js
 function addMapboxGLLayer() {
   // eslint-disable-next-line no-undef
   const mapboxglLayer = new MapboxglLayer({

@@ -1,5 +1,6 @@
 // import * as mars2d from "mars2d"
 
+
 var map // mars2d.Map二维地图对象
 
 const creditHtml = `©2023 中科星图- <span>审图号：GS (2023) 1924号</span>
@@ -62,6 +63,9 @@ function onMounted(mapInstance) {
 
 // 释放当前地图业务的生命周期函数,具体项目中时必须写onMounted的反向操作（如解绑事件、对象销毁、变量置空）
 function onUnmounted() {
+  if (map) {
+    map.off("baselayerchange", attributionUpdateHandler)
+  }
   removeCreditDOM()
   map = null
 }
@@ -96,9 +100,14 @@ function addCreditDOM() {
 
     attributionDOM.innerHTML = map.basemap?.options?.attribution || ""
 
-    map.on("baselayerchange", function (event) {
-      attributionDOM.innerHTML = map.basemap?.options?.attribution || ""
-    })
+    map.on("baselayerchange", attributionUpdateHandler)
+  }
+}
+
+// 底图切换后同步版权信息；具名注册便于卸载时解绑，避免重复进入示例叠加监听
+function attributionUpdateHandler() {
+  if (attributionDOM) {
+    attributionDOM.innerHTML = map.basemap?.options?.attribution || ""
   }
 }
 function removeCreditDOM() {

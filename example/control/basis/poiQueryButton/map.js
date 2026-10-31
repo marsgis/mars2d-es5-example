@@ -2,6 +2,7 @@
 // import { PoiQueryButton } from "./PoiQueryButton"
 
 let map // mars2d.Map二维地图对象
+let poiQueryControl
 
 var mapOptions = {
   center: { lng: 117.237115, lat: 31.805875 }
@@ -14,6 +15,7 @@ function onMounted(mapInstance) {
   const poiQueryButton = new PoiQueryButton({
     insertIndex: 0 // 插入的位置顺序
   })
+  poiQueryControl = poiQueryButton
   map.addControl(poiQueryButton)
 }
 
@@ -22,5 +24,9 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 function onUnmounted() {
+  if (map && poiQueryControl) {
+    map.removeControl(poiQueryControl)
+    poiQueryControl = null
+  }
   map = null
 }

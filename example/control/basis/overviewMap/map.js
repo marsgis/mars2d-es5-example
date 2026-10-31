@@ -1,4 +1,7 @@
+// import * as mars2d from "mars2d"
+
 let map
+let overviewMapControl
 
 function onMounted(mapInstance) {
   map = mapInstance
@@ -16,6 +19,7 @@ function onMounted(mapInstance) {
       ]
     }
   })
+  overviewMapControl = overviewMap
   map.addControl(overviewMap)
 }
 
@@ -24,5 +28,9 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 function onUnmounted() {
+  if (map && overviewMapControl) {
+    map.removeControl(overviewMapControl)
+    overviewMapControl = null
+  }
   map = null
 }

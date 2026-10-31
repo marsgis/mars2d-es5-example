@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html class="no-js css-menubar" lang="zh-cn">
   <head>
     <meta charset="utf-8" />
@@ -42,19 +42,175 @@
 
     <link rel="stylesheet" href="js/editor/list.css?time=20250101" />
     <style>
-      /*无头部菜单时*/
-      .noHeader .main-sidebar,
-      .left-side {
-        padding-top: 0px;
+      /* 顶部导航栏（参考 mars2d-vue-example 的 mars-head 实现） */
+      :root {
+        --mars-head-height: 68px;
+        --mars-head-bg: #256488;
+        --mars-head-active: #f08519;
       }
 
-      .noHeader .category {
+      /* 为固定在顶部的导航栏预留高度 */
+      body {
+        padding-top: var(--mars-head-height);
+      }
+
+      .mars-head {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: var(--mars-head-height);
+        background: var(--mars-head-bg);
+        z-index: 9999;
+        box-sizing: border-box;
+      }
+
+      .mars-head-inner {
+        width: 90%;
+        max-width: 1080px;
+        height: 100%;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .mars-head-logo {
+        display: flex;
+        align-items: center;
+        flex: none;
+        text-decoration: none;
+        white-space: nowrap;
+      }
+
+      .mars-head-logo img {
+        height: 50px;
+        border: 0;
+      }
+
+      .mars-head-logo-name {
+        margin-left: 6px;
+        white-space: nowrap;
+        font-size: 25px;
+        line-height: 24px;
+        font-weight: bold;
+        color: #ffffff;
+      }
+
+      .mars-head-menu {
+        display: flex;
+        align-items: center;
+        flex: none;
+      }
+
+      .mars-head-nav {
+        display: flex;
+        align-items: center;
+        margin-left: 56px;
+        font-size: 19px;
+        line-height: 50px;
+        color: #ffffff;
+        text-decoration: none;
+        white-space: nowrap;
+        cursor: pointer;
+      }
+
+      .mars-head-nav svg {
+        width: 18px;
+        height: 18px;
+        margin-right: 4px;
+        flex: none;
+      }
+
+      .mars-head-nav:hover,
+      .mars-head-nav.active {
+        color: var(--mars-head-active);
+      }
+
+      /* 侧边栏与内容区让出导航栏高度 */
+      .main-sidebar,
+      .left-side {
+        padding-top: var(--mars-head-height);
+      }
+
+      .category {
         padding-top: 10px;
+      }
+
+      @media screen and (max-width: 992px) {
+        :root {
+          --mars-head-height: 56px;
+        }
+
+        .mars-head-inner {
+          width: 100%;
+          padding: 0 16px;
+        }
+
+        .mars-head-logo img {
+          height: 40px;
+        }
+
+        .mars-head-logo-name {
+          font-size: 20px;
+          line-height: 20px;
+        }
+
+        .mars-head-nav {
+          margin-left: 24px;
+          font-size: 16px;
+        }
+
+        .mars-head-nav svg {
+          width: 16px;
+          height: 16px;
+        }
+      }
+
+      @media screen and (max-width: 640px) {
+        .mars-head-logo-name {
+          display: none;
+        }
+      }
+
+      @media screen and (max-width: 480px) {
+        .mars-head-nav {
+          margin-left: 16px;
+          font-size: 14px;
+        }
+
+        .mars-head-nav svg {
+          display: none;
+        }
       }
     </style>
   </head>
 
-  <body class="hold-transition skin-blue sidebar-mini noHeader" data-spy="scroll" data-target="#scrollSpy">
+  <body class="hold-transition skin-blue sidebar-mini" data-spy="scroll" data-target="#scrollSpy">
+    <!-- 顶部导航栏 -->
+    <header class="mars-head">
+      <div class="mars-head-inner">
+        <a class="mars-head-logo" href="./index.html">
+          <img src="img/head/logo.png" alt="Mars2D" />
+          <span class="mars-head-logo-name">Mars2D开发中心</span>
+        </a>
+        <nav class="mars-head-menu">
+          <a class="mars-head-nav active" href="./index.html">
+            <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M24 44.0002C35.0457 44.0002 44 35.0459 44 24.0002C44 12.9545 35.0457 4.00024 24 4.00024C12.9543 4.00024 4 12.9545 4 24.0002C4 35.0459 12.9543 44.0002 24 44.0002Z" stroke="currentColor" stroke-width="4"/><path d="M6 30.9856C8.63192 32.041 10.5266 32.041 11.6839 30.9856C13.4199 29.4025 11.9219 24.5978 14.3532 23.2727C16.7844 21.9476 20.4886 27.8214 23.9508 25.8887C27.4129 23.9559 23.6246 18.8023 26.0272 16.713C28.4298 14.6237 31.554 16.98 32.1001 13.4865C32.6462 9.99304 29.5521 11.5082 28.9584 8.20693C28.5625 6.00611 28.5625 4.84884 28.9584 4.73511" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M29.0209 43.3505C27.1468 41.4325 26.4721 39.6497 26.9969 38.0019C27.7841 35.5303 29.0826 35.6764 29.6488 34.1482C30.2149 32.6199 28.6156 30.4433 32.1643 28.5826C34.5301 27.3421 37.783 28.7794 41.9228 32.8944" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>
+            <span>功能示例</span>
+          </a>
+          <a class="mars-head-nav" href="http://mars2d.cn/docs/" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M40 27V6C40 4.89543 39.1046 4 38 4H10C8.89543 4 8 4.89543 8 6V42C8 43.1046 8.89543 44 10 44H21" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 12L31 12" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 20L31 20" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 28H23" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M39 44L35.5355 40.5355M35.5355 40.5355C36.4404 39.6307 37 38.3807 37 37C37 34.2386 34.7614 32 32 32C29.2386 32 27 34.2386 27 37C27 39.7614 29.2386 42 32 42C33.3807 42 34.6307 41.4404 35.5355 40.5355Z" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>开发教程</span>
+          </a>
+          <a class="mars-head-nav" href="http://mars2d.cn/api/Map.html" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M37 22.0001L34 25.0001L23 14.0001L26 11.0001C27.5 9.50002 33 7.00005 37 11.0001C41 15.0001 38.5 20.5 37 22.0001Z" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M42 6L37 11" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M11 25.9999L14 22.9999L25 33.9999L22 36.9999C20.5 38.5 15 41 11 36.9999C7 32.9999 9.5 27.5 11 25.9999Z" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M23 32L27 28" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 42L11 37" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/><path d="M16 25L20 21" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span>API文档</span>
+          </a>
+        </nav>
+      </div>
+    </header>
+
     <div class="wrapper">
       <!-- 侧边栏 -->
       <aside class="sidebar-wrapper main-sidebar" id="scrollSpy">

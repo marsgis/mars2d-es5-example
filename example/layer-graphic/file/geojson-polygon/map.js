@@ -1,6 +1,7 @@
 // import * as mars2d from "mars2d"
 
 let map // mars2d.Map二维地图对象
+let geoJsonLayer
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
 var mapOptions = {
@@ -17,7 +18,7 @@ function onMounted(mapInstance) {
 
   addLegend()
 
-  const geoJsonLayer = new mars2d.layer.GeoJsonLayer({
+  geoJsonLayer = new mars2d.layer.GeoJsonLayer({
     name: "各省市",
     url: "http://data.mars2d.cn/file/geojson/areas/100000_full.json",
     symbol: {
@@ -96,6 +97,10 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 function onUnmounted() {
+  if (geoJsonLayer) {
+    map.removeLayer(geoJsonLayer, true)
+    geoJsonLayer = null
+  }
   map = null
 }
 

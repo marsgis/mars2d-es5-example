@@ -2,6 +2,7 @@
 
 let map
 let geolocation
+let toolbarControl
 
 
 // 需要覆盖config.json中地图属性参数（当前示例框架中自动处理合并）
@@ -18,6 +19,7 @@ function onMounted(mapInstance) {
     position: "bottomleft"
     // onGoLocate
   })
+  toolbarControl = control
   map.addControl(control)
 }
 
@@ -26,6 +28,10 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 function onUnmounted() {
+  if (map && toolbarControl) {
+    map.removeControl(toolbarControl)
+    toolbarControl = null
+  }
   map = null
 }
 

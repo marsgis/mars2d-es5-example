@@ -1,20 +1,18 @@
 # marsgis-editor
-Mars2D 示例代码在线编辑器组件
+MarsGIS 示例页面在线编辑器组件
 
 ## 简要介绍
-火星科技（Mars2D 团队）自研的示例代码在线编辑与预览组件，用于 `editor-es5.html`、`read-es5.html` 等页面在线查看、编辑示例代码（全局对象 `MarsgisEditor`），提供 IIFE 与 UMD 两种打包格式。
+火星科技自研的示例代码在线编辑/运行组件，用于功能示例页面的代码查看、编辑与调试；提供 iife 与 umd 两种构建产物及配套样式。
 
 ## 相关地址
-- 官网地址：http://mars2d.cn
-- github地址：https://github.com/marsgis/mars2d
+- 官网地址：http://mars3d.cn
+- github地址：https://github.com/marsgis/mars3d
 
 ## 本地版本信息
-随 Mars2D 示例仓库分发（无独立版本号）
+见源文件（构建产物未内嵌版本号）
 
 ## 本地文件说明
-`editor.iife.js` 为页面直接引用的 IIFE 打包产物，`editor.umd.js` 为 UMD 格式产物，`style.css` 为配套样式。
-目录内文件：`editor.iife.js`、`editor.umd.js`、`style.css`
+目录内文件：`editor.css`、`editor.iife.js`、`editor.umd.js`
 
-## 组件署名声明
-> 本目录为火星科技（Mars2D 团队）自研组件，非第三方开源代码，著作权归火星科技所有。
-- **版权归属**：Copyright (c) 火星科技（Mars2D 团队，http://marsgis.cn）
+## 版权说明
+> 本目录为火星科技（MarsGIS）自有代码，著作权归火星科技所有。

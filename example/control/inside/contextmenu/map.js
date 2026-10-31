@@ -1,6 +1,8 @@
 // import * as mars2d from "mars2d"
 
+
 let map
+let marker
 
 // 初始化地图业务，生命周期钩子函数（必须），框架在地图初始化完成后自动调用该函数
 function onMounted(mapInstance) {
@@ -28,7 +30,7 @@ function onMounted(mapInstance) {
 
   // 对矢量数据绑定右键菜单
   const latlng = map.getCenter()
-  const marker = L.marker(latlng).addTo(map)
+  marker = L.marker(latlng).addTo(map)
 
   marker.name = "欢迎使用Mars2D平台"
   marker.bindContextMenu([
@@ -50,5 +52,11 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 function onUnmounted() {
+  // 示例中动态添加的 marker 及其右键菜单需成对移除
+  if (marker) {
+    marker.unbindContextMenu()
+    map.removeLayer(marker)
+    marker = null
+  }
   map = null
 }

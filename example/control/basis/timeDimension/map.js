@@ -2,6 +2,8 @@
 
 
 let map
+let timeDimensionControl
+let gpxTimeLayer
 
 var mapOptions = {
   chinaCRS: mars2d.ChinaCRS.GCJ02
@@ -25,7 +27,7 @@ function onMounted(mapInstance) {
     timeDimension
   )
 
-  const timeDimensionControl = new L.Control.TimeDimension({
+  const timeDimensionControlTemp = new L.Control.TimeDimension({
     player,
     timeDimension,
     position: "bottomleft",
@@ -35,13 +37,19 @@ function onMounted(mapInstance) {
     maxSpeed: 100,
     timeSliderDragUpdate: true
   })
-  map.addControl(timeDimensionControl)
+  timeDimensionControl = timeDimensionControlTemp
+  map.addControl(timeDimensionControlTemp)
 
   // 加载外部geojson文件
   mars2d.Util.fetchJson({
     url: "http://data.mars2d.cn/file/geojson/tianzhushan.json"
   })
     .then((geojson) => {
+      // 请求返回时示例可能已卸载，map 已置空，直接跳过避免访问空地图
+      if (!map) {
+        return
+      }
+
       const customLayer = L.geoJson(geojson, {
         style: {
           color: "#FF0000",
@@ -71,7 +79,7 @@ function onMounted(mapInstance) {
         paddingBottomRight: [40, 40]
       })
 
-      const gpxTimeLayer = L.timeDimension.layer.geoJson(customLayer, {
+      gpxTimeLayer = L.timeDimension.layer.geoJson(customLayer, {
         updateTimeDimension: true,
         addlastPoint: true,
         waitForReady: true
@@ -88,5 +96,20 @@ function onMounted(mapInstance) {
  * @returns {void} 无
  */
 function onUnmounted() {
+  if (gpxTimeLayer) {
+    if (map) {
+      map.removeLayer(gpxTimeLayer)
+    }
+    gpxTimeLayer = null
+  }
+  if (timeDimensionControl) {
+    if (map) {
+      map.removeControl(timeDimensionControl)
+    }
+    timeDimensionControl = null
+  }
+  if (map) {
+    map.timeDimension = null
+  }
   map = null
 }
