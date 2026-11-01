@@ -6,6 +6,7 @@
   "scripts": {
     "serve": "http-server",
     "build": "gulp build",
+    "build:release": "gulp build --release",
     "serve:dist": "http-server ./dist",
     "lint": "eslint ./example*/**/*.{js,html} --fix",
     "build-read": "node build/build.js"

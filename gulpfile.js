@@ -36,18 +36,23 @@ const noCopyPathDef = [
   "/.eslintignore",
   "/.prettierrc",
   "/.vscode",
-  "/LICENSE",
   "/gulpfile.js",
   "/package.json",
   "/package-lock.json",
-  "/README",
   ".js.map",
   "-src.",
   "-test"
 ]
 
+//发布模式：命令行 --release 或环境变量 BUILD_RELEASE=1
+const isRelease = process.env.BUILD_RELEASE === "1" || process.argv.includes("--release")
+
 //排除不拷贝的相对路径（按目录/文件精确匹配，避免误伤 example/**/index.html）
-const noCopyRelPathDef = ["build", "config/thumbnail", "dist", "index.html"]
+const noCopyRelPathDef = ["build", "dist"]
+
+//仅发布模式排除，按 srcPath 下的相对路径精确匹配（目录同时匹配其子路径）：
+//发布站点的入口页与缩略图由站点自身提供，调试构建需保留，dist 才能独立运行并供 serve:dist 自检
+const releaseOnlyRelPathDef = ["config/thumbnail", "index.html"]
 
 //定义不做压缩混淆直接拷贝的目录
 const noPipePathDef = ["lib"]
@@ -72,6 +77,11 @@ gulp.task("build", (done) => {
 
   console.log("开始处理目录：" + srcPath)
   console.log("生成至目录：" + distPath)
+  console.log("构建模式：" + (isRelease ? "发布（删除 config/thumbnail、index.html）" : "调试（保留 config/thumbnail、index.html）"))
+
+  if (isRelease) {
+    pruneReleaseOnlyOutput()
+  }
 
   travel(srcPath)
 
@@ -232,7 +242,20 @@ function toPosixPath(filePath) {
 
 //按相对路径精确匹配目录或文件（同时匹配其子路径）
 function isNoCopyRelPath(relPath) {
-  return noCopyRelPathDef.some((t) => relPath === t || relPath.startsWith(t + "/"))
+  const matched = (def) => def.some((t) => relPath === t || relPath.startsWith(t + "/"))
+  return matched(noCopyRelPathDef) || (isRelease && matched(releaseOnlyRelPathDef))
+}
+
+//发布模式清掉上次调试构建残留在目标目录的发布排除产物（本次遍历本就不会再拷贝，这里只清理旧产物）
+function pruneReleaseOnlyOutput() {
+  releaseOnlyRelPathDef.forEach((relPath) => {
+    const target = path.join(distPath, relPath)
+    if (!fs.existsSync(target)) {
+      return
+    }
+    fs.rmSync(target, { recursive: true, force: true })
+    console.log("已移除调试构建残留：" + toPosixPath(target))
+  })
 }
 
 //遍历目录获取文件列表
@@ -268,7 +291,8 @@ function travel(dir) {
       if (noCopyPath.some((t) => thisPath.indexOf(t) !== -1)) {
         return
       }
-      if (noCopyFileType.indexOf(fileType) !== -1) {
+      // LICENSE / README 属合规文件，不受后缀过滤影响
+      if (noCopyFileType.indexOf(fileType) !== -1 && !/^(license|readme)/i.test(file)) {
         return
       }
 
