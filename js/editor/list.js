@@ -1,592 +1,621 @@
-let exConfig
-
-let containExamples = false,
-  thumbLocation = getThumbLocation()
+/**
+ * 功能示例列表（原生 JS 版）
+ * 布局与样式参考 mars2d-vue-example 的示例列表：
+ * 左侧分类树贴左整页固定、工具条吸顶、卡片网格、移动端分类抽屉。
+ */
+let exConfig = []
+let viewConfig = []
+let currentKeyword = ""
 
 $(document).ready(function () {
-  bindEvents()
-
-  //懒加载
-  setTimeout(function () {
-    $("img.chart-thumb").lazyload()
-  }, 1000)
-
-  $.ajax({
-    type: "get",
-    dataType: "json",
-    url: "config/example.json", //配置文件目录
-    success: function (result) {
-      exConfig = exampleData(result)
-
-      haoutil.storage.add("example-config", JSON.stringify(exConfig))
-
-      initPage()
-    },
-    error: function (error) {
-      console.log("加载JSON出错", error)
-      haoutil.alert(error?.message, "出错了")
-    }
+  initHeader()
+  initToolbar()
+  initDrawer()
+  initDownloads()
+  loadExamples()
+  $(window).on("scroll", function () {
+    $("#toolbar").toggleClass("is-stuck", window.scrollY > 8)
+    $(".site-header").toggleClass("is-scrolled", window.scrollY > 8)
   })
 })
 
-//处理示例配置数据
-function exampleData(arr) {
-  arr.forEach((item1, index1) => {
-    let count = 0
-    item1.id = "ex_" + index1
-    if (item1.children) {
-      item1.children.forEach((item2, index2) => {
-        item2.count = item2.children ? item2.children.length : 0 //统计个数
-        count += item2.count
+// 加载示例配置
+function loadExamples() {
+  $.ajax({
+    type: "get",
+    dataType: "json",
+    url: "config/example.json",
+    success: function (result) {
+      exConfig = exampleData(result)
+      viewConfig = exConfig
 
+      try {
+        haoutil.storage.add("example-config", JSON.stringify(exConfig))
+      } catch (e) {
+        // 隐私模式或配额不足时忽略，不影响页面展示
+      }
+
+      $("#all-count").text(countVisible(exConfig))
+      renderSidebar(exConfig)
+      renderContent(exConfig)
+      scrollToHash()
+    },
+    error: function (error) {
+      $("#charts-list").html('<div class="state-card" role="alert"><p>示例列表加载失败，请检查网络后重试</p></div>')
+    }
+  })
+}
+
+// 处理示例配置数据：补充 id、计数与完整名称
+function exampleData(arr) {
+  arr.forEach(function (item1, index1) {
+    item1.id = "ex_" + index1
+    let count = 0
+    if (item1.children) {
+      item1.children.forEach(function (item2, index2) {
         item2.id = item1.id + "_" + index2
+        item2.count = 0
         if (item2.children) {
-          item2.children.forEach((item3, index3) => {
-            if (item3.hidden) {
-              count--
-              item2.count--
+          item2.children.forEach(function (item3, index3) {
+            item3.id = item2.id + "_" + index3
+            item3.fullName = item1.name + "  -  " + item2.name + "  -  " + item3.name
+            if (!item3.hidden && item3.main) {
+              item2.count++
             }
-            item3.id = item3.id + "_" + index3
-            item3.fullName = `${item1.name}  -  ${item2.name}  -  ${item3.name}`
           })
+          count += item2.count
         }
       })
     }
-    item1.count = count //统计个数
+    item1.count = count
   })
-
-  // haoutil.file.downloadFile("example.json", JSON.stringify(arr))
-
   return arr
 }
 
-//侧边栏滚动支持
-function sidebarScrollFix() {
-  $("ul#sidebar-menu>li").hover(
-    function (evt) {
-      if (!$("body").hasClass("sidebar-collapse")) {
-        return
-      }
+function isVisible(item) {
+  return !!item.main && !item.hidden
+}
 
-      //调整一级菜单li下标题的布局位置至右侧
-      let $titleBar = $(this).children("a").children(".sidebar-title-bar")
-      $titleBar.css({
-        top: $(this).offset().top - $(window).scrollTop() + "px",
-        //fix由于侧边栏滚动条宽度引起的减少的宽度
-        width: "233px"
+function countVisible(list) {
+  let total = 0
+  ;(list || []).forEach(function (item) {
+    ;(item.children || []).forEach(function (group) {
+      total += (group.children || []).filter(isVisible).length
+    })
+  })
+  return total
+}
+
+/* ---------------- 侧栏 ---------------- */
+function renderSidebar(list) {
+  const $menu = $("#sidebar-menu").empty()
+  list.forEach(function (item) {
+    const groups = (item.children || []).filter(function (child) {
+      return child.children && child.children.length
+    })
+    if (!groups.length) {
+      return
+    }
+
+    const $group = $("<div class='sidebar-group'></div>")
+    $("<button type='button' class='side1-item'></button>")
+      .attr({ "aria-expanded": "false", "aria-controls": "side-" + item.id })
+      .append("<i class='fa " + (item.icon || "fa-folder-o") + "' aria-hidden='true'></i>")
+      .append($("<span class='name'></span>").text(item.name))
+      .append($("<span class='count'></span>").text(item.count))
+      .append("<i class='fa fa-angle-right chevron' aria-hidden='true'></i>")
+      .on("click", function () {
+        toggleCategory(item)
       })
+      .appendTo($group)
 
-      //如果底部空间不够，动态增加侧边栏高度
-      let visibleOffsetTop = $(this).offset().top - $(window).scrollTop()
-      let offsetBottom = $(".sidebar-menu").height() - visibleOffsetTop
-      let requireVisibleHeight = $(this).height() + $(this).children("ul").height()
-      if (offsetBottom <= requireVisibleHeight) {
-        $(".sidebar-menu").css({
-          height: requireVisibleHeight + $(window).height() + "px"
+    const $children = $("<div class='sidebar-children'></div>").attr("id", "side-" + item.id).hide()
+    groups.forEach(function (group) {
+      $("<a class='side2-item'></a>")
+        .attr("href", "#" + group.id)
+        .append("<span class='dot' aria-hidden='true'></span>")
+        .append($("<span class='name'></span>").text(group.name))
+        .append($("<span class='count'></span>").text(group.count))
+        .on("click", function (event) {
+          event.preventDefault()
+          selectSub(item, group)
         })
-      }
+        .appendTo($children)
+    })
 
-      //调整一级菜单li下子列表的布局位置至右侧
-      let offsetTop = visibleOffsetTop + $(this).height()
-      $(this)
-        .children("ul")
-        .css({
-          top: offsetTop + "px"
+    $group.append($children).appendTo($menu)
+  })
+
+  const first = list.find(function (item) {
+    return item.children && item.children.length
+  })
+  if (first) {
+    toggleCategory(first, true)
+  }
+}
+
+function toggleCategory(item, forceOpen) {
+  const $button = $("#sidebar-menu .side1-item").filter(function () {
+    return $(this).attr("aria-controls") === "side-" + item.id
+  })
+  const $children = $("#side-" + item.id)
+  const isOpen = $button.hasClass("active")
+
+  if (isOpen && !forceOpen) {
+    $button.removeClass("active").attr("aria-expanded", "false")
+    $button.find(".chevron").removeClass("fa-angle-down").addClass("fa-angle-right")
+    $children.stop(true, true).slideUp(160)
+    $("#active-category").text("全部")
+    return
+  }
+
+  $button.addClass("active").attr("aria-expanded", "true")
+  $button.find(".chevron").removeClass("fa-angle-right").addClass("fa-angle-down")
+  $children.stop(true, true).slideDown(160)
+  $("#active-category").text(item.name)
+  closeDrawer()
+}
+
+function selectSub(item, group) {
+  $("#sidebar-menu .side2-item").removeClass("active")
+  $("#sidebar-menu .side2-item").filter(function () {
+    return $(this).attr("href") === "#" + group.id
+  }).addClass("active")
+  $("#active-category").text(item.name)
+  closeDrawer()
+  clearSearch()
+  scrollToSection(group.id)
+}
+
+/* ---------------- 内容区 ---------------- */
+function renderContent(list) {
+  const $wrap = $("#charts-list").empty()
+  let groupsCount = 0
+
+  ;(list || []).forEach(function (item) {
+    const groups = (item.children || []).filter(function (group) {
+      return group.children && group.children.some(isVisible)
+    })
+    if (!groups.length) {
+      return
+    }
+    groupsCount++
+
+    const $section = $("<section class='category'></section>").attr("id", item.id)
+    $section.append(
+      $("<header class='category-title'></header>")
+        .append(
+          $("<span class='title-box'></span>")
+            .append("<i class='fa " + (item.icon || "fa-folder-o") + "' aria-hidden='true'></i>")
+            .append($("<span class='title'></span>").text(item.name + "（" + item.count + "）"))
+        )
+        .append("<span class='line' aria-hidden='true'></span>")
+    )
+    $section.append($("<div class='list-item'></div>").append(groups.map(function (group) {
+      return createSubGroup(group)
+    })))
+    $wrap.append($section)
+  })
+
+  if (!groupsCount) {
+    $wrap.append('<div class="state-card"><p>没有找到匹配的示例</p></div>')
+  }
+}
+
+function createSubGroup(group) {
+  const $sub = $("<div class='sub-group'></div>").attr("id", group.id)
+  const $title = $("<h2 class='sub-title'></h2>").text(group.name + "（" + group.count + "）")
+
+  if (group.details) {
+    const tipId = "detail-" + group.id
+    $title.append(
+      $("<span class='help-wrap'></span>")
+        .append(
+          $("<button type='button' class='help-btn'></button>")
+            .attr({ "aria-label": group.name + " 说明", "aria-describedby": tipId })
+            .append("<i class='fa fa-question-circle' aria-hidden='true'></i>")
+        )
+        .append($("<span class='detail-tip' role='tooltip'></span>").attr("id", tipId).text(group.details))
+    )
+  }
+
+  const $cards = $("<div class='cards'></div>")
+  ;(group.children || []).filter(isVisible).forEach(function (card) {
+    $cards.append(createCard(card))
+  })
+
+  return $sub.append($title).append($cards)
+}
+
+function createCard(item) {
+  const url = getEditorURL(item)
+  const plugins = getPluginNameByLibs(item.libs)
+  const title = item.name + " - " + (item.main || "")
+
+  const $card = $("<a class='card' target='_blank' rel='noopener'></a>").attr({
+    href: url,
+    title: title,
+    "aria-label": item.name
+  })
+
+  const thumb = "config/thumbnail/" + (item.thumbnail || item.main + ".jpg")
+  $card.append(
+    $("<div class='pic'></div>").append(
+      $("<img alt='' loading='lazy' />")
+        .attr("src", thumb)
+        .on("error", function () {
+          this.onerror = null
+          this.src = "config/thumbnail/map-options-basemaps.jpg"
         })
-
-      //fix小尺寸屏幕下二级菜单高度高于窗口高度时显示不全的情况
-      let $activeList = $(this).children("ul")
-      let activeListOffsetBottom = Math.abs($(window).height() - visibleOffsetTop - $(this).height())
-      let requireActiveListHeight = $activeList.height()
-      if (activeListOffsetBottom < requireActiveListHeight) {
-        $activeList.css({ height: requireActiveListHeight })
-        //滚动条样式
-        $activeList.addClass("scroll-list")
-      }
-    },
-    function (evt) {
-      if (!$("body").hasClass("sidebar-collapse")) {
-        return
-      }
-      //滚动条
-      $(this).children("ul").removeClass("scroll-list")
-      //恢复原来的高度
-      $(this).children("ul").css({ height: "auto" })
-    }
-  )
-  $(".main-sidebar").on("scroll", function (evt) {
-    evt.stopPropagation()
-  })
-
-  $(window).on("resize", function () {
-    $(".sidebar-menu").css({ height: "100%" })
-  })
-}
-
-//创建菜单项
-function createSideBarMenuItem(config, containAll) {
-  if (!config) {
-    return
-  }
-  containExamples = containAll
-  let li = $("<li id='bar_" + config.id + "' onclick=selectMenu('" + config.id + "') class='treeview '></li>")
-
-  if (config.children) {
-    createSideBarMenuTitle(config, true).appendTo(li)
-    createSideBarSecondMenu(config.children).appendTo(li)
-  } else {
-    createSideBarMenuTitle(config, false).appendTo(li)
-  }
-
-  return li
-}
-
-//创建二级菜单
-function createSideBarSecondMenu(children) {
-  let ul = $("<ul class='treeview-menu second-menu '></ul>")
-  children.forEach((item, index) => {
-    let li = $("<li class='menuTitle ' id='bar_" + item.id + "' ></li>")
-    li.appendTo(ul)
-
-    if (containExamples && item.children) {
-      createSideBarMenuSecondTitle(item, true).appendTo(li)
-      createSideBarThirdMenu(item.children).appendTo(li)
-    } else {
-      createSideBarMenuSecondTitle(item, false).appendTo(li)
-    }
-  })
-  return ul
-}
-
-function fileName2Id(file) {
-  let value = (file || "").replace(".html", "")
-  return value
-}
-function id2FileName(id) {
-  return id + ".html"
-}
-
-//创建三级菜单
-function createSideBarThirdMenu(examples) {
-  let ul = $("<ul class='treeview-menu third-menu'></ul>")
-  let len = examples && examples.length ? examples.length : 0
-  for (let i = 0; i < len; i++) {
-    let example = examples[i]
-    let _id = fileName2Id(example.main)
-    let li = $("<li class='menuTitle' id='bar_" + _id + "' ></li>")
-    li.appendTo(ul)
-    if (_id != "" && example.name) {
-      createSideBarMenuThirdTitle(_id, example, false).appendTo(li)
-    }
-  }
-  return ul
-}
-
-function createSideBarMenuTitle(config, collapse) {
-  let id = config.id || ""
-  let icon = "",
-    iconName = config.icon
-  if (iconName) {
-    icon = "<i class='fa " + iconName + " iconName'></i>"
-  }
-
-  let href = ""
-  if (location.href.indexOf(window.editorUrl) != -1) {
-    href = "../index.html#" + id
-  } else {
-    href = "#" + id
-  }
-
-  let div = $("<a  href='" + href + "' >" + icon + "<span class='firstMenuTitle'>" + config.name + "(" + config.count + ")</span></a>")
-  if (collapse) {
-    div.append(createCollapsedIcon())
-  }
-  return div
-}
-
-function createSideBarMenuSecondTitle(item, collapse) {
-  let id = item.id || ""
-  let icon = "",
-    iconName = item.icon
-  if (iconName) {
-    icon = "<i class='fa " + iconName + "'></i>"
-  }
-
-  let href = ""
-  if (location.href.indexOf(window.editorUrl) != -1) {
-    href = "../index.html#" + id
-  } else {
-    href = "#" + id
-  }
-
-  let div = $(
-    "<a href='" + href + "' id='bar_" + item.id + "'>" + icon + "<span class='secondMenuTitle'>" + item.name + "(" + item.count + ")</span></a>"
+    )
   )
 
-  if (collapse) {
-    div.append(createCollapsedIcon())
+  const $name = $("<p class='card-name'></p>").text(item.name)
+  if (item.hasPannel && window.hasPannelIcon) {
+    $name.append($("<span class='vue'></span>").html(window.hasPannelIcon))
   }
-  return div
+  if (plugins) {
+    $name.append($("<span class='plugin'></span>").text("[" + plugins + "插件]"))
+  }
+  $card.append($name)
+  return $card
 }
 
-function createSideBarMenuThirdTitle(id, item, collapse) {
-  id = id || ""
-  let icon = "",
-    iconName = item.icon
-  if (iconName) {
-    icon = "<i class='fa " + iconName + "'></i>"
-  }
-
-  let div = $("<a href='#' id='bar_" + id + "'>" + icon + "<span class='thirdMenuTitle'>" + item.name + "</span></a>")
-  if (collapse) {
-    div.append(createCollapsedIcon())
-  }
-  return div
-}
-
-//创建右侧折叠菜单
-function createCollapsedIcon() {
-  return $("<span class='pull-right-container'> <i class='fa fa-angle-left pull-right'></i> </span>")
-}
-
-//只处理三层节点,后续可优化
-function selectMenu(id, length) {
-  let target = _getTarget(id, length)
-  if (length !== 1) {
-    //控制editor页面左侧导航栏一级菜单高亮
-    _selectTarget(target.parent().parent().parent().parent())
-    //控制示例页面左侧导航栏一级菜单高亮
-    _selectTarget(target.parent().parent())
-    //控制左侧导航栏最低级菜单高亮
-    _selectTarget(target.parent())
-    _selectTarget(target.find("ul"))
-  }
-}
-
-function _getTarget(id, length) {
-  let target
-  if (length) {
-    if (length === 1) {
-      $("section#sidebar li.active").removeClass("active")
-      target = $("section#sidebar li#bar_" + id)
-      target.children("ul").show()
-    }
-    if (length === 2) {
-      $("section#sidebar li.active ul.active li").removeClass("active")
-      target = $("section#sidebar li.treeview")
-        .children("ul")
-        .children("li#bar_" + id)
-    }
-  } else {
-    $("section#sidebar #ul").addClass("active")
-    $("section#sidebar li.active").removeClass("active")
-    target = $("section#sidebar li#bar_" + id)
-  }
-  target && target.addClass("active")
-  return target
-}
-
-function _selectTarget(target) {
-  if (!target || target.length < 1) {
-    return
-  }
-  let className = target.attr("class")
-  if (className && className.indexOf("treeview-menu") > -1 && className.indexOf("menu-open") === -1) {
-    target.addClass("menu-open")
-    target.css("display", "block")
-  }
-  if (className && className.indexOf("treeview") > -1) {
-    target.addClass("active")
-  }
-}
-
-//左侧层级不包含例子，只包含分类
-function initPage() {
-  let sideBar = $("ul#sidebar-menu")
-  let chartList = $("#charts-list")
-
-  exConfig.forEach((item, index1) => {
-    let count = 0
-    if (item.children) {
-      item.children.forEach((configItem, index) => {
-        configItem.count = configItem.children ? configItem.children.length : 0
-        count += configItem.count
-      })
-    }
-    item.count = count
-
-    sideBar.append(createSideBarMenuItem(item, containExamples))
-    chartList.append(createGalleryItem(item))
-  })
-  resizeCharts()
-  initSelect()
-  sidebarScrollFix()
-}
-
-//初始化页面第一次加载
-function initSelect() {
-  let hash = window.location.hash
-  if (hash.indexOf("#") === -1) {
-    // var id = $('#sidebar li').first().children('a')[0].hash;
-    // window.location.hash = (id) ? id : window.location.hash;
-  } else {
-    scroll()
-  }
-}
-
-//初始化示例面板
-function createGalleryItem(item) {
-  if (!item) {
-    return
-  }
-
-  let categoryLi = $("<li class='category' id='" + item.id + "'></li>")
-  if (item.name) {
-    createGalleryItemTitle(item).appendTo(categoryLi)
-  }
-  if (item.children) {
-    createSubGalleryItem(item.children).appendTo(categoryLi)
-  }
-  return categoryLi
-}
-
-function createSubGalleryItem(config) {
-  let categoryContentDiv = $("<div class='category-content'></div>")
-  config.forEach((configItem, index) => {
-    let content = $("<div class='box box-default color-palette-box' id='" + config.id + "'></div>")
-    createSubGalleryItemTitle(configItem).appendTo(content)
-    if (configItem.children) {
-      createGalleryCharts(configItem.children).appendTo(content)
-    }
-    content.appendTo(categoryContentDiv)
-  })
-  return categoryContentDiv
-}
-
-function createGalleryItemTitle(item) {
-  return $(
-    "<h4 class='category-title' id='" +
-      item.id +
-      "'>" +
-      "<i class='fa " +
-      item.icon +
-      "'></i>" +
-      "&nbsp;&nbsp;" +
-      item.name +
-      " (" +
-      item.count +
-      ")</h4>"
-  )
-}
-
-function createSubGalleryItemTitle(configItem) {
-  let details
-  if (configItem.details) {
-    details = `<div class='box-title-details'>说明：${configItem.details}</div>`
-  } else {
-    details = ""
-  }
-
-  return $(
-    "<div class='box-header'>" +
-      "<h3 class='box-title' id='" +
-      configItem.id +
-      "'>" +
-      "&nbsp;&nbsp;&nbsp;&nbsp;" +
-      configItem.name +
-      " (" +
-      configItem.count +
-      ")</h4>" +
-      "</h3>" +
-      details +
-      "" +
-      "</div>"
-  )
-}
-
-function createGalleryCharts(examples) {
-  let chartsDiv = $("<div class='box-body'></div>")
-  let len = examples && examples.length ? examples.length : 0
-  for (let i = 0; i < len; i++) {
-    let item = examples[i]
-    if (item.hidden || !item.main) {
-      continue
-    }
-    let html = createGalleryChart(item)
-    if (html) {
-      html.appendTo(chartsDiv)
-    }
-  }
-  return chartsDiv
-}
-
-//获取编辑页面URL地址
+// 获取示例页面地址（与旧版逻辑保持一致）
 function getEditorURL(example) {
   let editorUrl = window.editorUrl + "?id=" + example.main
-
   if (location.hostname === "localhost" || location.hostname === "127.0.0.1") {
-    editorUrl = window.readUrl + "?id=" + example.main //本地开发用read
+    editorUrl = window.readUrl + "?id=" + example.main
   }
-
   if (window.autoShowCode) {
-    editorUrl += "&code=true&"
+    editorUrl += "&code=true"
   }
   if (example.params) {
-    editorUrl += "&" + example.params + "&name=" + example.fullName
+    editorUrl += "&" + example.params + "&name=" + encodeURIComponent(example.fullName)
   }
   return editorUrl
-}
-
-function createGalleryChart(example) {
-  let editorUrl = getEditorURL(example)
-
-  let title = example.name
-  let msg = title + " - " + (example.main || "")
-
-  let chartDiv = $("<div class='col-xlg-2 col-lg-3 col-md-4 col-sm-6 col-xs-12'></div>")
-  let chart = $('<div class="chart"></div>')
-  let link = $("<a class='chart-link' target='_blank' href='" + editorUrl + "'></a>")
-
-  let chartTitle = "<h6 class='chart-title'  title='" + msg + "' >" + title + "</h6>"
-
-  let thumbnail = "config/thumbnail/" + (example.thumbnail || example.main + ".jpg")
-  let thumb = $("<img class='chart-area' src='" + thumbnail + "' style='display: inline'>")
-
-  let plugins = getPluginNameByLibs(example.libs)
-  if (plugins) {
-    msg += "\n该功能属于独立" + plugins + "插件功能，在额外的js中。"
-    chartTitle =
-      "<h5 class='chart-title' title='" + msg + "'  >" + title + "<span style='color:rgba(0, 147, 255, 0.7)'>[" + plugins + "插件]</span></h5>"
-  }
-  if (example.hasPannel) {
-    chartTitle += `  <div class="icon-html5">${window.hasPannelIcon}</div>`
-  }
-
-  chartDiv.attr("title", msg)
-
-  $(chartTitle).appendTo(link)
-  thumb.appendTo(link)
-  link.appendTo(chart)
-  chart.appendTo(chartDiv)
-
-  return chartDiv
 }
 
 function getPluginNameByLibs(libs) {
   if (!libs) {
     return false
   }
-  for (let index = 0; index < libs.length; index++) {
-    const element = libs[index]
-    if (element.startsWith("mars2d-")) {
-      return element
+  for (let i = 0; i < libs.length; i++) {
+    const lib = libs[i]
+    if (lib.indexOf("mars2d-") === 0) {
+      return lib.replace("mars2d-", "")
     }
   }
   return false
 }
 
-function imgerrorfun() {
-  let img = event.srcElement
-  img.src = "img/mapicon.jpg"
-  img.onerror = null
-}
-function openExampleView(href, title) {
-  let width = document.documentElement.clientWidth - 230 + "px"
-  let height = document.documentElement.clientHeight - 60 + "px"
+/* ---------------- 工具条 ---------------- */
+function initToolbar() {
+  const $input = $("#search-input")
+  const $clear = $("#search-clear")
 
-  let _layerIdx = layer.open({
-    type: 2,
-    title: title,
-    fix: true,
-    maxmin: true,
-    shadeClose: true,
-    offset: ["60px", "230px"],
-    area: [width, height],
-    content: href,
-    skin: "layer-mars-dialog animation-scale-up",
-    success: function (layero) {}
+  $input.on("input", function () {
+    applyFilter($input.val())
   })
-
-  //$("#layui-layer" + _layerIdx).css({
-  //    "width": "calc(100% - 230px)",
-  //    "height": "calc(100% - 80px)",
-  //});
-  $("#layui-layer" + _layerIdx + " .layui-layer-title").css({
-    background: "rgba(30, 36, 50, 1)",
-    "border-color": "rgba(32, 160, 255, 1)"
-  })
-}
-
-function getThumbLocation() {
-  let param = window.location.toString()
-  return param.substr(0, param.lastIndexOf("/"))
-}
-
-//chart宽高自适应
-function resizeCharts() {
-  let charts = $("#charts-list .chart .chart-area")
-  if (charts[0] && charts[0].offsetWidth) {
-    charts.height(charts[0].offsetWidth * 0.8)
-  } else {
-    charts.height(260 * 0.8)
-  }
-  window.onresize = function () {
-    resizeCharts()
-  }
-}
-
-//根据url滚动到页面相应的位置
-function scroll() {}
-
-//绑定点击事件
-function bindEvents() {
-  let child = $("ul#sidebar-menu>li.treeview>ul>li")
-  // var parent = $('ul.sidebar-menu>li').parent('ul')
-  // //因为iManager只有1级所以，iManager点击的时候相当于一级菜单，其他的二级都要关闭.
-  // if ($('ul.sidebar-menu>li#firstMenuiManager').find('ul').length == 0) {
-  //   if (
-  //     $('ul.sidebar-menu>li#firstMenuiManager').click(function () {
-  //       $('ul#sidebar-menu>li>ul').slideUp(500)
-  //     })
-  //   ) {
-  //     //
-  //   }
-  // }
-  //一级菜单跳转
-  child
-    .parent("ul")
-    .siblings("a")
-    .click(function (evt) {
-      if ($(this).siblings("ul").is(":visible") && $(this).siblings("ul").children("li").hasClass("active")) {
-        evt.stopPropagation() //阻止点击事件触发折叠的冒泡
-      }
-      window.location = evt.currentTarget.href
-    })
-
-  //二级菜单跳转,不用 boot自带
-  window.addEventListener("hashchange", function () {
-    scroll()
-  })
-}
-
-let openTimer // 定义展开的延时
-let animationSpeed = 500
-$(window).on("scroll", function () {
-  if ($("ul.sidebar-menu>li").hasClass("active")) {
-    let parent = $("ul.sidebar-menu>li").parent("ul")
-
-    //设置0.1秒后再打开，目的是为了防止滚轮拉快 中途经过的展开和折叠效果还来不及完成而产生的重叠效果;
-    if (openTimer) {
-      clearTimeout(openTimer)
+  $input.on("keyup", function (event) {
+    if (event.key === "Enter") {
+      applyFilter($input.val())
     }
-    openTimer = setTimeout(function () {
-      parent
-        .children("li.active")
-        .children("ul")
-        .slideDown(animationSpeed, function () {
-          parent.children("li.active").children("ul").css("display", "block")
+  })
+  $("#search-btn").on("click", function () {
+    applyFilter($input.val())
+  })
+  $clear.on("click", function () {
+    $input.val("")
+    applyFilter("")
+    $input.trigger("focus")
+  })
+
+  $("#guide-btn").on("click", function (event) {
+    event.stopPropagation()
+    toggleGuide()
+  })
+  $("#guide-panel").on("click", function (event) {
+    event.stopPropagation()
+  })
+  $(document).on("click", function () {
+    setGuideOpen(false)
+  })
+  $(document).on("keydown", function (event) {
+    if (event.key === "Escape") {
+      setGuideOpen(false)
+      closeDrawer(true)
+    }
+  })
+}
+
+function matchesKeyword(item, keyword) {
+  const fields = [item.name, item.main, item.api]
+  return fields.some(function (field) {
+    return (field || "").toLowerCase().indexOf(keyword) !== -1
+  })
+}
+
+function applyFilter(value) {
+  currentKeyword = (value || "").trim().toLowerCase()
+  const $input = $("#search-input")
+  const $clear = $("#search-clear")
+
+  $("#search-input").val(value || "")
+  $clear.prop("hidden", !currentKeyword)
+  $("#result-hint").prop("hidden", !currentKeyword)
+
+  if (!currentKeyword) {
+    viewConfig = exConfig
+    renderContent(exConfig)
+    renderSidebar(exConfig)
+  } else {
+    viewConfig = exConfig
+      .map(function (item) {
+        const groups = (item.children || [])
+          .map(function (group) {
+            const cards = (group.children || []).filter(function (card) {
+              return isVisible(card) && matchesKeyword(card, currentKeyword)
+            })
+            if (!cards.length) {
+              return null
+            }
+            return Object.assign({}, group, { children: cards, count: cards.length })
+          })
+          .filter(function (group) {
+            return group
+          })
+        if (!groups.length) {
+          return null
+        }
+        return Object.assign({}, item, {
+          children: groups,
+          count: groups.reduce(function (sum, group) {
+            return sum + group.count
+          }, 0)
         })
+      })
+      .filter(function (item) {
+        return item
+      })
+
+    renderContent(viewConfig)
+    renderSidebar(viewConfig)
+    $("#result-count").text(countVisible(viewConfig))
+  }
+}
+
+function clearSearch() {
+  currentKeyword = ""
+  $("#search-input").val("")
+  $("#search-clear").prop("hidden", true)
+  $("#result-hint").prop("hidden", true)
+  viewConfig = exConfig
+  renderContent(exConfig)
+  renderSidebar(exConfig)
+}
+
+/* ---------------- 说明浮层 ---------------- */
+function toggleGuide() {
+  setGuideOpen($("#guide-panel").prop("hidden"))
+}
+
+function setGuideOpen(open) {
+  $("#guide-panel").prop("hidden", !open)
+  $("#guide-btn").attr("aria-expanded", open ? "true" : "false")
+}
+
+/* ---------------- 分类抽屉（窄屏） ---------------- */
+let drawerQuery = null
+
+function initDrawer() {
+  $("#mobile-filter-btn").on("click", function () {
+    if ($("#category-panel").hasClass("is-open")) {
+      closeDrawer(true)
+    } else {
+      openDrawer()
+    }
+  })
+  $("#sidebar-mask").on("click", function () {
+    closeDrawer(true)
+  })
+
+  if (window.matchMedia) {
+    drawerQuery = window.matchMedia("(max-width: 1100px)")
+    drawerQuery.addEventListener("change", updateDrawerA11y)
+  }
+  updateDrawerA11y()
+}
+
+function openDrawer() {
+  $("#category-panel").addClass("is-open")
+  $("#sidebar-mask").prop("hidden", false)
+  $("#mobile-filter-btn").attr("aria-expanded", "true")
+  updateDrawerA11y()
+  const first = document.querySelector("#sidebar-menu .side1-item")
+  if (first) {
+    first.focus()
+  }
+}
+
+function closeDrawer(restoreFocus) {
+  if (!$("#category-panel").hasClass("is-open")) {
+    return
+  }
+  $("#category-panel").removeClass("is-open")
+  $("#sidebar-mask").prop("hidden", true)
+  $("#mobile-filter-btn").attr("aria-expanded", "false")
+  updateDrawerA11y()
+  if (restoreFocus) {
+    document.getElementById("mobile-filter-btn").focus()
+  }
+}
+
+// 抽屉关闭时加 inert，避免键盘焦点落到屏外内容
+function updateDrawerA11y() {
+  const isMobile = drawerQuery ? drawerQuery.matches : window.innerWidth <= 1100
+  const isOpen = $("#category-panel").hasClass("is-open")
+  if (isMobile && !isOpen) {
+    document.getElementById("category-panel").setAttribute("inert", "true")
+  } else {
+    document.getElementById("category-panel").removeAttribute("inert")
+  }
+}
+
+/* ---------------- 顶栏 ---------------- */
+function initHeader() {
+  $("#nav-toggle").on("click", function () {
+    if ($("#mobile-menu").prop("hidden")) {
+      $("#mobile-menu").prop("hidden", false)
+      $(this).attr("aria-expanded", "true").addClass("is-open")
+      $("#nav-toggle").attr("aria-label", "关闭导航")
+      const first = document.querySelector("#mobile-menu .mobile-nav-item")
+      if (first) {
+        first.focus()
+      }
+    } else {
+      closeMobileMenu(true)
+    }
+  })
+
+  $(document).on("pointerdown", function (event) {
+    if ($("#mobile-menu").prop("hidden")) {
+      return
+    }
+    if (!document.getElementById("site-header").contains(event.target)) {
+      closeMobileMenu()
+    }
+  })
+
+  $(document).on("keydown", function (event) {
+    if (event.key === "Escape") {
+      closeMobileMenu(true)
+    }
+  })
+
+  $(window).on("resize", function () {
+    if (window.innerWidth > 820) {
+      closeMobileMenu()
+    }
+  })
+}
+
+function closeMobileMenu(restoreFocus) {
+  if ($("#mobile-menu").prop("hidden")) {
+    return
+  }
+  $("#mobile-menu").prop("hidden", true)
+  $("#nav-toggle").attr("aria-expanded", "false").attr("aria-label", "展开导航").removeClass("is-open")
+  if (restoreFocus) {
+    document.getElementById("nav-toggle").focus()
+  }
+}
+
+/* ---------------- 定位与下载 ---------------- */
+function scrollToSection(id) {
+  const target = document.getElementById(id)
+  if (target) {
+    target.scrollIntoView({ behavior: "smooth", block: "start" })
+  }
+}
+
+function scrollToHash() {
+  const hash = (location.hash || "").replace("#", "")
+  if (!hash) {
+    return
+  }
+  const target = document.getElementById(hash)
+  if (target) {
+    window.setTimeout(function () {
+      target.scrollIntoView({ block: "start" })
     }, 100)
   }
-  $("ul.sidebar-menu>li").not("li.active").children("ul").css("display", "none")
-})
+}
+
+function initDownloads() {
+  $("#download-txt").on("click", function () {
+    downloadFile("Mars2D功能清单.txt", getAllName())
+  })
+  $("#download-csv").on("click", function () {
+    downloadFile("Mars2D功能清单.csv", getVerDiff())
+  })
+}
+
+function downloadFile(fileName, content) {
+  const isCsv = fileName.indexOf(".csv") !== -1
+  const blob = new Blob([isCsv ? "\ufeff" + content : content], {
+    type: isCsv ? "text/csv;charset=utf-8" : "text/plain;charset=utf-8"
+  })
+  const aLink = document.createElement("a")
+  aLink.download = fileName
+  aLink.href = URL.createObjectURL(blob)
+  aLink.style.display = "none"
+  document.body.appendChild(aLink)
+  aLink.click()
+  document.body.removeChild(aLink)
+  URL.revokeObjectURL(aLink.href)
+}
+
+function getStandardName(item) {
+  let name = item.name || ""
+  if (name.indexOf("Demo") !== -1 || name.indexOf("demo") !== -1) {
+    return false
+  }
+  const idx = name.indexOf("(")
+  if (idx !== -1) {
+    name = name.substring(0, idx)
+  }
+  return name
+}
+
+function getVerDiff() {
+  let text = "序号,分类,子分类,功能名称,示例ID\n"
+  let index = 0
+  const cache = {}
+  exConfig.forEach(function (item) {
+    ;(item.children || []).forEach(function (group) {
+      ;(group.children || []).filter(isVisible).forEach(function (card) {
+        const name = getStandardName(card)
+        if (!name || cache[name]) {
+          return
+        }
+        cache[name] = true
+        index++
+        text += index + "," + item.name + "," + group.name + "," + name + "," + card.main + "\n"
+      })
+    })
+  })
+  return text
+}
+
+function getAllName() {
+  let text = "Mars2D功能清单："
+  let index1 = 0
+  const cache = {}
+  exConfig.forEach(function (item) {
+    const groups = (item.children || []).filter(function (group) {
+      return (group.children || []).some(isVisible)
+    })
+    if (!groups.length) {
+      return
+    }
+    index1++
+    text += "\n\n功能 " + index1 + "  " + item.name
+    let index2 = 0
+    groups.forEach(function (group) {
+      index2++
+      text += "\n功能 " + index1 + "." + index2 + "  " + group.name + "："
+      let index3 = 0
+      ;(group.children || []).filter(isVisible).forEach(function (card) {
+        const name = getStandardName(card)
+        if (!name || cache[name]) {
+          return
+        }
+        cache[name] = true
+        index3++
+        text += index3 === 1 ? name : "," + name
+      })
+    })
+  })
+  return text
+}
