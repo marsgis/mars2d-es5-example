@@ -204,7 +204,7 @@ function addDemoGraphics(arr) {
 // 框选查询 矩形
 function drawRectangle() {
   clearAll()
-   map.graphicLayer.startDraw({
+  map.graphicLayer.startDraw({
     type: "rectangle",
     style: {
       fillColor: "#0000ff",

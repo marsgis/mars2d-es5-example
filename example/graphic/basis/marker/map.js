@@ -4,6 +4,10 @@ var map // mars2d.Map二维地图对象
 
 var graphicLayer
 
+var mapOptions = {
+  // preferCanvas: true
+}
+
 // 事件对象，用于抛出事件给vue
 var eventTarget = new mars2d.BaseClass()
 

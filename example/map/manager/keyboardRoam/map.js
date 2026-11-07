@@ -36,7 +36,6 @@ function onUnmounted() {
   map = null
 }
 
-
 // 修改步长
 function changeSlider(val) {
   if (val) {

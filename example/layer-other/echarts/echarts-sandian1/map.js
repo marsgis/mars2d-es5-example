@@ -11,7 +11,6 @@ function onMounted(mapInstance) {
   map = mapInstance // 记录map
 
   echartsLayer = showEchartsLayer()
-
 }
 
 /**
@@ -20,10 +19,8 @@ function onMounted(mapInstance) {
  */
 
 function onUnmounted() {
-
   map = null
 }
-
 
 function updateColor(color) {
   echartsLayer.setEchartsOption({
@@ -34,7 +31,6 @@ function updateColor(color) {
     ]
   })
 }
-
 
 function showEchartsLayer() {
   const data = [

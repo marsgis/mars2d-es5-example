@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 //当前代码来源：https://github.com/muyao1987/web-dist
 
 //在gulpfile中先载入gulp包，因为这个包提供了一些API
@@ -15,6 +14,68 @@ const cssmin = require("gulp-clean-css")
 
 const fs = require("fs")
 const path = require("path")
+
+// Vue 示例与 es5 示例共用同一套 map.js（ESM 写法），构建时统一转为浏览器可直接加载的脚本：
+// 1) 移除 import/export 语法，依赖项由页面前置 script 或 include-lib 提供的全局变量承接；
+// 2) 导出的变量/函数在文件末尾挂到 window，供 common.js（window.onMounted 等）调用。
+function esModuleToScript() {
+  const exportedNames = []
+  return {
+    visitor: {
+      ImportDeclaration(path) {
+        path.remove()
+      },
+      ExportNamedDeclaration(path) {
+        const node = path.node
+        if (node.declaration) {
+          const decl = node.declaration
+          if (decl.type === "VariableDeclaration") {
+            decl.declarations.forEach((d) => {
+              if (d.id.type === "Identifier") exportedNames.push(d.id.name)
+            })
+          } else if (decl.id && decl.id.type === "Identifier") {
+            exportedNames.push(decl.id.name)
+          }
+          path.replaceWith(decl)
+        } else {
+          node.specifiers.forEach((s) => exportedNames.push(s.exported.name))
+          path.remove()
+        }
+      },
+      ExportDefaultDeclaration(path) {
+        const decl = path.node.declaration
+        if ((decl.type === "FunctionDeclaration" || decl.type === "ClassDeclaration") && decl.id) {
+          exportedNames.push(decl.id.name)
+          path.replaceWith(decl)
+        } else {
+          path.remove()
+        }
+      },
+      Program: {
+        exit(path) {
+          if (!exportedNames.length) {
+            return
+          }
+          const assignments = exportedNames.map((name) => ({
+            type: "ExpressionStatement",
+            expression: {
+              type: "AssignmentExpression",
+              operator: "=",
+              left: {
+                type: "MemberExpression",
+                object: { type: "Identifier", name: "window" },
+                property: { type: "Identifier", name },
+                computed: false
+              },
+              right: { type: "Identifier", name }
+            }
+          }))
+          path.pushContainer("body", assignments)
+        }
+      }
+    }
+  }
+}
 
 //////////////////////////以下参数可以根据实际情况调整/////////////////////
 const copyright = "版权所有 http://mars2d.cn"
@@ -120,8 +181,9 @@ gulp.task("build", (done) => {
           )
           .pipe(
             babel({
-              presets: ["@babel/preset-env"],
-              sourceType: "script",
+              presets: [["@babel/preset-env", { modules: false }]],
+              plugins: [esModuleToScript],
+              sourceType: "unambiguous",
               compact: false
             })
           )

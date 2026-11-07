@@ -117,7 +117,6 @@ function showMapVLayer() {
     methods: {
       click: function (item) {
         console.log("点击了mapv图层", item)
-
       }
     },
     lineWidth: 1.0,

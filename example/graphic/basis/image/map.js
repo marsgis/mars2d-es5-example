@@ -14,7 +14,6 @@ function onMounted(mapInstance) {
   graphicLayer = new mars2d.layer.GraphicLayer()
   map.addLayer(graphicLayer)
 
-
   // graphicLayer.on(mars2d.EventType.click, function (event) {
   //   console.log("监听graphic，单击了矢量对象", event)
 
@@ -59,7 +58,6 @@ function addDemoGraphic1() {
     attr: { remark: "示例1" }
   })
   graphicLayer.addGraphic(graphic)
-
 }
 
 // 在图层级处理一些事物
